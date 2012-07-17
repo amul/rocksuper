@@ -121,7 +121,7 @@
           <div id="content_<%= element.id %>" class="content<%= ' default' if !element.images %>" style="width:<%= style.width %>px;height:<%= style.height %>px;line-height:<%= style.line_height %>; letter-spacing:<%= style.letter_spacing %>px; font-size:<%= style.font_size %>px;  -webkit-border-radius: <%= style.border_radius %>px; border-radius: <%= style.border_radius %>px;             
               -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; <%= style.background_style_g %> <%= style.border_style %>">
             <% if element.images.count > 0 %>
-              <%= image_tag(picture.image_url.to_s, :size => "#{style.img_width}x#{style.img_height}", :alt => "#{picture.caption}", :style => "position: static; margin-left: #{style.img_left}px; margin-top: #{style.img_top}px;") %>
+              <%= image_tag(picture.image_url.to_s, :size => "#{style.img_width}x#{style.img_height}", :alt => "#{picture.caption}", :data => {:imageid => picture.id, :imagedesc => picture.description, :imagecaption => picture.caption, :linktype => picture.link_type, :linktext => picture.link_text, :linktarget => picture.link_target}, :style => "position: static; margin-left: #{style.img_left}px; margin-top: #{style.img_top}px;") %>
             <% else %>
               <%= element.content.html_safe %>
             <% end %>

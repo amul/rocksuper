@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120707021954) do
+ActiveRecord::Schema.define(:version => 20120717041308) do
 
   create_table "element_styles", :force => true do |t|
     t.integer  "element_id"
@@ -95,8 +95,12 @@ ActiveRecord::Schema.define(:version => 20120707021954) do
     t.string   "caption"
     t.string   "image"
     t.integer  "element_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.text     "description"
+    t.string   "link_type"
+    t.text     "link_text"
+    t.string   "link_target"
   end
 
   add_index "images", ["element_id"], :name => "index_images_on_element_id"

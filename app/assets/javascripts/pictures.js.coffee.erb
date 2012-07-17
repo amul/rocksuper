@@ -21,7 +21,40 @@ saveBorderStyleForPicture = (element_style_id_val, border_style_val) ->
         (data)-> 
           console.log "[pictures.js] saveBorderStyleForPicture"
         , 'json'
-
+        
+saveTitleForPicture = (image_id_val, title_val) ->
+  $.post "/images/"+image_id_val, 
+        { _method:'PUT', image : {caption: title_val} }, 
+        (data)-> 
+          console.log "[pictures.js] saveTitleForPicture"
+        , 'json'
+saveDescriptionForPicture = (image_id_val, description_val) ->
+  $.post "/images/"+image_id_val, 
+        { _method:'PUT', image : {description: description_val} }, 
+        (data)-> 
+          console.log "[pictures.js] saveDescriptionForPicture"
+        , 'json'
+saveLinkTypeForPicture = (image_id_val, link_type_val) ->
+  $.post "/images/"+image_id_val, 
+        { _method:'PUT', image : {link_type: link_type_val} }, 
+        (data)-> 
+          console.log "[pictures.js] saveLinkTypeForPicture"
+        , 'json'
+        
+saveLinkTextForPicture = (image_id_val, link_text_val) ->
+  $.post "/images/"+image_id_val, 
+        { _method:'PUT', image : {link_text: link_text_val} }, 
+        (data)-> 
+          console.log "[pictures.js] saveLinkTextForPicture"
+        , 'json'
+        
+saveLinkTargetForPicture = (image_id_val, link_target_val) ->
+  $.post "/images/"+image_id_val, 
+        { _method:'PUT', image : {link_target: link_target_val} }, 
+        (data)-> 
+          console.log "[pictures.js] saveLinkTextForPicture"
+        , 'json'
+        
 resizePictureOneIsToOne = (element)->
   console.log 'resizePictureOneIsToOne'
   $element = $(element)
@@ -335,6 +368,97 @@ $ ->
     <input type="radio" name="resizetype" value="fit" />Fit Mode<br />
   '
   
+  $set_info_div = $ '
+    <div class="set_info_div" id="set_info_id" style="position:relative; left: 0; top: 0; padding: 10px; width: 100%;">
+      <div class="content">        
+        <div class="group">
+          <div class="group-inner">
+            <div class="instruction instructions-link" style="margin-bottom: 15px; display: none; ">
+              <div class="maintitle">Choose link type and destination</div>
+            </div>
+            <div class="instruction instructions-info" style="margin-bottom: 15px; ">
+              <div class="maintitle">Choose a title, description and link for this element</div>
+            </div>
+            <div class="kvp info-only" style="">
+              <div class="key">Title:</div><div class="val">
+              <input type="text" value="" class="mainTitle wide"></div>
+            </div>
+            <div class="kvp info-only" style="">
+              <div class="key">Description:</div><div class="val">
+              <textarea rows="4" class="description wide"></textarea></div>
+            </div>
+            <div class="kvp">
+              <div class="key">Link type:</div><div class="val">
+                <select class="link-type wide">
+                  <option class="none" value="none" selected="selected">None</option>
+                  <option class="website" value="website">External Website</option>
+                  <option class="page" value="page">Internal Page</option>
+                  <option class="anc" value="anc">Scroll to Element</option>
+                  <option class="email" value="email">E-mail</option>
+                </select>
+              </div>              
+            </div>
+            <div class="kvp link-val-container none" style="display: block; ">
+              
+            </div>
+            <div class="kvp link-val-container website" style="display: none; ">
+              <div class="key">URL:</div><div class="val">
+              <input class="website-val wide" type="text" value=""></div>
+            </div>
+            <div class="kvp link-val-container website" style="display: none; ">
+              <div class="key">Open in:</div><div class="val">
+                <select class="target wide">
+                  <option class="self" value="_top">The Same Window</option>
+                  <option class="blank" value="_blank">A New Window</option>
+                </select>
+              </div>
+            </div>
+            <div class="kvp link-val-container email" style="display: none; ">
+              <div class="key">E-mail:</div><div class="val">
+                <input class="email-val wide" type="text" value=""></div>
+              </div>
+            <div class="kvp link-val-container page" style="display: none; ">
+              <div class="key">Page:</div><div class="val">
+                <select class="page-val wide"><option value="543F5A8AD02D4ACEBEF62A6446396F93">Page 1</option><option value="A4F5FEE3B4134517A5DF041BA59F8F94">Page 2</option><option value="29A41FE07299439A82C8FA2DA199C916">Page 3</option></select>
+              </div>
+            </div>
+            <div class="kvp link-val-container anc" style="display: none; ">
+              <div class="key">To Anchor:</div><div class="val">
+                <input class="anc-val wide" type="text" value=""></div>
+            </div>
+            
+            <!-- <div class="kvp">
+              <div class="key" style="width:420px"><input type="checkbox" class="like checkbox"></input> show a facebook Like button</div>
+            </div>
+             -->
+            
+          </div>
+        </div>        
+      </div>
+    </div>
+  '
+  $html_options = null
+  $('.link-type',$set_info_div).bind 'change', ->
+    $select_button = $(this)
+    $('.link-val-container').not($('.'+$select_button.val())).hide()
+    $('.'+$(this).val()).show()
+    $picPanelHorHeight = parseInt($('.picPanelHor').height())
+    $picPanelHorHeighttoAdd = parseInt($('.'+$(this).val()).height())
+    $('.picPanelHor').animate
+      height: $('.set_info_div').height()+parseInt($('.set_info_div').css('padding-top'))+parseInt($('.set_info_div').css('padding-bottom'))
+      
+    if $select_button.val() == 'page'
+      $ul_nav = $('#main_page_nav')
+      console.log $ul_nav
+      $html_options = new Array()
+      $ul_nav.find('li').each (index, option) ->
+        $url = $(this).find('a').attr('href')
+        $text = $(this).find('a').text()        
+        $html_options.push("<option value=\""+$url+"\">"+$text+"</option>")
+      #console.log $html_options
+      console.log $html_options.join()
+      $('.page-val').html($html_options.join())
+      
   $div_picture_multi_upload = $ '
     <div id="fileupload" class="ui-widget">
       <form accept-charset="UTF-8" action="/images" class="new_image" enctype="multipart/form-data" id="new_image" method="post">
@@ -370,6 +494,7 @@ $ ->
           <div href="#" class="upload subPanelButton pic">Upload</div>
           <div href="#" class="pic_settings subPanelButton pic" style="width:100px">Image Settings</div>
           <div href="#" class="pic_crop subPanelButton pic" style="width:70px">Crop</div>
+          <div href="#" class="set_info subPanelButton pic">Set Info</div>
         </div>
         <div class="picPanelHor PanelHor" style="position:relative;">
           <div class="picturePanel" style="width: 100%;">
@@ -381,12 +506,16 @@ $ ->
           <div class="picCropPanel">
             loading . . .
           </div>
+          <div class="setInfoPanel">
+            loading . . .
+          </div>
         </div>
       </div>
     '  
   $('.picturePanel', $dialog_div_picture).html($div_picture_multi_upload)
   $('.picSettingsPanel', $dialog_div_picture).html($dialog_box_settings_html)
   $('.picCropPanel', $dialog_div_picture).html($div_picture_crop)
+  $('.setInfoPanel', $dialog_div_picture).html($set_info_div)
   
   $modal_dialog_html = $ '
     <form action="/images" class="new_image" enctype="multipart/form-data" id="new_image" method="post">
@@ -660,6 +789,7 @@ $ ->
       console.log 'trigger controller event.target'
       return
     $cur_pic_elem = $(this)
+    $cur_img_tag = $cur_pic_elem.find('.content img')
     
     cssGradient_val = "background: "+$('.content', $cur_pic_elem).css('background')+";"
     border_width = 'none border_width'
@@ -708,7 +838,10 @@ $ ->
           #$cur_pic_elem.append('<div id="image_slider_crop">loading</div>')
           gen_pic_slider($cur_pic_elem)
           set_pic_for_cropping($cur_pic_elem)
-          return false           
+          return false        
+        $('.set_info.pic', $dialog_div_picture).click ->
+          $('.picPanelHor', $dialog_div_picture).cycle(3)
+          return false    
           
       close: (event, ui)->
         $dialog_div_picture.remove()
@@ -717,6 +850,44 @@ $ ->
         saveBackgroundForPicture(element_style_id_val, background_style_g_val)
     
     $dialog_div_picture.dialog('open')
+    
+    $('.info-only .mainTitle', $set_info_div).val($cur_img_tag.data('imagecaption'))
+    $('.info-only .description', $set_info_div).val($cur_img_tag.data('imagedesc'))
+    $('.link-type option', $set_info_div).each ->
+      if $(this).val() == $cur_img_tag.data('linktype')
+        $('.link-type option', $set_info_div).removeAttr('selected')
+        $(this).attr('selected','selected')
+        #$('.link-type', $set_info_div).trigger('change')
+    
+    $('.info-only .mainTitle', $set_info_div).bind 'blur', ->
+      image_id_val = $cur_pic_elem.find('.content img').data('imageid')
+      title_val = $(this).val()      
+      saveTitleForPicture(image_id_val, title_val)
+      
+    $('.info-only .description', $set_info_div).bind 'blur', ->
+      image_id_val = $cur_pic_elem.find('.content img').data('imageid')
+      description_val = $(this).val()     
+      saveDescriptionForPicture(image_id_val, description_val)
+    
+    $('.link-type', $set_info_div).bind 'change', ->
+      image_id_val = $cur_pic_elem.find('.content img').data('imageid')
+      link_type_val = $(this).val()     
+      saveLinkTypeForPicture(image_id_val, link_type_val)
+      
+    $('.website-val', $set_info_div).bind 'blur', ->
+      image_id_val = $cur_pic_elem.find('.content img').data('imageid')
+      link_text_val = $(this).val()  
+      saveLinkTextForPicture(image_id_val, link_text_val)
+      
+    $('.target', $set_info_div).bind 'blur', ->
+      image_id_val = $cur_pic_elem.find('.content img').data('imageid')
+      link_target_val = $(this).val()  
+      saveLinkTargetForPicture(image_id_val, link_target_val)
+      
+    $('.page-val').bind 'change', ->
+      image_id_val = $cur_pic_elem.find('.content img').data('imageid')
+      link_text_val = $(this).val()  
+      saveLinkTextForPicture(image_id_val, link_text_val)
     
     #$img_src = $('.content img',$cur_pic_elem).attr('src')
     #console.log 'src : -> '+$img_src

@@ -1,7 +1,7 @@
 class Image < ActiveRecord::Base
   belongs_to :element, {:foreign_key => "element_id"}
   
-  attr_accessible :caption, :element_id, :image
+  attr_accessible :caption, :element_id, :image, :description, :link_type, :link_text, :link_target
   
   mount_uploader :image, ImageUploader
   

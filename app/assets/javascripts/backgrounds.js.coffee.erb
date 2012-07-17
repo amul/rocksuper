@@ -1,0 +1,409 @@
+putGlobalPageSettingsTexture = (gps_id_val, texture_bg_val) ->
+  $.post "/global_page_settings/"+gps_id_val, 
+        { _method:'PUT', global_page_setting : {texture_bg: texture_bg_val} }, 
+        (data)-> 
+          console.log "global_page_setting texture_bg_color (update) saved: "
+        , 'json'
+
+postGlobalPageSettings = (user_id_val, bg_color_val) ->
+  $.post "/global_page_settings", 
+        { _method:'POST', global_page_setting : {user_id: user_id_val, bg_color: bg_color_val} }, 
+        (data)-> 
+          console.log "global_page_setting bg_color (create) saved"
+        , 'json'
+        
+putGlobalPageSettings = (gps_id_val, bg_color_val) ->
+  $.post "/global_page_settings/"+gps_id_val, 
+        { _method:'PUT', global_page_setting : {bg_color: bg_color_val} }, 
+        (data)-> 
+          console.log "global_page_setting bg_color (update) saved"
+        , 'json'
+putGlobalPageSettingsType = (gps_id_val, bg_type_val) ->
+  $.post "/global_page_settings/"+gps_id_val, 
+        { _method:'PUT', global_page_setting : {bg_type: bg_type_val} }, 
+        (data)-> 
+          console.log "global_page_setting bg_type (update) saved"
+        , 'json'
+
+makeColorPickerForPageCanvas = (element, targetChange, uID)->
+  element.ColorPicker
+    color: '#0000ff'
+    onChange: (hsb, hex, rgb)->
+      element.find('div').css
+        'backgroundColor': '#'+hex
+      targetChange.css
+        'backgroundColor': '#'+hex
+        'backgroundImage': 'none'
+    onSubmit: (hsb, hex, rgb, el) ->
+      console.log el
+      $(el).val(hex)
+      $(el).ColorPickerHide()
+      user_id_val = uID
+      bg_color_val = '#'+hex
+      if $('#pageCanvas').data('globalpagesetting')=='yes'
+        gps_id_val = $('#pageCanvas').data('globalpagesettingid')
+        putGlobalPageSettings(gps_id_val, bg_color_val)
+      else
+        postGlobalPageSettings(user_id_val, bg_color_val)
+        
+makeColorPickerForPageCanvasPic = (element, targetChange, uID)->
+  element.ColorPicker
+    color: '#0000ff'
+    onChange: (hsb, hex, rgb)->
+      element.find('div').css
+        'backgroundColor': '#'+hex
+      targetChange.css
+        'backgroundColor': '#'+hex
+      $('#page_img_bg_setting_color').val('#'+hex)
+      
+    onSubmit: (hsb, hex, rgb, el) ->
+      console.log el
+      $(el).val(hex)
+      $(el).ColorPickerHide()
+      user_id_val = uID
+      bg_color_val = '#'+hex
+      if $('#pageCanvas').data('globalpagesetting')=='yes'
+        gps_id_val = $('#pageCanvas').data('globalpagesettingid')
+        putGlobalPageSettings(gps_id_val, bg_color_val)
+      else
+        postGlobalPageSettings(user_id_val, bg_color_val)
+$ ->
+  bgAttributeUIEvents = (dialog_div_settings_html)->
+    $ok_form = $('#new_page_img_bg_setting_ok', $(dialog_div_settings_html))
+    $bg_color = $('#page_img_bg_setting_color', $ok_form).val()
+    $hor_align = $('.alignHorizontal', $ok_form).val()
+    $ver_align = $('.alignVertical', $ok_form).val()
+    $bg_repeat = $('.bgRepeat', $ok_form).val()
+    $bg_attachment = $('.bgAttachment', $ok_form).val()
+    #$bg_img = $('#pageCanvas').css('background-image')
+    
+    $('.alignHorizontal', $ok_form).bind 'change', ->
+      $('#pageCanvas').css('background-position-x', $('.alignHorizontal', $ok_form).val())
+      
+    $('.alignVertical', $ok_form).bind 'change', ->
+      $('#pageCanvas').css('background-position-y', $('.alignVertical', $ok_form).val())
+    
+    $('.bgRepeat', $ok_form).bind 'change', ->
+      $('#pageCanvas').css('background-repeat', $('.bgRepeat', $ok_form).val())
+      
+    $('.bgAttachment', $ok_form).bind 'change', ->
+      if $(this).val() == 'stretch'
+        console.log 'bg image val: '+$('#pageCanvas').css('background-image').replace('url(','').replace(')','')
+        $.backstretch($('#pageCanvas').css('background-image').replace('url(','').replace(')',''))
+        #$.backstretch('http://dl.dropbox.com/u/515046/www/outside.jpg')
+        $(".noStretchAttr").hide()
+      else
+        $('#backstretch').remove()
+        if $(".noStretchAttr").is(':hidden')
+          $(".noStretchAttr").show()
+
+  $uID = $('#pageCanvas').data('use')
+  $dds_color = $ '
+    <label> Background Color: 
+      <div id="pageBgColorSelector" class="selector_jq">
+        <div style="background-color: #0000ff"> </div>
+      </div>
+    </label>
+  '
+  
+  $adds_texture = $ '
+  <div id="texturesContent">
+    <div class="backgroundTexture wrap" id="tileable_wood_texture.png">
+      <img src="/assets/images/textures/tileable_wood_texture.png" alt="wooden" class="woodBg textureThumb">
+    </div>
+    <div class="backgroundTexture wrap" id="dark_geometric.png">
+      <img src="/assets/images/textures/dark_geometric.png" alt="dark geometric" class="darkBg textureThumb">
+    </div>
+    <div class="backgroundTexture wrap" id="ice_age.png">
+      <img src="/assets/images/textures/ice_age.png" alt="ice age" class="ice_age textureThumb">
+    </div>
+    <div class="backgroundTexture wrap" id="perforated_white_leather.png">
+      <img src="/assets/images/textures/perforated_white_leather.png" alt="perforated white leather" class="perforated_white_leather textureThumb">
+    </div>
+    <div class="backgroundTexture wrap" id="white_leather.png">
+      <img src="/assets/images/textures/white_leather.png" alt="white leather" class="white_leather textureThumb">
+    </div> <!-- 5 -->
+    
+    <div class="backgroundTexture wrap" id="blu_stripes.png">
+      <img src="/assets/images/textures/blu_stripes.png" alt="blu stripes" class="blu_stripes textureThumb">
+    </div>
+    <div class="backgroundTexture wrap" id="classy_fabric.png">
+      <img src="/assets/images/textures/classy_fabric.png" alt="classy fabric" class="classy_fabric textureThumb">
+    </div>
+    <div class="backgroundTexture wrap farmer" id="farmer.png">
+      <img src="/assets/images/textures/farmer.png" alt="farmer" class="farmer textureThumb">
+    </div>     
+    <div class="backgroundTexture wrap grey_sandbag" id="grey_sandbag.png">
+      <img src="/assets/images/textures/grey_sandbag.png" alt="grey sandbag" class="grey_sandbag textureThumb">
+    </div>
+    <div class="backgroundTexture wrap paper" id="paper.png">
+      <img src="/assets/images/textures/paper.png" alt="paper" class="paper textureThumb">
+    </div><!-- 10 -->
+    
+    <div class="backgroundTexture wrap texturetastic_gray" id="texturetastic_gray.png">
+      <img src="/assets/images/textures/texturetastic_gray.png" alt="texturetastic gray" class="texturetastic_gray textureThumb">
+    </div>    
+    <div class="backgroundTexture wrap fabric_plaid" id="fabric_plaid.png">
+      <img src="/assets/images/textures/fabric_plaid.png" alt="fabric plaid" class="fabric_plaid textureThumb">
+    </div> <!-- 12 -->    
+    <br class="clear">
+  </div>
+  '
+  
+  $dds_picture = $ '
+    <form accept-charset="UTF-8" action="/page_img_bg_settings" class="new_page_img_bg_setting" id="new_page_img_bg_setting" method="post">
+      <input id="page_img_bg_setting_global_page_setting_id" name="page_img_bg_setting[global_page_setting_id]" type="hidden">
+      <label> Background Image: 
+        <input id="page_img_bg_setting_image" name="page_img_bg_setting[image]" type="file" />
+      </label>
+    </form>
+    
+    <form accept-charset="UTF-8" action="/page_img_bg_settings" class="new_page_img_bg_setting" id="new_page_img_bg_setting_ok" method="post">
+      <input name="_method" type="hidden" value="put">
+      <input id="page_img_bg_setting_global_page_setting_id_ok" name="page_img_bg_setting[global_page_setting_id]" type="hidden">
+      <label class="noStretchAttr"> Background Color: 
+        <div id="pageBgColorSelectorPicture" class="selector_jq">
+          <div style="background-color: #0000ff"> </div>
+        </div>
+        <input id="page_img_bg_setting_color" name="page_img_bg_setting[color]" size="30" type="text">
+      </label>
+      <label class="noStretchAttr"> Align Horizontal: 
+        <select class="alignHorizontal" name="page_img_bg_setting[hor_alignment]">
+          <option value="left">Left</option>
+          <option value="center">Center</option>
+          <option value="right">Right</option>
+        </select>
+      </label>
+      <label class="noStretchAttr"> Align Vertical: 
+        <select class="alignVertical" name="page_img_bg_setting[ver_alignment]">
+          <option value="top">Top</option>
+          <option value="center">Center</option>
+          <option value="bottom">Bottom</option>
+        </select>
+      </label>
+      <label class="noStretchAttr"> Repeat: 
+        <select class="bgRepeat" name="page_img_bg_setting[repeat]">
+          <option value="repeat">Both</option>
+          <option value="repeat-x">Horizontally</option>
+          <option value="repeat-y">Vertically</option>
+          <option value="no-repeat">None</option>
+        </select>
+      </label>
+      <label> Attachment: 
+        <select class="bgAttachment" name="page_img_bg_setting[attachment]">
+          <option value="scroll">Scroll With Page</option>
+          <option value="fixed">Fixed</option>
+          <option value="stretch">Stretch</option>
+        </select>
+      </label>
+    </form>
+  '
+  $dialog_div_settings = $ '
+    <div id="dialog" title="Page Background" style="display: none;">
+      <div class="backgroundPanelHorNav">
+        <div href="#" class="color subPanelButton">Color</div>
+        <div href="#" class="upload subPanelButton">Upload</div>
+        <div href="#" class="texture subPanelButton">Skin</div>
+      </div>
+      <div class="backgroundPanelHor" style="position:relative;">
+        <div class="colorPanel">
+          loading . . .
+        </div>
+        <div class="picturePanel">
+          loading . . .
+        </div>
+        <div class="texturePanel">
+          loading . . .
+        </div>
+      </div>    
+      <!--
+      <label> Background Type
+        <select class="bgSettingsSelect">
+          <option value="color">Color</option>
+          <option value="picture">Picture</option>
+        </select>
+      </label>
+      
+      <div class="background_settings_option_content">
+        Loading...
+      </div>
+      -->
+      <div class="actions">
+        <input name="commit" type="button" id="pageBackgroundOkBtn" data-type="color" value="Ok">
+      </div>
+    </div>
+  '
+  $('.texturePanel', $dialog_div_settings).html($adds_texture)
+  
+  
+  $('.picturePanel', $dialog_div_settings).html($dds_picture)
+  
+  pageBackgroundImage = $('#pageCanvas').css('backgroundImage')
+  pageimgbgsettingid = $('#pageCanvas').data('pageimgbgsettingid')
+  $edit_form = $ '<input name="_method" type="hidden" value="put">'
+  gps_id_val = $('#pageCanvas').data('globalpagesettingid')
+  
+  #texture code starts here
+  $('#texturesContent .backgroundTexture', $dialog_div_settings).each ->
+    $the_texture_div = $(this)
+    $the_texture_div.live 'click', ->
+      $bg_img_url = $(this).find('img').attr('src')
+      $('#pageCanvas').css('background', "url('"+$bg_img_url+"') repeat scroll 0 0")
+      texture_bg_val = $bg_img_url
+      putGlobalPageSettingsTexture(gps_id_val, texture_bg_val)
+      
+  #texture code ends here
+    
+  console.log "pageBackgroundImage : "+pageBackgroundImage
+  if pageBackgroundImage != "none"
+    $('#new_page_img_bg_setting', $dialog_div_settings).prepend($edit_form)
+    $('#new_page_img_bg_setting', $dialog_div_settings).attr('action', '/page_img_bg_settings/'+pageimgbgsettingid)
+  
+  console.log 'make ajax form for image upload'          
+  $('#new_page_img_bg_setting', $dialog_div_settings).ajaxForm
+    datatype: 'json'
+    success: (data)-> 
+      console.log 'post image success'
+      #server response
+      $html_response = $(data)
+      $img_url = $('#image_url', $html_response).text()
+      #console.log 'update background Image : '+$img_url
+      #alert $img_url    
+      $('#pageCanvas').css('backgroundImage', "url("+$img_url+")")
+      
+  console.log 'bind UI events for bg attribute!'
+  bgAttributeUIEvents($dialog_div_settings)
+      
+  console.log 'bind event for image input file to auto upload when image select'
+  $('#page_img_bg_setting_image', $dialog_div_settings).bind 'change', ->
+    $('#page_img_bg_setting_image', $dialog_div_settings).parents('form').submit()
+  
+  console.log 'set image ref : page_img_bg_setting_global_page_setting_id =>'+gps_id_val
+  $('#page_img_bg_setting_global_page_setting_id', $dialog_div_settings).val(gps_id_val)
+  
+  console.log 'sanitize form bg attribute'
+  $('#new_page_img_bg_setting_ok', $dialog_div_settings).attr('action', '/page_img_bg_settings/'+pageimgbgsettingid)
+  $('#page_img_bg_setting_global_page_setting_id_ok', $dialog_div_settings).val(gps_id_val)
+  
+  $('#new_page_img_bg_setting_ok', $dialog_div_settings).ajaxForm
+    datatype: 'json'
+    success: (data)-> 
+      console.log 'post background image attribute success'
+      #server response
+      location.reload()
+  
+  console.log 'bind event for image background attribute to auto upload when ok button was clicked'
+  $('#pageBackgroundOkBtn', $dialog_div_settings).bind 'click', ->
+    $('#new_page_img_bg_setting_ok', $dialog_div_settings).submit()
+    
+  $('.colorPanel', $dialog_div_settings).html($dds_color)
+  
+  $('#page_background_settings').bind "click", ->    
+    onAfterBackgroundPanelHor = (curr, next, opts, fwd)->
+      $current_panel = $(this)
+      $current_panel.parents('.backgroundPanelHor').animate
+        height: $current_panel.height()
+    $('.backgroundPanelHor', $dialog_div_settings).cycle 
+      fx: 'scrollHorz' # choose your transition type, ex: fade, scrollUp, shuffle, etc...
+      timeout: 0
+      fit: true
+      #width: 306
+      speed:  'fast'
+      after: onAfterBackgroundPanelHor      
+      
+    $('.color', $dialog_div_settings).click ->
+      $('.backgroundPanelHor', $dialog_div_settings).cycle(0);
+      $('#pageBackgroundOkBtn', $dialog_div_settings).data('type', 'color')
+      return false;
+    $('.upload', $dialog_div_settings).click ->
+      $('.backgroundPanelHor', $dialog_div_settings).cycle(1);
+      $('#pageBackgroundOkBtn', $dialog_div_settings).data('type', 'picture')      
+      return false;
+    $('.texture', $dialog_div_settings).click ->
+      $('.backgroundPanelHor', $dialog_div_settings).cycle(2);
+      $('#pageBackgroundOkBtn', $dialog_div_settings).data('type', 'texture')
+      return false;
+      
+    $('body').prepend($dialog_div_settings)
+    $dialog_div_settings.dialog
+      autoOpen: false
+      zIndex: 20000
+    $dialog_div_settings.dialog("open")
+    
+    #select bg $('.background_settings_option_content', $dialog_div_settings).html($dds_color)
+    
+    element = $('#pageBgColorSelector', $dds_color)
+    targetChange = $('#pageCanvas')
+    uID = $uID
+    gps_id_val = $('#pageCanvas').data('globalpagesettingid')
+    pageBackgroundImage = $('#pageCanvas').css('backgroundImage')
+    makeColorPickerForPageCanvas(element, targetChange, uID)
+    pageimgbgsettingid = $('#pageCanvas').data('pageimgbgsettingid')
+    $edit_form = $ '<input name="_method" type="hidden" value="put">'
+    
+    $('#pageBackgroundOkBtn').live 'click', ->
+      bg_type_val = $('#pageBackgroundOkBtn', $dialog_div_settings).data('type')
+      putGlobalPageSettingsType(gps_id_val, bg_type_val)
+      $dialog_div_settings.dialog("close")
+    
+    $('.bgSettingsSelect').bind "change", ->
+      $cur_select = $(this)
+      if $cur_select.val() == 'color'
+        $('.background_settings_option_content', $dialog_div_settings).html($dds_color)
+        $('#pageBackgroundOkBtn', $dialog_div_settings).data('type', 'color')
+        element = $('#pageBgColorSelector', $dds_color)
+        targetChange = $('#pageCanvas')
+        makeColorPickerForPageCanvas(element, targetChange, uID)
+        
+      else if $cur_select.val() == 'picture'
+        $('.background_settings_option_content', $dialog_div_settings).html($dds_picture)
+        $('#pageBackgroundOkBtn', $dialog_div_settings).data('type', 'picture')
+        
+        console.log 'bind UI events for bg attribute!'
+        bgAttributeUIEvents($dialog_div_settings)
+        
+        console.log "pageBackgroundImage : "+pageBackgroundImage
+        if pageBackgroundImage != "none"
+          $('#new_page_img_bg_setting', $dialog_div_settings).prepend($edit_form)
+          $('#new_page_img_bg_setting', $dialog_div_settings).attr('action', '/page_img_bg_settings/'+pageimgbgsettingid)
+        
+        console.log 'make ajax form for image upload'          
+        $('#new_page_img_bg_setting', $dialog_div_settings).ajaxForm
+          datatype: 'json'
+          success: (data)-> 
+            console.log 'post image success'
+            #server response
+            $html_response = $(data)
+            $img_url = $('#image_url', $html_response).text()
+            #console.log 'update background Image : '+$img_url
+            #alert $img_url            
+            $('#pageCanvas').css('backgroundImage', $img_url)
+            
+        console.log 'bind event for image input file to auto upload when image select'
+        $('#page_img_bg_setting_image', $dialog_div_settings).bind 'change', ->
+          $('#page_img_bg_setting_image', $dialog_div_settings).parents('form').submit()
+          
+        console.log 'set image ref : page_img_bg_setting_global_page_setting_id =>'+gps_id_val
+        $('#page_img_bg_setting_global_page_setting_id', $dialog_div_settings).val(gps_id_val)
+        
+        console.log 'sanitize form bg attribute'
+        $('#new_page_img_bg_setting_ok', $dialog_div_settings).attr('action', '/page_img_bg_settings/'+pageimgbgsettingid)
+        $('#page_img_bg_setting_global_page_setting_id_ok', $dialog_div_settings).val(gps_id_val)
+        
+        $('#new_page_img_bg_setting_ok', $dialog_div_settings).ajaxForm
+          datatype: 'json'
+          success: (data)-> 
+            console.log 'post background image attribute success'
+            #server response
+            location.reload()
+        
+        console.log 'bind event for image background attribute to auto upload when ok button was clicked'
+        $('#pageBackgroundOkBtn', $dialog_div_settings).bind 'click', ->
+          $('#new_page_img_bg_setting_ok', $dialog_div_settings).submit()
+            
+        console.log 'make color picker'
+        element = $('#pageBgColorSelectorPicture', $dds_picture)
+        targetChange = $('#pageCanvas')
+        makeColorPickerForPageCanvasPic(element, targetChange, uID)
+        
+    return false

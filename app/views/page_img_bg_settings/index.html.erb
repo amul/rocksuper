@@ -1,0 +1,35 @@
+<h1>Listing page_img_bg_settings</h1>
+
+<table>
+  <tr>
+    <th>Global page setting</th>
+    <th>Color</th>
+    <th>Hor alignment</th>
+    <th>Ver alignment</th>
+    <th>Repeat</th>
+    <th>Attachment</th>
+    <th>Image</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @page_img_bg_settings.each do |page_img_bg_setting| %>
+  <tr>
+    <td><%= page_img_bg_setting.global_page_setting_id %></td>
+    <td><%= page_img_bg_setting.color %></td>
+    <td><%= page_img_bg_setting.hor_alignment %></td>
+    <td><%= page_img_bg_setting.ver_alignment %></td>
+    <td><%= page_img_bg_setting.repeat %></td>
+    <td><%= page_img_bg_setting.attachment %></td>
+    <td><%= page_img_bg_setting.image %></td>
+    <td><%= link_to 'Show', page_img_bg_setting %></td>
+    <td><%= link_to 'Edit', edit_page_img_bg_setting_path(page_img_bg_setting) %></td>
+    <td><%= link_to 'Destroy', page_img_bg_setting, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Page img bg setting', new_page_img_bg_setting_path %>

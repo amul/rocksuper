@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @page.user_id %>
+</p>
+
+<p>
+  <b>Active:</b>
+  <%= @page.active %>
+</p>
+
+<p>
+  <b>Height:</b>
+  <%= @page.height %>
+</p>
+
+
+<%= link_to 'Edit', edit_page_path(@page) %> |
+<%= link_to 'Back', pages_path %>

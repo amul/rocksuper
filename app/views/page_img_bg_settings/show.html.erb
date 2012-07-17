@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Global page setting:</b>
+  <%= @page_img_bg_setting.global_page_setting_id %>
+</p>
+
+<p>
+  <b>Color:</b>
+  <%= @page_img_bg_setting.color %>
+</p>
+
+<p>
+  <b>Hor alignment:</b>
+  <%= @page_img_bg_setting.hor_alignment %>
+</p>
+
+<p>
+  <b>Ver alignment:</b>
+  <%= @page_img_bg_setting.ver_alignment %>
+</p>
+
+<p>
+  <b>Repeat:</b>
+  <%= @page_img_bg_setting.repeat %>
+</p>
+
+<p>
+  <b>Attachment:</b>
+  <%= @page_img_bg_setting.attachment %>
+</p>
+
+<p>
+  <b>Image:</b>
+  <span id="image_url"><%= @page_img_bg_setting.image %></span>
+</p>
+
+
+<%= link_to 'Edit', edit_page_img_bg_setting_path(@page_img_bg_setting) %> |
+<%= link_to 'Back', page_img_bg_settings_path %>

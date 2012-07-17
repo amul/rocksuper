@@ -1,0 +1,29 @@
+<h1>Listing gallery_attribs</h1>
+
+<table>
+  <tr>
+    <th>Col</th>
+    <th>Row</th>
+    <th>Margin</th>
+    <th>Element</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @gallery_attribs.each do |gallery_attrib| %>
+  <tr>
+    <td><%= gallery_attrib.col %></td>
+    <td><%= gallery_attrib.row %></td>
+    <td><%= gallery_attrib.margin %></td>
+    <td><%= gallery_attrib.element_id %></td>
+    <td><%= link_to 'Show', gallery_attrib %></td>
+    <td><%= link_to 'Edit', edit_gallery_attrib_path(gallery_attrib) %></td>
+    <td><%= link_to 'Destroy', gallery_attrib, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Gallery attrib', new_gallery_attrib_path %>

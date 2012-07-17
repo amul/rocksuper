@@ -1,0 +1,913 @@
+jQuery.ajaxSetup
+  'beforeSend': (xhr)->
+    xhr.setRequestHeader "X-CSRF-Token", 
+    $('meta[name="csrf-token"]').attr('content')
+    
+saveBorderRadiusForPicture = (element_style_id_val, border_radius_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {border_radius: border_radius_val} }, 
+        (data)-> 
+          console.log "[pictures.js] saveBorderRadiusForPicture"
+        , 'json'
+saveBackgroundForPicture = (element_style_id_val, background_style_g_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {background_style_g: background_style_g_val} }, 
+        (data)-> 
+          console.log "[pictures.js] saveBackgroundForPicture"
+        , 'json'
+saveBorderStyleForPicture = (element_style_id_val, border_style_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {border_style: border_style_val} }, 
+        (data)-> 
+          console.log "[pictures.js] saveBorderStyleForPicture"
+        , 'json'
+
+resizePictureOneIsToOne = (element)->
+  console.log 'resizePictureOneIsToOne'
+  $element = $(element)
+  $the_img = $('.content img', $element)
+  console.log 'width'
+  $the_img.removeAttr('width')
+  console.log 'height'
+  $the_img.removeAttr('height')
+  console.log 'css'
+  $the_img.css
+    margin: 0
+  #  width: 'auto'
+  #  height: 'auto'
+  $element.width($the_img.width())
+  $element.height($the_img.height())
+  $('.content',$element).width($the_img.width())
+  $('.content',$element).height($the_img.height())
+  
+resizePictureFit = (element)->
+  console.log 'resizePictureFit'
+  $element = $(element)
+  $the_img = $('.content img', $element)
+  w=$element.width()
+  h=$element.height()
+  console.log "first"+w
+    
+  winWidth=$element.width()
+  winHeight=$element.height()
+  winRatio = winWidth/winHeight
+  console.log "winRatio: "+winRatio
+  
+  imageWidth = $the_img.width()
+  imageHeight = $the_img.height()
+  console.log "image wXh: "+imageWidth+" : "+imageHeight
+  imageRatio = imageWidth/imageHeight
+  console.log "imageRatio: "+imageRatio
+  
+  if winRatio<imageRatio
+    $the_img.attr('width', winWidth)
+    $the_img.attr('height', Math.round(winWidth/imageRatio))
+  else
+    $the_img.attr('width', Math.round(winHeight*imageRatio))
+    $the_img.attr('height', winHeight)
+    
+  #console.log "second"+h
+  #console.log "second img"+$the_img.height()
+  #console.log $the_img.height() - h
+  
+  left = 0
+  top = 0
+  if winWidth>imageWidth #div is narrower than the image
+    diff = winWidth - $the_img.attr('width')
+    left = (diff/2) - (parseInt($the_img.parent().css('border-width'))*2)
+    console.log "left: "+left
+  if winHeight>imageHeight #div is longer than the image
+    diff = winHeight - $the_img.attr('height')
+    top = (diff/2) - (parseInt($the_img.parent().css('border-width'))*2)
+    console.log "top: "+top
+  $the_img.css
+    position:'static'
+    'margin-top':top
+    'margin-left':left
+
+resizePicture = (element)->
+  console.log 'resizePicture'
+  $element = $(element)
+  $the_img = $('.content img', $element)
+  w=$element.width()
+  h=$element.height()
+  console.log "first"+w
+    
+  winWidth=$element.width()
+  winHeight=$element.height()
+  winRatio = winWidth/winHeight
+  console.log "winRatio: "+winRatio
+  
+  imageWidth = $the_img.width()
+  imageHeight = $the_img.height()
+  console.log "image wXh: "+imageWidth+" : "+imageHeight
+  imageRatio = imageWidth/imageHeight
+  console.log "imageRatio: "+imageRatio
+  
+  if winRatio>imageRatio
+    $the_img.attr('width', w)
+    $the_img.attr('height', Math.round(w/imageRatio))          
+  else
+    $the_img.attr('width', Math.round(h*imageRatio))
+    $the_img.attr('height', h)
+    
+  #console.log "second"+h
+  #console.log "second img"+$the_img.height()
+  #console.log $the_img.height() - h
+  
+  left = 0
+  top = 0
+  if w<imageWidth #div is narrower than the image
+    diff = $the_img.width() - w
+    left = -(diff/2)
+    console.log "left: "+left
+  if h<imageHeight #div is longer than the image
+    diff = $the_img.height() - h
+    top = -(diff/2)
+    console.log "top: "+top
+  $the_img.css
+    position:'static'
+    'margin-top':top
+    'margin-left':left
+
+setImageElementStyle = (element_style_id_val, left_val, top_val, width_val, height_val) ->
+  $.post "/element_styles/"+element_style_id_val,
+    { _method:'PUT', element_style : {img_left: left_val, img_top: top_val, img_width: width_val, img_height: height_val} }
+    (data)-> 
+      console.log "element content saved(elem type picture) setImageElementStyle"
+    'json'
+    
+setElementContent = (element_id_val, element_content_val) ->
+  $.post "/elements/"+element_id_val,
+    { _method:'PUT', element : {content: element_content_val} }
+    (data)-> 
+      console.log "element content saved(elem type picture) setElementContent"
+    'json'
+    
+setLeftTopPos = (element_style_id_val, left_val, top_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {left: left_val, top: top_val} }, 
+        (data)-> 
+          console.log "left top pos saved"
+        , 'json'
+        
+setWHSize = (element_style_id_val, width_val, height_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {width: width_val, height: height_val} } 
+        (data)-> 
+          console.log "width height size saved"
+        'json'
+        
+$ ->
+  zoomval = null      
+  top = 0
+  left = 0
+  set_pic_for_cropping = (pic_element) ->
+    console.log 'set_pic_for_cropping'
+    $cur_pic_element = $(pic_element)
+    $the_img = $('.content img', $cur_pic_element)
+    $cur_pic_element.resizable('disable').draggable('disable')
+    $('.controller',$cur_pic_element).remove()
+    $('.content img', $cur_pic_element).draggable
+      stop: ->
+        element_style_id_val = $cur_pic_element.data('elementstyleid')
+        left_val = parseInt($the_img.css('left'))
+        top_val = parseInt($the_img.css('top'))
+        width_val = parseInt($the_img.width())
+        height_val = parseInt($the_img.height())
+        setImageElementStyle(element_style_id_val, left_val, top_val, width_val, height_val)
+    
+  resizeAll = (pic_element) ->
+    val = zoomval
+        
+    $cur_pic_element = $(pic_element)
+    $the_image = $('.content img', $cur_pic_element)
+
+    winWidth = $cur_pic_element.width()+(val*3)
+    winHeight = $cur_pic_element.height()+(val*3)
+    winRatio = winWidth/winHeight
+    image = $the_image
+    imageWidth = $the_image.width()
+    imageHeight = $the_image.height()    
+    imageRatio = imageWidth/imageHeight
+    
+    if winRatio>imageRatio
+      image.attr('width', winWidth)
+      image.attr('height', Math.round(winWidth/imageRatio))        
+    else
+      image.attr('width', Math.round(winHeight*imageRatio))
+      image.attr('height', winHeight)
+
+      dw = $cur_pic_element.width()
+      dh = $cur_pic_element.height()
+      iw = $('.content img', $cur_pic_element).width()
+      ih = $('.content img', $cur_pic_element).height()
+
+      
+      if dw<iw 
+        diff = iw-dw
+        left = -(diff/2)
+      if dh<ih 
+        diff = ih-dh
+        top = -(diff/2)
+        
+      $the_image.css
+        position:'static'
+        'margin-top':top
+        'margin-left':left
+  $('.element.picture').each ->
+    new resizePicture($(this))
+  getPX = (element, attr) ->
+    return parseInt((element.css(attr)).split("px"))
+
+  gen_pic_slider = (pic_element) ->
+    $cur_pic_elem = $(pic_element)
+    $the_img = $('.content img', $cur_pic_elem)
+    $image_slider_crop_div = $ '
+      <div id="image_crop_options">
+        <div id="image_slider_crop" class="slider" style="margin:10px 0 0 0"> </div>
+        <!--
+        <input type="button" class="resizetypefill" name="resizetypefill" value="fill" />
+        <input type="button" class="resizetype1to1" name="resizetype1to1" value="1to1" />
+        <input type="button" class="resizetypefit" name="resizetypefit" value="fit" />
+        -->
+      </div>
+    '        
+          
+    $cur_pic_elem.append($image_slider_crop_div)
+    
+    #$('.resizetypefill').bind 'click', ->
+    #  resizePicture($cur_pic_elem)
+    #  
+    #$('.resizetype1to1').bind 'click', ->
+    #  resizePictureOneIsToOne($cur_pic_elem)
+    #  
+    #$('.resizetypefit').bind 'click', ->
+    #  resizePictureFit($cur_pic_elem)
+    
+    $('#image_slider_crop', $image_slider_crop_div).slider({
+      min:0,
+      max:500,
+      value:0,
+      slide: (event, ui) ->
+        zoomval = ui.value
+        resizeAll($cur_pic_elem)
+      stop: (event, ui) ->
+        element_style_id_val = $cur_pic_elem.data('elementstyleid')
+        left_val = parseInt($the_img.css('left'))
+        top_val = parseInt($the_img.css('top'))
+        width_val = parseInt($the_img.width())
+        height_val = parseInt($the_img.height())
+        setImageElementStyle(element_style_id_val, left_val, top_val, width_val, height_val)
+    })
+
+  # $('#picture_crop_wrap img').each ->
+  #   maxWidth = 400
+  #   maxHeight = 400
+  #   ratio = 0
+  #   width = $(this).width()
+  #   height = $(this).height()
+  # 
+  #   if(width>maxWidth)
+  #     ratio = maxWidth/width
+  #     $(this).css("width", maxWidth)
+  #     $(this).css("height", height * ratio)
+  #     height = height * ratio
+  #   width = $(this).width();
+  #   height = $(this).height();
+  #   if(height>maxHeight)
+  #     ratio = maxHeight/height
+  #     $(this).css("height", maxHeight)
+  #     $(this).css("width", width * ratio)
+  #     width = width * ratio
+  #     
+  resizeWHPictureCrop = (imgElement)->
+    $imgElement = $(imgElement)
+    console.log 'resizeWHPictureCrop'
+    maxWidth = 500
+    maxHeight = 400
+    ratio = 0
+    width = $imgElement.width()
+    height = $imgElement.height()
+    console.log 'width -> '+$imgElement.width()
+    console.log 'height -> '+$imgElement.height()
+    
+    if(width>maxWidth)
+      ratio = maxWidth/width
+      $imgElement.css("width", maxWidth)
+      $imgElement.css("height", height * ratio)
+      height = height * ratio
+    width = $imgElement.width();
+    height = $imgElement.height();
+    if(height>maxHeight)
+      ratio = maxHeight/height
+      $imgElement.css("height", maxHeight)
+      $imgElement.css("width", width * ratio)
+      width = width * ratio
+
+  $dialog_box_settings_html = $ '      
+    <span>Color</span><br />
+    <div id="pictureColorSelector" class="selector_jq"><div style="background-color: #0000ff"></div></div>
+    
+    <div id="gradientOptionsPicture" style="display:none;">
+      <div id="gradientBgColor" >&nbsp;</div>
+      <select id="gradientOrientation">
+        <option value="horizontal">Horizontal</option>
+        <option value="vertical" selected="selected">Vertical</option>
+      </select>
+    </div>
+    <input type="button" value="Use Gradient" id="useGradientBgPicture" /><br />
+    
+    <span>Radius</span><br />        
+    <div id="slider-borderRadius" class="slider"></div>  
+    <input type="text" id="borderRadius" name="borderRadius" value="input number" /><br />
+    
+    <span>Border Color</span><br />
+    <div id="pictureColorSelectorBorder" class="selector_jq"><div style="background-color: #0000ff"></div></div>
+    
+    <span>Border Width</span><br />   
+    <div id="slider-borderWidth" class="slider"></div>  
+    <input type="text" id="borderWidth" name="borderWidth" value="input number" /><br />
+    
+    <span>Resize</span><br />
+    <input type="radio" name="resizetype" value="fill" />Fill Mode<br />
+    <input type="radio" name="resizetype" value="1to1" />1:1 (no scale)<br />
+    <input type="radio" name="resizetype" value="fit" />Fit Mode<br />
+  '
+  
+  $div_picture_multi_upload = $ '
+    <div id="fileupload" class="ui-widget">
+      <form accept-charset="UTF-8" action="/images" class="new_image" enctype="multipart/form-data" id="new_image" method="post">
+        <div class="fileupload-buttonbar ui-widget-header ui-corner-top">
+          <label class="fileinput-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button" aria-disabled="false">
+            <span class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span>
+            <span class="ui-button-text">
+              <span>Drop Image Bellow png/gif/jpg...</span>            
+            </span>
+            <input id="image_image" name="image[image]" type="file">
+          </label>
+          <input id="image_element_id" name="image[element_id]" type="hidden" >
+        </div>
+      </form>
+      <div class="fileupload-content ui-widget-content ui-corner-bottom">
+        <table class="files"><tbody></tbody></table>
+        <div class="fileupload-progressbar ui-progressbar ui-widget ui-widget-content ui-corner-all" style="display: none; " role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="ui-progressbar-value ui-widget-header ui-corner-left" style="display: none; width: 0%; "></div>
+        </div>
+      </div>
+    </div>
+  '
+  
+  $div_picture_crop = $ '
+    <div id="picture_crop_wrap">
+      <img id="picture_to_crop" />
+    </div>
+  '
+    
+  $dialog_div_picture = $ '
+      <div id="dialog_picture" title="Picture Settings">
+        <div class="picPanelHorNav PanelHorNav" style="overflow:hidden;display:block;">
+          <div href="#" class="upload subPanelButton pic">Upload</div>
+          <div href="#" class="pic_settings subPanelButton pic" style="width:100px">Image Settings</div>
+          <div href="#" class="pic_crop subPanelButton pic" style="width:70px">Crop</div>
+        </div>
+        <div class="picPanelHor PanelHor" style="position:relative;">
+          <div class="picturePanel" style="width: 100%;">
+            loading . . .
+          </div>
+          <div class="picSettingsPanel">
+            loading . . .
+          </div>
+          <div class="picCropPanel">
+            loading . . .
+          </div>
+        </div>
+      </div>
+    '  
+  $('.picturePanel', $dialog_div_picture).html($div_picture_multi_upload)
+  $('.picSettingsPanel', $dialog_div_picture).html($dialog_box_settings_html)
+  $('.picCropPanel', $dialog_div_picture).html($div_picture_crop)
+  
+  $modal_dialog_html = $ '
+    <form action="/images" class="new_image" enctype="multipart/form-data" id="new_image" method="post">
+      <div class="field">
+        <label for="image_caption">Caption</label><br>
+        <input id="image_caption" name="image[caption]" size="30" type="text">
+      </div>
+      <div class="field">
+        <label for="image_image">Image</label><br>
+        <input id="image_image" name="image[image]" type="file">
+      </div>
+      <div class="field" style="display: none;">
+        <label for="image_element_id">Element</label><br>
+        <input id="image_element_id" name="image[element_id]" type="hidden">
+      </div>
+      <div class="actions">
+        <input name="commit" type="submit" value="Create Image">
+      </div>
+    </form>
+  '
+  isSelectElement = false
+  
+  $('#new_image').live "submit", ->
+    element_style_id_val = $('#image_element_id').val()
+    left_val = 0
+    top_val = 0
+    width_val = null
+    height_val = null
+    setImageElementStyle(element_style_id_val, left_val, top_val, width_val, height_val)
+    #alert('king')
+  
+  $('#add_elem_picture').click ->
+    img_url = "/assets/images/init/testpic.jpg"
+    picture_content = "<image src='"+img_url+"' alt='rails logo' />"
+    $.post "/elements", 
+      { _method:'POST', element : {page_id: $('#add_elem_picture').data('pageid'), elem_type: 'picture', content: picture_content} }
+      (data)->
+        console.log "created element type/block picture"
+      
+        $.post "/element_styles",
+          { _method:'POST', element_style : {element_id: data.element.id, width: 500, height: 400} }
+          (data)->
+            
+            console.log "created a element style for picture block"
+            #create an element
+            $element = $ "
+            <div class='picture cur_selected element new_element' data-elementid='"+data.element_style.element_id+"' data-elementstyleid='"+data.element_style.id+"'>
+              <div class='content' id='content_"+data.element_style.element_id+"' width='"+data.element_style.width+"' height='"+data.element_style.height+"'>
+                "+picture_content+"
+              </div>
+              <div class='controller'>
+                <a class='settings_element'><img src='/assets/images/toolbar-button-settings.png' /></a>
+                <a class='zup'><img src='/assets/images/toolbar-button-up.png' /></a>
+                <a class='zdown'><img src='/assets/images/toolbar-button-down.png' /></a>
+                <a class='delete_element'><img src='/assets/images/toolbar-button-delete.png' /></a>
+              </div>
+            </div>
+            "
+            $('.element').removeClass('cur_selected')
+            $('.element').find('.controller').remove()
+            $('.element').resizable("option", "disabled", true).draggable("option", "disabled", true)
+            
+            $("#pageWrap").append $element
+            resizePicture($element)
+            
+            $element.draggable({
+              handle: $element
+              create: (event, ui) ->
+              start: (event, ui) ->
+              drag: (event, ui) ->
+              stop: (event, ui) ->
+                element_id_val = $element.data('elementid')
+                element_style_id_val = $element.data('elementstyleid')
+                left_val = ui.position.left
+                top_val = ui.position.top
+                setLeftTopPos(element_style_id_val, left_val, top_val)
+            }).resizable({
+              alsoResize: $element.find('.content')
+              handles: "n, e, s, w, ne, nw, se, sw"
+              create: (event, ui) ->
+              start: (event, ui) ->
+              resize: (event, ui) ->
+              stop: (event, ui) ->
+                element_id_val = $(this).data('elementid')
+                element_style_id_val = $(this).data('elementstyleid')
+                width_val  = ui.size.width
+                height_val = ui.size.height
+                setWHSize(element_style_id_val, width_val, height_val)
+            })
+            #live isSelectElement
+            $element.trigger('pageWrapEventOn')
+            
+            
+            $element.bind 'mousedown', (event)->
+              #live isSelectElement
+              $element.trigger('pageWrapEventOn')
+              
+              if !$element.hasClass('cur_selected')
+                console.log "addClass('cur_selected')"
+                $element.addClass('cur_selected')
+              #else
+              #  console.log 'cur_selected already'
+              #  return
+                
+              console.log("$element.hasClass('cur_selected') = "+$element.hasClass('cur_selected'))
+              if $element.hasClass('cur_selected')
+                console.log "set the #pageWrap event on --=val= "+isSelectElement
+                $('.element').removeClass('cur_selected')
+                $('.element').find('.controller').remove()
+                if($element.find('.controller').length < 1)
+                  $element.addClass('cur_selected')
+                
+                  console.log "xadd class selectedx and append controller div"
+                  $element.append($controller_div)
+                  $other_elements = $('.element:not(".cur_selected")')
+                  
+                  console.log "other_elements resize drag disabled and enabled current element bec it is single click"
+                  $other_elements.resizable("option", "disabled", true).draggable("option", "disabled", true)
+                  $element.resizable("option", "disabled", false).draggable("option", "disabled", false)
+                  
+                  $cur_element_content = $element.find('.content')
+                      
+                  $controller_div.mousedown (event)->
+                    event.preventDefault()
+                    event.stopPropagation()
+                    $target = $(event.target)
+                    $element_box = $(this).parents('.element')
+                    if $target.is('.zup') || $target.is('.zup img')
+                      console.log "z_index_add_new_elem"
+                      cur_zindex = $element_box.css('zIndex')
+                      $element_box.css
+                        zIndex: parseInt(cur_zindex)+1
+                        console.log parseInt(cur_zindex)+1
+                        element_id_val = $element.data('elementid')
+                        element_style_id_val = $element.data('elementstyleid')
+                        zIndex = parseInt(cur_zindex)+1
+                        setZindex(element_id_val, element_style_id_val, zIndex)
+                        console.log element_id_val
+                    else if $target.is('.zdown') || $target.is('.zdown img')
+                      console.log "z_index_subtract_new"
+                      cur_zindex = $element_box.css('zIndex')
+                      $element_box.css
+                        zIndex: parseInt(cur_zindex)-1
+                        console.log parseInt(cur_zindex)-1
+                        element_id_val = $element.data('elementid')
+                        element_style_id_val = $element.data('elementstyleid')
+                        zIndex = parseInt(cur_zindex)-1
+                        setZindex(element_id_val, element_style_id_val, zIndex)
+                    else if $target.is('.delete_element') || $target.is('.delete_element img')
+                      element_id_val = $element_box.data('elementid')
+                      $element_box.remove()
+                      delete_element(element_id_val)
+                      console.log "element_new has been deleted"
+                    else if $target.is('.settings_element') || $target.is('.settings_element img')
+                      $(this).parents('.picture').trigger('dblclick')
+                      #$('body').prepend($settings_div)
+                      #$settings_div.show("slide", { direction: "right" }, 800)
+                      #$('.close_box_settings', $settings_div).click ->
+                      #  $settings_div.hide("slide", { direction: "right" }, 800)
+                      #alert "show box settings opt"
+                      
+            $the_img = $('.content img', $element)
+            $element.bind "resizestop", (event, ui) ->
+              console.log "left: "+$the_img.css('margin-left')
+              console.log "top: "+$the_img.css('margin-top')
+              console.log "width: "+$the_img.width()
+              
+              #element_id_val = $element.data('elementid')      
+              #element_content_val = $('.content', $element).html()
+              #setElementContent(element_id_val, element_content_val)    
+              
+              element_style_id_val = $element.data('elementstyleid')
+              left_val = $the_img.css('left')
+              top_val = $the_img.css('top')
+              setImageElementStyle(element_style_id_val, left_val, top_val)
+            
+            $element.bind "resize", (event, ui) ->
+              resizePicture($element)
+            
+          'json'
+          
+      'json'
+      
+  makeMultiUpload = (element) ->    
+    maxFiles = 1
+    filesCounter = 0
+    #// Initialize the jQuery File Upload widget:
+    $(element).fileupload
+      maxFileSize: 3000000,
+      sequentialUploads: true,
+      acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i  
+      beforeSend: (event, files, index, xhr, handler, callBack) ->
+        if filesCounter+index+1 > maxFiles
+          #/* Show 'ONLY' + maxFiles + 'FILES ALLOWED!' message to user ... */
+          return
+        filesCounter = filesCounter+1
+    .bind 'fileuploadstop', ->
+      #//$('.sort.subPanelButton.ss').trigger('click');
+      window.location.reload()
+    .bind 'fileuploadprogressall', ->
+      if $('.fileupload-content').height() > 500
+        $('.picPanelHor').css
+          height: 547,
+          overflow: 'scroll-y'
+          #//width: $('.fileupload-content').width()
+      else
+        $('.picPanelHor').css
+          height: $('.fileupload-content').height() + 60
+          #//width: $('.fileupload-content').width()  
+      #//window.location.reload();
+    
+    #// Load existing files:
+    $.getJSON($(element).find('form').prop('action'), (files) ->
+      fu = $(element).data('fileupload')
+      fu._adjustMaxNumberOfFiles(-files.length)
+      fu._renderDownload(files)
+        .appendTo($(element).find('.files'))
+        .fadeIn ->
+          #// Fix for IE7 and lower:
+          $(this).show()
+    )
+  
+    #// Open download dialogs via iframes,
+    #// to prevent aborting current uploads:
+    $(element).find('.files a:not([target^=_blank])').live 'click', (e) ->
+      e.preventDefault();
+      $('<iframe style="display:none;"></iframe>')
+        .prop('src', this.href)
+        .appendTo('body')
+
+
+  #$('body').prepend($modal_dialog_html)
+  #$modal_dialog_html.css
+  #  'background': '#919191'
+  #$modal_dialog_html.dialog
+  #  autoOpen: false
+  #  zIndex: 13000
+  #  #height: 140
+  #  #modal: true
+  #  #dialogClass: "picture_update_dialog"
+  #  drag: (event, ui)->
+  #    $modal_dialog_html.css
+  #      'zIndex': 100005
+  #  open: (event, ui)->
+  #    $('#new_image').ajaxForm
+  #      datatype: 'json'
+  #      success: (data)-> 
+  #        console.log 'post image success'
+  #        #alert( $('#pageWrap',data) )
+  #        #server response
+  #        $html_response = $(data)
+  #        #get element id @cur init state
+  #        element_id = parseInt($('#image_element_id', $modal_dialog_html).val())
+  #        #get element @ server response
+  #        $img_element_response = $('#element_'+element_id+'.element.picture', $html_response)
+  #        #get image_url @ server response
+  #        $img_url_response = $('.content', $img_element_response).find('img').attr('src')
+  #        #@last do the update
+  #        #$('input', $modal_dialog_html).val('')
+  #        $modal_dialog_html.dialog('close')
+  #        $img_element = $('#element_'+element_id+'.element.picture .content').find('img')
+  #        $img_element.attr
+  #          'src': $img_url_response
+  #          'width': 'auto'
+  #          'height': 'auto'
+
+  #        #alert('uploaded')
+  
+  $('.element.picture').live "dblclick", ->
+    if $(event.target).is(".controller") || $(event.target).is(".controller a") || $(event.target).is(".controller a img")
+      console.log 'trigger controller event.target'
+      return
+    $cur_pic_elem = $(this)
+    
+    cssGradient_val = "background: "+$('.content', $cur_pic_elem).css('background')+";"
+    border_width = 'none border_width'
+    hex_val = 'none hex'
+    
+    $('#image_element_id', $dialog_div_picture).val( $(this).data('elementid') )
+    makeMultiUpload( $('#fileupload', $dialog_div_picture) )
+      
+    $cur_pic_elem.addClass('picture_update') 
+    if isSelectElement==false
+      isSelectElement = true
+      console.log "set the #pageWrap event on --=val= "+isSelectElement
+    
+    $cur_pic_elem.append($dialog_div_picture)
+    $dialog_div_picture.dialog
+      autoOpen: false
+      width: 526
+      zIndex: 13000
+      drag: (event, ui)->
+        $dialog_div_picture.css
+          'zIndex': 100005
+      open: (event, ui)->
+        onAfterPicPanelHor = (curr, next, opts, fwd)->
+          $current_panel = $(this);
+          $current_panel.parents('.picPanelHor').animate
+            height: $current_panel.height()
+        
+        $('.picPanelHor', $dialog_div_picture).cycle
+          fx: 'scrollHorz',
+          timeout: 0,
+          fit: true,
+          speed: 'fast',
+          after: onAfterPicPanelHor
+        
+        $('.upload.pic', $dialog_div_picture).click ->
+          $('.picPanelHor', $dialog_div_picture).cycle(0)
+          return false
+        $('.pic_settings.pic', $dialog_div_picture).click ->
+          $('.picPanelHor', $dialog_div_picture).cycle(1)
+          return false   
+        $('.pic_crop.pic', $dialog_div_picture).click ->
+          $('.picPanelHor', $dialog_div_picture).cycle(2)
+          #imgElement = $('#picture_to_crop',$dialog_div_picture)
+          #resizeWHPictureCrop(imgElement)
+          #$image_slider_crop_div = '<div id="image_slider_crop">loading</div>'
+          #$cur_pic_elem.append('<div id="image_slider_crop">loading</div>')
+          gen_pic_slider($cur_pic_elem)
+          set_pic_for_cropping($cur_pic_elem)
+          return false           
+          
+      close: (event, ui)->
+        $dialog_div_picture.remove()
+        element_style_id_val = $cur_pic_elem.data('elementstyleid')
+        background_style_g_val = cssGradient_val
+        saveBackgroundForPicture(element_style_id_val, background_style_g_val)
+    
+    $dialog_div_picture.dialog('open')
+    
+    #$img_src = $('.content img',$cur_pic_elem).attr('src')
+    #console.log 'src : -> '+$img_src
+    #$('#picture_to_crop',$dialog_div_picture).attr('src',$img_src)
+    
+    $('#image_element_id').val($cur_pic_elem.data('elementid'))
+    
+    $('#useGradientBgPicture',$dialog_div_picture).bind 'click', ->
+      $cur_button = $(this)
+      if $('#gradientBgColor',$dialog_div_picture).data('gradientCreator')
+        console.log 'yes'
+      else
+        console.log 'no'
+      if $cur_button.val() == "Use Gradient"
+        $('#gradientOptionsPicture').attr('style', 'display:block;')
+        $('#pictureColorSelector').attr('style', 'display:none;')
+        $('#gradientBgColor').gradientCreator
+          gradient: '#ebf1f6 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%',
+          target: $('.content', $cur_pic_elem),
+          tooltipGradient: ' #fceabb 0%,#fccd4d 49%,#f8b500 53%,#fbdf93 100%'
+          onChange: (stringGradient,cssGradient,ArrayColors) ->
+            console.log 'stringGradient val: '+stringGradient
+            console.log 'cssGradient val: '+cssGradient
+            cssGradient_val = cssGradient  
+        $cur_button.val('Solid Color')
+      else
+        $('.content', $cur_pic_elem).removeStyle('background')
+        $('.content', $cur_pic_elem).css
+          'background': '#89c4eb'
+        $('#gradientOptionsPicture').attr('style', 'display:none;')
+        $('#pictureColorSelector').attr('style', 'display:block;')
+        $cur_button.val('Use Gradient')
+      
+      $('#gradientOrientation').bind 'change', ->
+        $('#gradientBgColor').data('gradientCreator').setOrientation $(this).val()
+        
+    $('#pictureColorSelector').ColorPicker
+      color: '#0000ff'
+      onChange: (hsb, hex, rgb)->
+        $('.content', $cur_pic_elem).css
+          'borderColor': '#'+hex
+      onSubmit: (hsb, hex, rgb, el) ->
+        console.log el
+        $(el).val(hex)
+        $(el).ColorPickerHide()
+        element_style_id_val = $cur_pic_elem.data('elementstyleid')
+        background_style_g_val = 'background: #'+hex+';'
+        cssGradient_val = background_style_g_val
+        saveBackgroundForPicture(element_style_id_val, background_style_g_val)
+        
+    $('#slider-borderWidth',$dialog_div_picture).slider
+      min:1,
+      max:20,
+      value: 1,
+      slide: (event, ui) ->
+        val = ui.value
+        $('#borderWidth', $dialog_div_picture).val(val)
+        border_width = val
+      stop: (event, ui) ->
+        val = ui.value
+        console.log "upadate border width"
+        $('.content', $cur_pic_elem).css
+          "borderWidth": val
+        element_style_id_val = $cur_pic_elem.data('elementstyleid')
+        border_style_val = 'border: '+border_width+'px solid #'+hex_val+';'
+        saveBorderStyleForPicture(element_style_id_val, border_style_val)
+        
+    $('#slider-borderRadius',$dialog_div_picture).slider
+      min:1,
+      max:100,
+      value: 1,
+      slide: (event, ui) ->
+        val = ui.value
+        $('#borderRadius', $dialog_div_picture).val(val)
+      stop: (event, ui) ->
+        val = ui.value
+        console.log "upadate border radius"
+        $('.content', $cur_pic_elem).animate {
+          "borderRadius": val
+          },
+          900
+          ->
+            element_style_id_val = $cur_pic_elem.data('elementstyleid')
+            border_radius_val = val
+            saveBorderRadiusForPicture(element_style_id_val, border_radius_val)
+            
+    $('#pictureColorSelectorBorder', $dialog_div_picture).ColorPicker
+      color: '#0000ff'
+      onChange: (hsb, hex, rgb)->
+        $('.content', $cur_pic_elem).css
+          'borderColor': '#'+hex
+      onSubmit: (hsb, hex, rgb, el) ->
+        console.log el
+        $(el).val(hex)
+        $(el).ColorPickerHide()
+        hex_val = hex
+        element_style_id_val = $cur_pic_elem.data('elementstyleid')
+        border_style_val = 'border: '+border_width+'px solid #'+hex+';'
+        saveBorderStyleForPicture(element_style_id_val, border_style_val)
+        
+     $('input[name="resizetype"]',$dialog_div_picture).click ->
+      $cur_radio = $(this)
+      $cur_pic_elem.data('resizetype',$cur_radio.val())
+      if $cur_radio.val() == 'fill'
+        console.log 'fill'
+        resizePicture($cur_pic_elem)
+      else if $cur_radio.val() == 'fit'
+        console.log 'fit'
+        resizePictureFit($cur_pic_elem)
+      else if $cur_radio.val() == '1to1'
+        console.log '1to1'
+        resizePictureOneIsToOne($cur_pic_elem)
+        $cur_pic_elem.trigger('resizestop')
+        element_style_id_val = $cur_pic_elem.data('elementstyleid')
+        width_val = $cur_pic_elem.width()
+        height_val = $cur_pic_elem.height()
+        setWHSize(element_style_id_val, width_val, height_val)
+        
+
+       
+  $('.picture').each ->
+    $cur_pic_elem = $(this)
+    #if $cur_pic_elem.data('resizetype') == 'fill'
+    #  resizePicture($cur_pic_elem)
+    #else if $cur_pic_elem.data('resizetype') == 'fit'
+    #  resizePictureFit($cur_pic_elem)
+    #else if $cur_pic_elem.data('resizetype') == '1to1'
+    #  resizePictureOneIsToOne($cur_pic_elem)
+    #else
+    #  resizePicture($cur_pic_elem)
+    #resizePicture($cur_pic_elem)
+    $the_img = $('.content img', $cur_pic_elem)
+    #console.log $the_img
+        
+
+    $cur_pic_elem.bind "resizestop", (event, ui) ->
+      console.log "margin-left: "+$the_img.css('margin-left')
+      console.log "margin-top: "+$the_img.css('margin-top')
+      console.log "width: "+$the_img.width()
+      
+      #element_id_val = $cur_pic_elem.data('elementid')      
+      #element_content_val = $('.content', $cur_pic_elem).html()
+      #setElementContent(element_id_val, element_content_val)
+      
+      element_style_id_val = $cur_pic_elem.data('elementstyleid')
+      left_val = parseInt($the_img.css('margin-left'))
+      top_val = parseInt($the_img.css('margin-top'))
+      width_val = parseInt($the_img.width())
+      height_val = parseInt($the_img.height())
+      setImageElementStyle(element_style_id_val, left_val, top_val, width_val, height_val)
+      
+    $cur_pic_elem.bind "resize", (event, ui) ->
+      if $cur_pic_elem.data('resizetype') == 'fill'
+        resizePicture($cur_pic_elem)
+      else if $cur_pic_elem.data('resizetype') == 'fit'
+        resizePictureFit($cur_pic_elem)
+      else if $cur_pic_elem.data('resizetype') == '1to1'
+        resizePictureOneIsToOne($cur_pic_elem)
+      else
+        resizePicture($cur_pic_elem)
+      #w=$cur_pic_elem.width()
+      #h=$cur_pic_elem.height()
+
+      #  
+      #winWidth=$cur_pic_elem.width()
+      #winHeight=$cur_pic_elem.height()
+      #winRatio = winWidth/winHeight
+      #console.log "winRatio: "+winRatio
+      
+      #imageWidth = $the_img.width()
+      #imageHeight = $the_img.height()
+      ##console.log "image wXh: "+imageWidth+" : "+imageHeight
+      #imageRatio = imageWidth/imageHeight
+      #console.log "imageRatio: "+imageRatio
+      
+      #if winRatio>imageRatio
+      #  $the_img.attr('width', w)
+      #  $the_img.attr('height', Math.round(w/imageRatio))          
+      #else
+      #  $the_img.attr('width', Math.round(h*imageRatio))
+      #  $the_img.attr('height', h)
+      
+      #if w<imageWidth #div is narrower than the image
+      #  diff = imageWidth - w
+      #  left = -(diff/2)
+      #  console.log "left: "+left
+      #if h<imageHeight #div is longer than the image
+      #  diff = imageHeight - h
+      #  top = -(diff/2)
+      #  console.log "top: "+top
+      #$the_img.css
+      #  position:'relative'
+      #  top:top
+      #  left:left

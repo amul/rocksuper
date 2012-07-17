@@ -1,0 +1,27 @@
+<h1>Listing global_page_settings</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Page width</th>
+    <th>Bg color</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @global_page_settings.each do |global_page_setting| %>
+  <tr>
+    <td><%= global_page_setting.user_id %></td>
+    <td><%= global_page_setting.page_width %></td>
+    <td><%= global_page_setting.bg_color %></td>
+    <td><%= link_to 'Show', global_page_setting %></td>
+    <td><%= link_to 'Edit', edit_global_page_setting_path(global_page_setting) %></td>
+    <td><%= link_to 'Destroy', global_page_setting, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Global page setting', new_global_page_setting_path %>

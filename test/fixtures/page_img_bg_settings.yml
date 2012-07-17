@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  global_page_setting_id: 1
+  color: MyString
+  hor_alignment: MyString
+  ver_alignment: MyString
+  repeat: MyString
+  attachment: MyString
+  image: MyString
+
+two:
+  global_page_setting_id: 1
+  color: MyString
+  hor_alignment: MyString
+  ver_alignment: MyString
+  repeat: MyString
+  attachment: MyString
+  image: MyString

@@ -1,0 +1,98 @@
+<% if @user.global_page_setting.page_img_bg_setting.present? %>
+<% end %>
+
+<% if @user.global_page_setting.present? %>
+<div id="pageCanvas" data-use="<%= @user.id %>" data-globalpagesetting="yes" data-globalpagesettingId="<%= @user.global_page_setting.id %>"
+  style="background-color: <%= @user.global_page_setting.bg_color %>;
+  <% if @user.global_page_setting.page_img_bg_setting.present? && @user.global_page_setting.bg_type == "picture" %>
+    <% style = @user.global_page_setting.page_img_bg_setting %>
+    background-image: url(<%= style.image_url %>); background-repeat: <%= style.repeat %>; background-position: <%= style.hor_alignment %> <%= style.ver_alignment %>;
+  <% end %>
+  "
+  <% if @user.global_page_setting.page_img_bg_setting.present? %>
+    data-pageimgbgsettingid="<%= @user.global_page_setting.page_img_bg_setting.id %>"
+  <% end %>
+>
+<% else %>
+<div id="pageCanvas" data-use="<%= @user.id %>" data-globalpagesetting="no">
+<% end %>
+  <div id="pageWrap">
+    <%= @page.id %>
+    <% @pages.length %>
+    <%= @elements.length %>
+    <ul id="main_page_nav" style="left: <%= @user.left %>px; top: <%= @user.top %>px;">
+      <% @pages.each do |page| %>
+        <li><%= link_to(page.title, edit_webpage_path(page)) %></li>
+      <% end %>
+    </ul>
+    
+      	<div class="settings-video videoPanel">
+      	  <span class="close_panel settingsVideoPanel">&nbsp;</span>
+      		<form name="settings" onsubmit="return false" method="post" class="">
+      			<p>
+      				<label for="vid-url">Video URL</label>
+      				<input type="text" name="vid-url" id="vid-url" class="textinput" value="" />
+      			</p>
+      			<p style="padding:3px 0 0; clear:both">
+      				<input class="change-url" type="submit" value="Update" class="on" />			
+      			<p>
+      				<label for="control-bar">Control Bar</label>
+      				<select name="control-bar" id="control-bar">
+      					<option value="0">Show</option>
+      					<option value="1">Hide</option>
+      					<option value="2">Auto Hide</option>
+      				</select>
+      			</p>
+      			<p>
+      				<input type="checkbox" name="auto-play"><label for="" class="cbinline">Autoplay</label>
+      			</p>
+      			<p>
+      				<input type="checkbox" name="loop"><label for="" class="cbinline">Loop</label>
+      			</p>			
+      			<p>
+      				<input type="checkbox" name="show-title-bar"><label for="" class="cbinline">Show Title Bar</label>
+      			</p>			
+      			<p>
+      				<input type="checkbox" name="light-control-bar"><label for="" class="cbinline">Light Control Bar</label>
+      			</p>
+      			<p>
+      				<button id="dragtoggle" class="off">Drag</button>
+      			</p>
+      		</form>		
+      	</div>
+    
+    <% @elements.each do |element| %>
+    
+      <% #style = ElementStyle.find(element.element_style.id) %>
+      <% style = element.element_style %>
+      <% if element.elem_type == 'video'%>      
+        <div id="element_<%= element.id %>" class="element video ui-widget-content" data-elementid="<%= element.id %>" data-elementstyleid="<%= style.id %>" data-pageid="<%= @page.id %>" style="background:gray;left:<%= style.left %>px;top:<%= style.top %>px;width:<%= style.width %>px;height:<%= style.height %>px;font-family: <%= style.font_family %>; font-size:<%= style.font_size %>px;z-index: <%= style.z_index %>;">
+        <object width="<%= style.width %>" height="<%= style.height %>" data="<%= element.content %>" type="application/x-shockwave-flash" >
+  				<param NAME="wmode" VALUE="transparent" />
+  				<param name="src" value="<%= element.content %>" />
+  			</object>
+  			<div class="cover" style="width:<%= style.width %>px;height:<%= style.height %>px;"></div>
+  			</div>
+      <% elsif element.elem_type == 'picture'%>
+        <% pictures = element.images if element.images %>
+        <% picture = pictures.first %>
+        <%= div_for(element, :class => element.elem_type, :data => {:elementid => element.id, :elementstyleid => style.id, :pageid => @page.id  }, :style => "left:#{style.left}px;top:#{style.top}px;width:#{style.width}px;height:#{style.height}px;font-family: #{style.font_family}; font-size: #{style.font_size}px; z-index: #{style.z_index};") do %>
+          <div id="content_<%= element.id %>" class="content<%= ' default' if !element.images %>" style="width:<%= style.width %>px;height:<%= style.height %>px;line-height:<%= style.line_height %>; letter-spacing:<%= style.letter_spacing %>px; font-size:<%= style.font_size %>px;">
+            <% if element.images.count > 0 %>
+              <%= image_tag(picture.image_url.to_s, :size => "#{style.img_width}x#{style.img_height}", :alt => "#{picture.caption}", :style => "position: relative; left: #{style.img_left}px; top: #{style.img_top}px;") %>
+            <% else %>
+              <%= element.content.html_safe %>
+            <% end %>
+          </div>
+        <% end %>
+      <% else%>      
+        <%= div_for(element, :class => element.elem_type, :data => {:elementid => element.id, :elementstyleid => style.id, :pageid => @page.id  }, :style => "left:#{style.left}px;top:#{style.top}px;width:#{style.width}px;height:#{style.height}px;font-family: #{style.font_family}; font-size: #{style.font_size}px; z-index: #{style.z_index};") do %>
+          <div id="content_<%= element.id %>" class="content" style="width:<%= style.width %>px;height:<%= style.height %>px;line-height:<%= style.line_height %>; letter-spacing:<%= style.letter_spacing %>px; font-size:<%= style.font_size %>px;">
+            <%= element.content.html_safe %>
+          </div>
+        <% end %>        
+      <% end %>
+      
+    <% end %> <!-- @elements.each do |element| -->
+  <div>
+</div>

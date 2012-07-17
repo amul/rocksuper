@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'ArimoRegular';
+    src: url('/assets/arimo-regular-webfont.eot');
+    src: url('/assets/arimo-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/assets/arimo-regular-webfont.woff') format('woff'),
+         url('/assets/arimo-regular-webfont.ttf') format('truetype'),
+         url('/assets/arimo-regular-webfont.svg#ArimoRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Univers59UltraCondensedRg';
+    src: url('/assets/univers-ultracondensed-webfont.eot');
+    src: url('/assets/univers-ultracondensed-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/assets/univers-ultracondensed-webfont.woff') format('woff'),
+         url('/assets/univers-ultracondensed-webfont.ttf') format('truetype'),
+         url('/assets/univers-ultracondensed-webfont.svg#Univers59UltraCondensedRg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

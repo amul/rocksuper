@@ -1,0 +1,343 @@
+<script type="text/javascript">
+		$('.slideshow').slides({
+			preload: true,
+			preloadImage: 'http://deadwoodfilms.com/jquery/slideshow2/img/loading.gif',
+			play: 0,
+			pause: 500,
+			hoverPause: true,				
+			effect : 'fade',
+			crossfade:true,
+			animationStart: function(current){
+				$('.caption').animate({
+					bottom:-35
+				},100);
+				if (window.console && console.log) {
+					// example return of current slide number
+					console.log('animationStart on slide: ', current);
+				};
+			},
+			animationComplete: function(current){
+				$('.caption').animate({
+					bottom:0
+				},200);
+				if (window.console && console.log) {
+					// example return of current slide number
+					console.log('animationComplete on slide: ', current);
+				};
+			},
+			slidesLoaded: function() {
+				$('.caption').animate({
+					bottom:0
+				},200);
+			}				
+		});
+		
+		$('.slideshow3').slides({
+			preload: true,
+			preloadImage: 'http://deadwoodfilms.com/jquery/slideshow2/img/loading.gif',
+			play: 1000,
+			pause: 500,
+			hoverPause: true,
+			effect : 'fade',
+			crossfade:true,
+			
+		});
+		
+		$('.slideshow2').slides({
+			preload: true,
+			preloadImage: 'http://deadwoodfilms.com/jquery/slideshow2/img/loading.gif',
+			play: 1000,
+			pause: 500,
+			hoverPause: true,
+			effect : 'fade',
+			crossfade:true,
+			
+		});
+		
+		$('.slideshow4').slides({
+			preload: true,
+			preloadImage: 'http://deadwoodfilms.com/jquery/slideshow2/img/loading.gif',
+			play: 1000,
+			pause: 500,
+			hoverPause: true,
+			effect : 'fade',
+			crossfade:true,
+			
+		});			
+</script>
+
+<% if @user.global_page_setting.page_img_bg_setting.attachment == 'stretch' && @user.global_page_setting.bg_type == "picture" %>
+  <script type="text/javascript">
+    $.backstretch('<%= @user.global_page_setting.page_img_bg_setting.image_url %>');
+  </script>
+<% end %>
+
+<% if @user.global_page_setting.present? %>
+<div id="pageCanvas" data-use="<%= @user.id %>" data-pageid="<%= @page.id %>" data-globalpagesetting="yes" data-globalpagesettingId="<%= @user.global_page_setting.id %>"
+  <% if @user.global_page_setting.bg_type == 'color' %>
+    style="background-color: <%= @user.global_page_setting.bg_color %>;"
+  <% end %>
+  style="
+  <% if @user.global_page_setting.page_img_bg_setting.attachment != 'stretch' %>
+    background-color: <%= @user.global_page_setting.bg_color %>;
+    <% if @user.global_page_setting.page_img_bg_setting.present? && @user.global_page_setting.bg_type == "picture" %>
+      <% style = @user.global_page_setting.page_img_bg_setting %>
+      background-image: url(<%= style.image_url %>); 
+      background-repeat: <%= style.repeat %>; 
+      background-position: <%= style.hor_alignment %> <%= style.ver_alignment %>;
+      background-attachment: <%= style.attachment %>;
+    <% end %>
+  <% end %>
+  <% if @user.global_page_setting.bg_type == 'texture' %>
+    background-image: url(<%= @user.global_page_setting.texture_bg %>);
+    background-repeat: repeat;
+  <% end %>
+  "
+
+  <% if @user.global_page_setting.page_img_bg_setting.present? %>
+    data-pageimgbgsettingid="<%= @user.global_page_setting.page_img_bg_setting.id %>"
+  <% end %>
+>
+<% else %>
+<div id="pageCanvas" data-use="<%= @user.id %>" data-pageid="<%= @page.id %>" data-globalpagesetting="no">
+<% end %>
+  <div id="pageWrap" style="
+    <% if @user.global_page_setting.page_width.to_i > 500 %>
+      width:<%= @user.global_page_setting.page_width %>px; 
+    <% end %>
+    <% if @page.height.to_i %>
+      height: <%= @page.height %>px; 
+    <% end %>
+    <% if @user.global_page_setting.canvas_bg_color.present? && @user.global_page_setting.canvas_bg_color != "transparent" %>
+      background-color: <%= @user.global_page_setting.canvas_bg_color %>
+    <% else %>
+      background: none;
+      box-shadow: none;
+    <% end %>
+    "
+  >
+  
+		<!-- START SLIDESHOW 1 -->
+		<div class="slideshow">
+			<div class="slides_container">
+				<div class="slide">
+					<a href="http://deadwoodfilms.com/jquery/slideshow2/images/lion1.jpg" title="145.365 - Happy Bokeh Thursday! | Flickr - Photo Sharing!" target="_blank"><img src="http://deadwoodfilms.com/jquery/slideshow2/images/lion1.jpg" alt="Slide 1"></a>
+					<div class="caption" style="bottom:0">
+						<p>Happy Bokeh Thursday!</p>
+					</div>
+				</div>			
+				<div class="slide">
+					<a href="http://deadwoodfilms.com/jquery/slideshow2/images/lion2.jpg" title="We Eat Light | Flickr - Photo Sharing!" target="_blank"><img src="http://deadwoodfilms.com/jquery/slideshow2/images/lion2.jpg" alt="Slide 4"></a>
+					<div class="caption" style="bottom:0">
+						<p>LION</p>
+					</div>
+				</div>				
+				<div class="slide">
+					<a href="http://deadwoodfilms.com/jquery/slideshow2/images/lion3.jpg" title="“I must go down to the sea again, to the lonely sea and the sky; and all I ask is a tall ship and a star to steer her by.” | Flickr - Photo Sharing!" target="_blank"><img src="http://deadwoodfilms.com/jquery/slideshow2/images/lion3.jpg" alt="Slide 5"></a>
+					<div class="caption" style="bottom:0">
+						<p>Happy Bokeh Thursday!</p>
+					</div>
+				</div>				
+				<div class="slide">
+					<a href="http://deadwoodfilms.com/jquery/slideshow2/images/lion-man.jpg" title="twelve.inch | Flickr - Photo Sharing!" target="_blank"><img src="http://deadwoodfilms.com/jquery/slideshow2/images/lion-man.jpg" alt="Slide 6"></a>
+					<div class="caption" style="bottom:0">
+						<p>Happy Bokeh Thursday!</p>
+					</div>
+				</div>					
+			</div>
+			<a href="#" class="prev controls"><img src="http://deadwoodfilms.com/jquery/slideshow2/img/arrow-prev.png" width="24" height="43" alt="Arrow Prev"></a>
+			<a href="#" class="next controls"><img src="http://deadwoodfilms.com/jquery/slideshow2/img/arrow-next.png" width="24" height="43" alt="Arrow Next"></a>
+			<a href="" class="link-slideshow-settings">Settings</a>
+			<div class="slideshow-settings">
+				<p><label for="transition">Transition</label>
+					<select class="options" name="transitionx" id="transitionx" />
+						<option value="slideLeft">slide left</option>
+						<option value="slideRight">slide right</option>
+						<option value="slideUp">slide up</option>
+						<option value="slideDown">slide down</option>
+						<option value="fade" selected="selected">fade</option>
+					</select>
+					<p>
+						<label >Slide Interval</label>	
+						<div class="slider-interval"></div>
+						<input type="text" name="slide_interval" class="slide_interval" value="1000" class="textinput" />								
+					</p>
+					<p><input type="checkbox" class="options" name="autoplay" id="autoplay" /><label for="autoplay">Autoplay</label></p>
+					<p><input type="checkbox" class="options" name="show_caption" id="show_caption" /><label for="autoplay">Show Caption</label></p>
+					<p><input type="checkbox" class="options" name="show_pagination" id="show_pagination" /><label for="autoplay">Show Pagination</label></p>
+				</p>
+				<p>
+					<label>Previous & Next Arrow</label>
+					<select name="prev_next" class="prev_next">
+						<option  value="upon_hover">Upon Hover</option>
+						<option  value="always" selected="selected">Always</option>
+						<option  value="never">Never</option>
+					</select>
+				</p>	
+				<p>
+					<label>Font</label>
+					<select name="font" class="font">
+						<option  value="tahoma">Tahoma</option>
+						<option  value="courier new">Courier New</option>
+						<option value="Gorditas">Gorditas</option>
+						<option value="Bilbo">Bilbo</option>
+						<option value="Emilys Candy">Emilys Candy</option>
+						<option value="Ribeye Marrow">Ribeye Marrow</option>
+						<option value="Henny Penny">Henny Penny</option>
+					</select>
+				</p>						
+				
+			</div>
+		</div>
+		<!-- END SLIDESHOW 1 -->
+		<!-- START SLIDESHOW 4 -->
+		<div class="slideshow">
+			<div class="slides_container">
+				<div class="slide">
+					<a href="http://deadwoodfilms.com/jquery/slideshow2/images/lion12.jpg" title="145.365 - Happy Bokeh Thursday! | Flickr - Photo Sharing!" target="_blank"><img src="http://deadwoodfilms.com/jquery/slideshow2/images/lion12.jpg" alt="Slide 1"></a>
+					<div class="caption" style="bottom:0">
+						<p>Happy Bokeh Thursday!</p>
+					</div>
+				</div>			
+				<div class="slide">
+					<a href="http://deadwoodfilms.com/jquery/slideshow2/images/lion13.jpg" title="We Eat Light | Flickr - Photo Sharing!" target="_blank"><img src="http://deadwoodfilms.com/jquery/slideshow2/images/lion13.jpg" alt="Slide 4"></a>
+					<div class="caption" style="bottom:0">
+						<p>LION</p>
+					</div>
+				</div>				
+				<div class="slide">
+					<a href="http://deadwoodfilms.com/jquery/slideshow2/images/lion1.jpg" title="“I must go down to the sea again, to the lonely sea and the sky; and all I ask is a tall ship and a star to steer her by.” | Flickr - Photo Sharing!" target="_blank"><img src="http://deadwoodfilms.com/jquery/slideshow2/images/lion1.jpg" alt="Slide 5"></a>
+					<div class="caption" style="bottom:0">
+						<p>Happy Bokeh Thursday!</p>
+					</div>
+				</div>							
+			</div>
+			<a href="#" class="prev controls"><img src="http://deadwoodfilms.com/jquery/slideshow2/img/arrow-prev.png" width="24" height="43" alt="Arrow Prev"></a>
+			<a href="#" class="next controls"><img src="http://deadwoodfilms.com/jquery/slideshow2/img/arrow-next.png" width="24" height="43" alt="Arrow Next"></a>
+			<a href="" class="link-slideshow-settings">Settings</a>
+			<div class="slideshow-settings">
+				<p><label for="transition">Transition</label>
+					<select class="options" name="transitionx" id="transitionx" />
+						<option value="slideLeft">slide left</option>
+						<option value="slideRight">slide right</option>
+						<option value="slideUp">slide up</option>
+						<option value="slideDown">slide down</option>
+						<option value="fade" selected="selected">fade</option>
+					</select>
+					<p>
+						<label >Slide Interval</label>	
+						<div class="slider-interval"></div>
+						<input type="text" name="slide_interval" class="slide_interval" value="1000" class="textinput" />								
+					</p>
+					<p><input type="checkbox" class="options" name="autoplay" id="autoplay" /><label for="autoplay">Autoplay</label></p>
+					<p><input type="checkbox" class="options" name="show_caption" id="show_caption" /><label for="autoplay">Show Caption</label></p>
+					<p><input type="checkbox" class="options" name="show_pagination" id="show_pagination" /><label for="autoplay">Show Pagination</label></p>
+				</p>
+				<p>
+					<label>Previous & Next Arrow</label>
+					<select name="prev_next" class="prev_next">
+						<option  value="upon_hover">Upon Hover</option>
+						<option  value="always" selected="selected">Always</option>
+						<option  value="never">Never</option>
+					</select>
+				</p>	
+				<p>
+					<label>Font</label>
+					<select name="font" class="font">
+						<option  value="tahoma">Tahoma</option>
+						<option  value="courier new">Courier New</option>
+						<option value="Gorditas">Gorditas</option>
+						<option value="Bilbo">Bilbo</option>
+						<option value="Emilys Candy">Emilys Candy</option>
+						<option value="Ribeye Marrow">Ribeye Marrow</option>
+						<option value="Henny Penny">Henny Penny</option>
+					</select>
+				</p>						
+				
+			</div>
+		</div>
+  
+    <%= @page.id %>
+    <% @pages.length %>
+    <%= @elements.length %>
+    <ul id="main_page_nav" style="left: <%= @user.left %>px; top: <%= @user.top %>px;">
+      <% @pages.each do |page| %>
+        <li><%= link_to(page.title, edit_webpage_path(page)) %></li>
+      <% end %>
+    </ul>
+    
+      	<div class="settings-video videoPanel">
+      	  <span class="close_panel settingsVideoPanel">&nbsp;</span>
+      		<form name="settings" onsubmit="return false" method="post" class="">
+      			<p>
+      				<label for="vid-url">Video URL</label>
+      				<input type="text" name="vid-url" id="vid-url" class="textinput" value="" />
+      			</p>
+      			<p style="padding:3px 0 0; clear:both">
+      				<input class="change-url" type="submit" value="Update" class="on" />			
+      			<p>
+      				<label for="control-bar">Control Bar</label>
+      				<select name="control-bar" id="control-bar">
+      					<option value="0">Show</option>
+      					<option value="1">Hide</option>
+      					<option value="2">Auto Hide</option>
+      				</select>
+      			</p>
+      			<p>
+      				<input type="checkbox" name="auto-play"><label for="" class="cbinline">Autoplay</label>
+      			</p>
+      			<p>
+      				<input type="checkbox" name="loop"><label for="" class="cbinline">Loop</label>
+      			</p>			
+      			<p>
+      				<input type="checkbox" name="show-title-bar"><label for="" class="cbinline">Show Title Bar</label>
+      			</p>			
+      			<p>
+      				<input type="checkbox" name="light-control-bar"><label for="" class="cbinline">Light Control Bar</label>
+      			</p>
+      			<p>
+      				<button id="dragtoggle" class="off">Drag</button>
+      			</p>
+      		</form>		
+      	</div>
+    
+    <% @elements.each do |element| %>
+      <% #style = ElementStyle.find(element.element_style.id) %>
+      <% style = element.element_style %>
+      <% if element.locked? %>
+        <% locked_class = true %>
+      <% else %>
+        <% locked_class = false %>
+      <% end %>
+      
+      <% if element.elem_type == 'video'%>      
+        <div id="element_<%= element.id %>" class="element video ui-widget-content" data-elementid="<%= element.id %>" data-elementstyleid="<%= style.id %>" data-pageid="<%= @page.id %>" data-locked= <%= locked_class %> style="background:gray;left:<%= style.left %>px;top:<%= style.top %>px;width:<%= style.width %>px;height:<%= style.height %>px;font-family: <%= style.font_family %>; font-size:<%= style.font_size %>px;z-index: <%= style.z_index %>;">
+        <object width="<%= style.width %>" height="<%= style.height %>" data="<%= element.content %>" type="application/x-shockwave-flash" >
+  				<param NAME="wmode" VALUE="transparent" />
+  				<param name="src" value="<%= element.content %>" />
+  			</object>
+  			<div class="cover" style="width:<%= style.width %>px;height:<%= style.height %>px;"></div>
+  			</div>
+      <% elsif element.elem_type == 'picture'%>
+        <% pictures = element.images if element.images %>
+        <% picture = pictures.first %>
+        <%= div_for(element, :class => element.elem_type, :data => {:elementid => element.id, :elementstyleid => style.id, :pageid => @page.id, :locked => locked_class  }, :style => "left:#{style.left}px;top:#{style.top}px;width:#{style.width}px;height:#{style.height}px;font-family: #{style.font_family}; font-size: #{style.font_size}px; z-index: #{style.z_index};") do %>
+          <div id="content_<%= element.id %>" class="content<%= ' default' if !element.images %>" style="width:<%= style.width %>px;height:<%= style.height %>px;line-height:<%= style.line_height %>; letter-spacing:<%= style.letter_spacing %>px; font-size:<%= style.font_size %>px;">
+            <% if element.images.count > 0 %>
+              <%= image_tag(picture.image_url.to_s, :size => "#{style.img_width}x#{style.img_height}", :alt => "#{picture.caption}", :style => "position: relative; left: #{style.img_left}px; top: #{style.img_top}px;") %>
+            <% else %>
+              <%= element.content.html_safe %>
+            <% end %>
+          </div>
+        <% end %>
+      <% else%>      
+        <%= div_for(element, :class => element.elem_type, :data => {:elementid => element.id, :elementstyleid => style.id, :pageid => @page.id, :locked => locked_class }, :style => "left:#{style.left}px;top:#{style.top}px;width:#{style.width}px;height:#{style.height}px;font-family: #{style.font_family}; font-size: #{style.font_size}px; z-index: #{style.z_index};") do %>
+          <div id="content_<%= element.id %>" class="content" style="width:<%= style.width %>px;height:<%= style.height %>px;line-height:<%= style.line_height %>; letter-spacing:<%= style.letter_spacing %>px; font-size:<%= style.font_size %>px;">
+            <%= element.content.html_safe %>
+          </div>
+        <% end %>        
+      <% end %>
+      
+    <% end %> <!-- @elements.each do |element| -->
+  <div>
+</div>

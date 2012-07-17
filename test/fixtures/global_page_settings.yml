@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user_id: 1
+  page_width: 1
+  bg_color: MyString
+
+two:
+  user_id: 1
+  page_width: 1
+  bg_color: MyString

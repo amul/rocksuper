@@ -1,0 +1,230 @@
+$hline_element_div = $ '
+<div class="element hline" data-elementid="807" data-elementstyleid="696" data-locked="false" data-pageid="167" id="element_807" style="left:101px;top:109px;width:360px;height:15px;z-index: 9999;">
+  <div id="content_807" class="content" style="width:100%;height:15px;">
+    <div class="element_hline hline new" style="border-bottom: 1px dashed black; width: 100%; height: 1px; background-color: none; background-position: initial initial; background-repeat: initial initial; ">
+      &nbsp;
+    </div>
+  </div>
+</div>
+'
+$dialog_hline_div = $ '
+  <div id="dialog_hline" title="Line Settings" style="display: none;">
+    <div class="ssPanelHorNav PanelHorNav" style="overflow:hidden;display:block;">
+      <div href="#" class="hline_settings subPanelButton gg ss" style="width: 100px">Line Settings</div>
+    </div>
+    <div class="ggPanelHor ssPanelHor PanelHor" style="position:relative;">
+      <div class="settingsPanel" style="width: 100%;">
+        <span>Line Style</span><br />
+        <select id="border_style_hline">
+          <option value="dotted">Dot</option>
+          <option value="dashed">Dash</option>
+          <option value="solid">Solid</option>
+          <option value="double">Double</option>
+          <option value="groove">Groove</option>
+          <option value="ridge">Ridge</option>
+        </select>
+        <span>Line Color</span><br />
+        <div id="hlineColorSelector" class="selector_jq"><div style="background-color: #0000ff"></div></div>        
+        <span>Line Width</span><br />        
+        <div id="lineWidthSliderHline">&nbsp;</div>
+      </div>
+    </div>
+  </div>
+'
+#controller fr each of the elements
+$controller_div = $ "
+<div class='controller'>
+  <a class='lock_element'><img src=\"<%= asset_path('images/toolbar-button-lock.png') %>\" /></a>
+  <a class='settings_element'><img src=\"<%= asset_path('images/toolbar-button-settings.png') %>\" /></a>
+  <a class='zup'><img src='/assets/images/toolbar-button-up.png' /></a>
+  <a class='zdown'><img src='/assets/images/toolbar-button-down.png' /></a>
+  <a class='delete_element'><img src='/assets/images/toolbar-button-delete.png' /></a>
+</div>
+"
+setZindex = (element_style_id_val, zIndex) ->
+  $.post "/element_styles/"+element_style_id_val,
+    { _method:'PUT', element_style : {z_index: zIndex} }
+    (data)-> 
+      console.log "[hlines.js] element zindex saved"
+    'json'
+setLeftTopPos = (element_style_id_val, left_val, top_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {left: left_val, top: top_val} }, 
+        (data)-> 
+          console.log "[hlines.js] left top pos saved"
+        , 'json'
+        
+setWHSize = (element_style_id_val, width_val, height_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {width: width_val, height: height_val} } 
+        (data)-> 
+          console.log "[hlines.js] width height size saved"
+        'json'
+        
+setElementContent = (element_id_val, element_content_val) ->
+  $.post "/elements/"+element_id_val,
+    { _method:'PUT', element : {content: element_content_val} }
+    (data)-> 
+      console.log "[hlines.js] element content"
+    'json'
+    
+delete_element = (element_id_val) ->
+  $.post "/elements/"+element_id_val,
+    { _method:'DELETE', elements : {element_id: element_id_val} }
+    (data)-> 
+      console.log "[hlines.js] deleted element"
+    'json'
+$ ->
+  isSelectElement = false
+  $('#add_elem_hline').click ->
+    hline_element = "<div class='element_hline hline new_element' style='border-bottom: 1px dashed red;width:100%;height:1px'>&nbsp;</div>"
+    $.post "/elements", 
+      { _method:'POST', element : {page_id: $('#add_elem_hline').data('pageid'), elem_type: 'hline', content: hline_element} }
+      (data)->
+        console.log "[hlines.js] created element type/block hline div"        
+        $.post "/element_styles",
+          { _method:'POST', element_style : {element_id: data.element.id, width: 360, height: 15, z_index: 9999} }
+          (data)->
+            console.log "[hlines.js] created a element style"
+            #alert data.element_style.element_id
+            $hline_element_div.data('elementid', data.element_style.element_id)
+            $hline_element_div.data('pageid', $('#add_elem_hline').data('pageid'))
+            $hline_element_div.attr('id', 'element_'+data.element_style.element_id)
+            $hline_element_div.data('elementstyleid', data.element_style.id)
+            $hline_element_div.find('.content').attr('id', 'content_'+data.element_style.element_id)
+            
+            $('#pageWrap').prepend($hline_element_div)          
+            $hline_element_div.bind "mousedown", (event)->
+              isSelectElement = true
+          'json'          
+      'json'
+      
+  $('.hline.element')
+    .resizable( "option", "handles", "e, w" )
+  
+  $('.hline.element').live 'click', (event) ->
+    $target = $(event.target)
+    $cur_element = $(this)    
+    
+    $cur_element.prepend($controller_div)
+    $cur_element.resizable
+      alsoResize: $('.content', this)
+      handles: "e, w"
+      disabled: true
+      create: (event, ui) ->
+        $(this).resizable( "disable" )
+      start: (event, ui) ->
+      resize: (event, ui) ->
+      stop: (event, ui) ->
+        ELEMENT_ID_VAL = $(this).data('elementid')
+        element_style_id_val = $(this).data('elementstyleid')
+        width_val  = ui.size.width
+        height_val = ui.size.height
+        setWHSize(element_style_id_val, width_val, height_val)
+    .draggable
+      handle: this
+      disabled: true
+      create: (event, ui) ->
+        $(this).draggable( "disable" )
+      start: (event, ui) ->
+      drag: (event, ui) ->
+      stop: (event, ui) ->
+        element_id_val = $(this).data('elementid')
+        element_style_id_val = $(this).data('elementstyleid')
+        left_val = ui.position.left
+        top_val = ui.position.top
+        setLeftTopPos(element_style_id_val, left_val, top_val)
+    $cur_element.resizable( "enable" ).draggable( "enable" )
+    $('.ui-resizable-ne, .ui-resizable-nw, .ui-resizable-n, .ui-resizable-s, .ui-resizable-se, .ui-resizable-sw', $cur_element).hide()
+    $('.element').removeClass('cur_selected')
+    $cur_element.addClass('cur_selected')
+    
+    $controller_div.bind 'mousedown', (event)->
+      event.preventDefault()
+      event.stopPropagation()
+      $target = $(event.target)
+      if $target.is('.zup') || $target.is('.zup img')
+        console.log "z_index_add"
+        cur_zindex = $(this).parents('.element').css('zIndex')
+        $(this).parents('.element').css
+          zIndex: parseInt(cur_zindex)+1
+          console.log parseInt(cur_zindex)+1
+          element_id_val = $cur_element.data('elementid')
+          element_style_id_val = $cur_element.data('elementstyleid')
+          zIndex = parseInt(cur_zindex)+1
+          setZindex(element_style_id_val, zIndex)
+      else if $target.is('.zdown') || $target.is('.zdown img')
+        console.log "z_index_subtract"
+        cur_zindex = $(this).parents('.element').css('zIndex')
+        $(this).parents('.element').css
+          zIndex: parseInt(cur_zindex)-1
+          console.log parseInt(cur_zindex)-1
+          element_id_val = $cur_element.data('elementid')
+          element_style_id_val = $cur_element.data('elementstyleid')
+          zIndex = parseInt(cur_zindex)-1
+          setZindex(element_style_id_val, zIndex)
+      else if $target.is('.delete_element') || $target.is('.delete_element img')
+        element_id_val = $(this).parents('.element').data('elementid')
+        $(this).parents('.element').remove()
+        delete_element(element_id_val)
+        console.log "element has been deleted (not callback)"
+      else if $target.is('.settings_element') || $target.is('.settings_element img')
+        $cur_element.trigger('dblclick')
+      else if $target.is('.lock_element') || $target.is('.lock_element img')
+        if $cur_element.hasClass('locked')
+          $cur_element.removeClass('locked')
+          console.log "unlocked element "+$cur_element.attr('id')
+          $cur_element.draggable("option", "disabled", false).resizable("option", "disabled", false)
+        else
+          $cur_element.addClass('locked')
+          $cur_element.draggable("option", "disabled", true).resizable("option", "disabled", false)
+          console.log "locked element "+$cur_element.attr('id')
+          
+  console.log '[lines.js] add doubleclick event'
+  $('.hline.element').live 'dblclick', ->
+    $cur_element = $(this);
+    #$(this).parents('.element').prepend($dialog_hline_div)
+    $(this).prepend($dialog_hline_div)
+    $dialog_hline_div.dialog
+      autoOpen: false
+      width: 526
+      zIndex: 13000
+      close: (event, ui) ->
+        $dialog_hline_div.remove()
+        
+    $('#border_style_hline',$dialog_hline_div).bind 'change', ->
+      console.log "change border type"
+      $('.content .element_hline.hline', $cur_element).css
+        'borderBottomStyle': $(this).val()
+        'borderStyle': $(this).val()
+        
+    $('#hlineColorSelector',$dialog_hline_div).ColorPicker
+      color: '#0000ff'
+      onChange: (hsb, hex, rgb)->
+        $('.content .element_hline.hline', $cur_element).css
+          'borderBottomColor': '#'+hex
+          'borderColor': '#'+hex
+      onSubmit: (hsb, hex, rgb, el) ->
+        console.log el
+        $(el).val(hex)
+        $(el).ColorPickerHide()
+        element_id_val = $cur_element.data('elementid')
+        element_content_val = $('.content', $cur_element).html()
+        setElementContent(element_id_val, element_content_val)
+        
+    $('#lineWidthSliderHline',$dialog_hline_div).slider
+      min:1,
+      max:35,
+      value: 1,
+      slide: (event, ui) ->
+        val = ui.value
+      stop: (event, ui) ->
+        val = ui.value
+        console.log "upadate line width"
+        $('.content .element_hline.hline', $cur_element).css
+          "borderBottomWidth": val+"px"
+        element_id_val = $cur_element.data('elementid')
+        element_content_val = $('.content', $cur_element).html()
+        setElementContent(element_id_val, element_content_val)
+        
+    $dialog_hline_div.dialog('open')

@@ -1,0 +1,350 @@
+setLeftTopPos = (element_id_val, element_style_id_val, left_val, top_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {element_id: element_id_val, left: left_val, top: top_val} }, 
+        (data)-> 
+          console.log "left top pos saved"
+        , 'json'
+        
+setWHSize = (element_id_val, element_style_id_val, width_val, height_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {element_id: element_id_val, width: width_val, height: height_val} } 
+        (data)-> 
+          console.log "[bgdivs] width height size saved"
+        'json'
+        
+setZindex = (element_id_val, element_style_id_val, zIndex) ->
+  $.post "/element_styles/"+element_style_id_val,
+    { _method:'PUT', element_style : {element_id: element_id_val, z_index: zIndex} }
+    (data)-> 
+      console.log "[bgdivs] element zindex saved"
+    'json'
+
+setElementContent = (element_id_val, element_content_val) ->
+  $.post "/elements/"+element_id_val,
+    { _method:'PUT', element : {content: element_content_val} }
+    (data)-> 
+      console.log "[bgdivs] element content saved for bgdiv"
+    'json'
+    
+delete_element = (element_id_val) ->
+  $.post "/elements/"+element_id_val,
+    { _method:'DELETE', elements : {element_id: element_id_val} }
+    (data)-> 
+      console.log "[bgdivs] deleted element"
+    'json'
+    
+#========================================== HTML COMPONENT ====================================================
+#controller fr each of the elements
+$controller_div = $ "
+<div class='controller'>
+  <a class='lock_element'><img src=\"<%= asset_path('images/toolbar-button-lock.png') %>\" /></a>
+  <a class='settings_element'><img src=\"<%= asset_path('images/toolbar-button-settings.png') %>\" /></a>
+  <a class='zup'><img src='/assets/images/toolbar-button-up.png' /></a>
+  <a class='zdown'><img src='/assets/images/toolbar-button-down.png' /></a>
+  <a class='delete_element'><img src='/assets/images/toolbar-button-delete.png' /></a>
+</div>
+"
+$dialog_bg_div_html = $ '
+  <div id="dialog_db_div" title="Background Settings" style="display: none;">
+    <div class="ssPanelHorNav PanelHorNav" style="overflow:hidden;display:block;">
+      <div href="#" class="title_settings subPanelButton gg ss">Box Settings</div>
+    </div>
+    <div class="ggPanelHor ssPanelHor PanelHor" style="position:relative;">
+      <div class="settingsPanel" style="width: 100%;">
+      
+        <span>Color</span><br />
+        <div id="divbgColorSelector" class="selector_jq"><div style="background-color: #0000ff"></div></div>
+        
+        <div id="gradientOptionsBgdiv" style="display:none;">
+          <div id="gradientBgColor" >&nbsp;</div>
+          <select id="gradientOrientation">
+            <option value="horizontal">Horizontal</option>
+            <option value="vertical" selected="selected">Vertical</option>
+          </select>
+        </div>
+        <input type="button" value="Use Gradient" id="useGradientBgBgdiv" /><br />
+        
+        <span>Radius</span><br />        
+        <div id="slider-borderRadius" class="slider"></div>  
+        <input type="text" id="borderRadius" name="borderRadius" value="input number" /><br />
+        
+        <span>Border Color</span><br />
+        <div id="divbgColorSelectorBorder" class="selector_jq"><div style="background-color: #0000ff"></div></div>
+        
+        <span>Border Width</span><br />   
+        <div id="slider-borderWidth" class="slider"></div>  
+        <input type="text" id="borderWidth" name="borderWidth" value="input number" /><br />
+      </div>
+    </div>
+  </div>
+'
+#bgdiv html fr each of the bgdiv elements
+$bg_div_element = $ '
+<div class="element bgdiv" data-elementid="807" data-elementstyleid="696" data-locked="false" data-pageid="167" id="element_807" style="left:101px;top:109px;width:500px;height:300px;z-index: 9999;">
+  <div id="content_807" class="content" style="width:500px;height:300px;">
+    <div class="element_bgdiv bgdiv new" style="width: 100%; height: 100%; background-color: #abcabc; background-position: initial initial; background-repeat: initial initial; "> </div>
+  </div>
+</div>
+'
+$ ->
+  isSelectElement = false
+  $('#add_elem_bgdiv').click ->
+    bgdiv = "<div class='element_bgdiv bgdiv new_element' style='width:100%;height:100%;background:#abcabc;'> </div>"
+    $.post "/elements", 
+      { _method:'POST', element : {page_id: $('#add_elem_bgdiv').data('pageid'), elem_type: 'bgdiv', content: bgdiv} }
+      (data)->
+        console.log "created element type/block background div"        
+        $.post "/element_styles",
+          { _method:'POST', element_style : {element_id: data.element.id, width: 500, height: 300, z_index: 9999} }
+          (data)->
+            console.log "created a element style for picture block"
+            #alert data.element_style.element_id
+            $bg_div_element.data('elementid', data.element_style.element_id)
+            $bg_div_element.data('pageid', $('#add_elem_bgdiv').data('pageid'))
+            $bg_div_element.attr('id', 'element_'+data.element_style.id)
+            $bg_div_element.data('elementstyleid', data.element_style.id)
+            $bg_div_element.find('.content').attr('id', 'content_'+data.element_style.element_id)
+            
+            $('#pageWrap').prepend($bg_div_element)
+            $bg_div_element.bind "mousedown", (event)->
+              isSelectElement = true
+              
+              console.log 'make bg_div_element draggable'
+              $bg_div_element.draggable({
+                handle: $bg_div_element
+                disabled: true
+                create: (event, ui) ->
+                start: (event, ui) ->
+                drag: (event, ui) ->
+                stop: (event, ui) ->
+                  element_id_val = $bg_div_element.data('elementid')
+                  element_style_id_val = $bg_div_element.data('elementstyleid')
+                  left_val = ui.position.left
+                  top_val = ui.position.top
+                  setLeftTopPos(element_id_val, element_style_id_val, left_val, top_val)
+              }).resizable({
+                alsoResize: $bg_div_element.find('.content')
+                handles: "n, e, s, w, ne, nw, se, sw"
+                disabled: true
+                create: (event, ui) ->
+                start: (event, ui) ->
+                resize: (event, ui) ->
+                stop: (event, ui) ->
+                  element_id_val = $(this).data('elementid')
+                  element_style_id_val = $(this).data('elementstyleid')
+                  width_val  = ui.size.width
+                  height_val = ui.size.height
+                  setWHSize(element_id_val, element_style_id_val, width_val, height_val)
+              })
+            
+              console.log 'remove all selected elements default :disabled'
+              $('.element').removeClass('cur_selected')
+              $('.element').find('.controller').remove()
+              $('.element').resizable("option", "disabled", true).draggable("option", "disabled", true)
+              
+              if $bg_div_element.find('.controller').length < 1
+                console.log 'append controller div'
+                $bg_div_element.append($controller_div)
+                $bg_div_element.addClass('cur_selected')
+              
+              console.log 'make bg_div_element draggable enabled'
+              $bg_div_element.resizable("option", "disabled", false).draggable("option", "disabled", false)
+              
+              $cur_element_content = $bg_div_element.find('.content')
+              $controller_div = $('.controller', $bg_div_element)
+              
+              $controller_div.mousedown (event)->
+                #event.preventDefault()
+                #event.stopPropagation()
+                $target = $(event.target)
+                $element_box = $(this).parents('.element')
+                if $target.is('.zup') || $target.is('.zup img')
+                  console.log "z_index_add_new_elem"
+                  cur_zindex = $element_box.css('zIndex')
+                  $element_box.css
+                    zIndex: parseInt(cur_zindex)+1
+                    console.log parseInt(cur_zindex)+1
+                    element_id_val = $bg_div_element.data('elementid')
+                    element_style_id_val = $bg_div_element.data('elementstyleid')
+                    zIndex = parseInt(cur_zindex)+1
+                    setZindex(element_id_val, element_style_id_val, zIndex)
+                    console.log element_id_val
+                else if $target.is('.zdown') || $target.is('.zdown img')
+                  console.log "z_index_subtract_new"
+                  cur_zindex = $element_box.css('zIndex')
+                  $element_box.css
+                    zIndex: parseInt(cur_zindex)-1
+                    console.log parseInt(cur_zindex)-1
+                    element_id_val = $bg_div_element.data('elementid')
+                    element_style_id_val = $bg_div_element.data('elementstyleid')
+                    zIndex = parseInt(cur_zindex)-1
+                    setZindex(element_id_val, element_style_id_val, zIndex)
+                else if $target.is('.delete_element') || $target.is('.delete_element img')
+                  element_id_val = $element_box.data('elementid')
+                  $element_box.remove()
+                  delete_element(element_id_val)
+                  console.log "element_new has been deleted"
+                else if $target.is('.settings_element') || $target.is('.settings_element img')
+                  $bg_div_element.trigger('dblclick')
+                  #$('body').prepend($settings_div)
+                  #$settings_div.show("slide", { direction: "right" }, 800)
+                  #$('.close_box_settings', $settings_div).click ->
+                  #  $settings_div.hide("slide", { direction: "right" }, 800)
+                  #alert "show box settings opt"
+                else if $target.is('.lock_element') || $target.is('.lock_element img')
+                  console.log('element locked')
+          'json'          
+      'json'
+      
+  #$('.title .settings_element').bind 'click', ->
+  #  $(this).trigger('dblclick');
+      
+  $('.element.bgdiv').live "dblclick", ->
+    $cur_dvbg = $(this)  
+    $(this).prepend($dialog_bg_div_html)    
+    $dialog_bg_div_html.dialog
+      autoOpen: false
+      width: 526
+      zIndex: 13000
+      close: (event, ui) ->
+        $dialog_bg_div_html.remove()
+        element_id_val = $cur_dvbg.data('elementid')
+        element_content_val = $('.content', $cur_dvbg).html()
+        setElementContent(element_id_val, element_content_val)
+        
+    $dialog_bg_div_html.dialog('open')
+    
+    $('#useGradientBgBgdiv',$dialog_bg_div_html).bind 'click', ->
+      $cur_button = $(this)
+      if $('#gradientBgColor',$dialog_bg_div_html).data('gradientCreator')
+        console.log '[bgdivs.js] gradientCreator yes'
+      else
+        console.log '[bgdivs.js] gradientCreator no'
+      if $cur_button.val() == "Use Gradient"
+        $('#gradientOptionsBgdiv').attr('style', 'display:block;')
+        $('#divbgColorSelector').attr('style', 'display:none;')
+        $('#gradientBgColor',$dialog_bg_div_html).gradientCreator
+          gradient: '#ebf1f6 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%',
+          target: $('.element_bgdiv.bgdiv', $cur_dvbg),
+          tooltipGradient: ' #fceabb 0%,#fccd4d 49%,#f8b500 53%,#fbdf93 100%'
+          onChange: (stringGradient,cssGradient,ArrayColors) ->
+            console.log 'stringGradient val: '+stringGradient
+            console.log 'cssGradient val: '+cssGradient
+        $cur_button.val('Solid Color')
+      else
+        $('.element_bgdiv.bgdiv', $cur_dvbg).removeStyle('background')
+        $('.element_bgdiv.bgdiv', $cur_dvbg).css
+          'background': '#89c4eb'
+        $('#gradientOptionsBgdiv').attr('style', 'display:none;')
+        $('#divbgColorSelector').attr('style', 'display:block;')
+        $cur_button.val('Use Gradient')
+      
+      $('#gradientOrientation',$dialog_bg_div_html).bind 'change', ->
+        $('#gradientBgColor',$dialog_bg_div_html).data('gradientCreator').setOrientation $(this).val()
+    
+    $('#slider-borderWidth').slider
+      min:1,
+      max:20,
+      value: 1,
+      slide: (event, ui) ->
+        val = ui.value
+        $('#borderWidth', $dialog_bg_div_html).val(val)
+      stop: (event, ui) ->
+        val = ui.value
+        console.log "upadate border width"
+        $('.content div', $cur_dvbg).css
+          "borderWidth": val
+        element_id_val = $cur_dvbg.data('elementid')
+        element_content_val = $('.content', $cur_dvbg).html()
+        setElementContent(element_id_val, element_content_val)
+    
+    $('#slider-borderRadius').slider
+      min:1,
+      max:100,
+      value: 1,
+      slide: (event, ui) ->
+        val = ui.value
+        $('#borderRadius', $dialog_bg_div_html).val(val)
+      stop: (event, ui) ->
+        val = ui.value
+        console.log "upadate border radius"
+        $('.content div', $cur_dvbg).animate {
+          "borderRadius": val
+          },
+          900
+          ->
+            element_id_val = $cur_dvbg.data('elementid')
+            element_content_val = $('.content', $cur_dvbg).html()
+            setElementContent(element_id_val, element_content_val)
+            
+    $('#divbgColorSelectorBorder', $dialog_bg_div_html).ColorPicker
+      color: '#0000ff'
+      onChange: (hsb, hex, rgb)->
+        $('.content div', $cur_dvbg).css
+          'borderColor': '#'+hex
+      onSubmit: (hsb, hex, rgb, el) ->
+        console.log el
+        $(el).val(hex)
+        $(el).ColorPickerHide()
+        element_id_val = $cur_dvbg.data('elementid')
+        element_content_val = $('.content', $cur_dvbg).html()
+        setElementContent(element_id_val, element_content_val)
+        
+    $('#divbgColorSelector', $dialog_bg_div_html).ColorPicker
+      color: '#0000ff'
+      onChange: (hsb, hex, rgb)->
+        $('.content div', $cur_dvbg).css
+          'backgroundColor': '#'+hex
+      onSubmit: (hsb, hex, rgb, el) ->
+        console.log el
+        $(el).val(hex)
+        $(el).ColorPickerHide()
+        element_id_val = $cur_dvbg.data('elementid')
+        element_content_val = $('.content', $cur_dvbg).html()
+        setElementContent(element_id_val, element_content_val)
+    
+      
+  $('.element.bgdiv').bind "click", ->
+    $cur_dvbg = $(this)
+    $('.controller', $cur_dvbg).bind "mousedown", (event)->
+      #event.preventDefault()
+      #event.stopPropagation()
+      $target = $(event.target)
+        
+      if $target.is('.settings_element') || $target.is('.settings_element img')
+        $cur_dvbg.trigger('dblclick') 
+        #$html_borderRadius = $ '
+        #  <label for="borderRadius">Box Radius</label>
+        #  <input type="text" id="borderRadius" name="borderRadius" value="input number" />
+        #'
+        
+        #$('#settingsPannel').append('<div id="divbgColorSelector" class="selector_jq"><div style="background-color: #0000ff"></div></div>')
+        #$('#divbgColorSelector').ColorPicker
+        #  color: '#0000ff'
+        #  onChange: (hsb, hex, rgb)->
+        #    $('.content div', $cur_dvbg).css
+        #      'backgroundColor': '#'+hex
+        #  onSubmit: (hsb, hex, rgb, el) ->
+        #    console.log el
+        #    $(el).val(hex)
+        #    $(el).ColorPickerHide()
+        #    element_id_val = $cur_dvbg.data('elementid')
+        #    element_content_val = $('.content', $cur_dvbg).html()
+        #    setElementContent(element_id_val, element_content_val)
+        
+        #$('#settingsPannel').append($html_borderRadius)
+        #$('#borderRadius').bind "change", ->
+        #  $cur_text_input = $(this)
+        #  
+        #  console.log "upadate border radius"
+        #  $('.content div', $cur_dvbg).animate {
+        #    "borderRadius": parseInt($cur_text_input.val())
+        #    },
+        #    900
+        #    ->
+        #      element_id_val = $cur_dvbg.data('elementid')
+        #      element_content_val = $('.content', $cur_dvbg).html()
+        #      setElementContent(element_id_val, element_content_val)
+            
+            
+            

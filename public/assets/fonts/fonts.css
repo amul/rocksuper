@@ -1,0 +1,334 @@
+@font-face {
+    font-family: 'AllerRegular';
+    src: url('aller/aller_rg-webfont.eot');
+    src: url('aller/aller_rg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('aller/aller_rg-webfont.woff') format('woff'),
+         url('aller/aller_rg-webfont.ttf') format('truetype'),
+         url('aller/aller_rg-webfont.svg#AllerRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'KingthingsPetrockRegular';
+    src: url('kingthings/Kingthings_Petrock-webfont.eot');
+    src: url('kingthings/Kingthings_Petrock-webfont.eot?#iefix') format('embedded-opentype'),
+         url('kingthings/Kingthings_Petrock-webfont.woff') format('woff'),
+         url('kingthings/Kingthings_Petrock-webfont.ttf') format('truetype'),
+         url('kingthings/Kingthings_Petrock-webfont.svg#KingthingsPetrockRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'BallparkWeiner';
+    src: url('ballpark/ballpark_weiner-webfont.eot');
+    src: url('ballpark/ballpark_weiner-webfont.eot?#iefix') format('embedded-opentype'),
+         url('ballpark/ballpark_weiner-webfont.woff') format('woff'),
+         url('ballpark/ballpark_weiner-webfont.ttf') format('truetype'),
+         url('ballpark/ballpark_weiner-webfont.svg#BallparkWeiner') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'BebasRegular';
+    src: url('bebas/bebas___-webfont.eot');
+    src: url('bebas/bebas___-webfont.eot?#iefix') format('embedded-opentype'),
+         url('bebas/bebas___-webfont.woff') format('woff'),
+         url('bebas/bebas___-webfont.ttf') format('truetype'),
+         url('bebas/bebas___-webfont.svg#BebasRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'BlackJackRegular';
+    src: url('blackjack/black_jack-webfont.eot');
+    src: url('blackjack/black_jack-webfont.eot?#iefix') format('embedded-opentype'),
+         url('blackjack/black_jack-webfont.woff') format('woff'),
+         url('blackjack/black_jack-webfont.ttf') format('truetype'),
+         url('blackjack/black_jack-webfont.svg#BlackJackRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'CantarellRegular';
+    src: url('cantarell/cantarell-regular-webfont.eot');
+    src: url('cantarell/cantarell-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('cantarell/cantarell-regular-webfont.woff') format('woff'),
+         url('cantarell/cantarell-regular-webfont.ttf') format('truetype'),
+         url('cantarell/cantarell-regular-webfont.svg#CantarellRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ChunkFiveRoman';
+    src: url('chunkfive-webfont.eot');
+    src: url('chunkfive-webfont.eot?#iefix') format('embedded-opentype'),
+         url('chunkfive-webfont.woff') format('woff'),
+         url('chunkfive-webfont.ttf') format('truetype'),
+         url('chunkfive-webfont.svg#ChunkFiveRoman') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family: 'ColaborateRegular';
+    src: url('colabreg-webfont.eot');
+    src: url('colabreg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('colabreg-webfont.woff') format('woff'),
+         url('colabreg-webfont.ttf') format('truetype'),
+         url('colabreg-webfont.svg#ColaborateRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DanielRegular';
+    src: url('daniel-webfont.eot');
+    src: url('daniel-webfont.eot?#iefix') format('embedded-opentype'),
+         url('daniel-webfont.woff') format('woff'),
+         url('daniel-webfont.ttf') format('truetype'),
+         url('daniel-webfont.svg#DanielRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'DroidSansRegular';
+    src: url('droidsans-webfont.eot');
+    src: url('droidsans-webfont.eot?#iefix') format('embedded-opentype'),
+         url('droidsans-webfont.woff') format('woff'),
+         url('droidsans-webfont.ttf') format('truetype'),
+         url('droidsans-webfont.svg#DroidSansRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ExistenceLight';
+    src: url('existence-light-webfont.eot');
+    src: url('existence-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('existence-light-webfont.woff') format('woff'),
+         url('existence-light-webfont.ttf') format('truetype'),
+         url('existence-light-webfont.svg#ExistenceLight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'FFFTusjBold';
+    src: url('fff_tusj-webfont.eot');
+    src: url('fff_tusj-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fff_tusj-webfont.woff') format('woff'),
+         url('fff_tusj-webfont.ttf') format('truetype'),
+         url('fff_tusj-webfont.svg#FFFTusjBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'GoodDogRegular';
+    src: url('gooddog-webfont.eot');
+    src: url('gooddog-webfont.eot?#iefix') format('embedded-opentype'),
+         url('gooddog-webfont.woff') format('woff'),
+         url('gooddog-webfont.ttf') format('truetype'),
+         url('gooddog-webfont.svg#GoodDogRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'JournalRegular';
+    src: url('journal-webfont.eot');
+    src: url('journal-webfont.eot?#iefix') format('embedded-opentype'),
+         url('journal-webfont.woff') format('woff'),
+         url('journal-webfont.ttf') format('truetype'),
+         url('journal-webfont.svg#JournalRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'LearningCurveProRegular';
+    src: url('learningcurve_ot-webfont.eot');
+    src: url('learningcurve_ot-webfont.eot?#iefix') format('embedded-opentype'),
+         url('learningcurve_ot-webfont.woff') format('woff'),
+         url('learningcurve_ot-webfont.ttf') format('truetype'),
+         url('learningcurve_ot-webfont.svg#LearningCurveProRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Lobster13Regular';
+    src: url('lobster_1.3-webfont.eot');
+    src: url('lobster_1.3-webfont.eot?#iefix') format('embedded-opentype'),
+         url('lobster_1.3-webfont.woff') format('woff'),
+         url('lobster_1.3-webfont.ttf') format('truetype'),
+         url('lobster_1.3-webfont.svg#Lobster13Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'MolotRegular';
+    src: url('molot-webfont.eot');
+    src: url('molot-webfont.eot?#iefix') format('embedded-opentype'),
+         url('molot-webfont.woff') format('woff'),
+         url('molot-webfont.ttf') format('truetype'),
+         url('molot-webfont.svg#MolotRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'NeoRetroDrawRegular';
+    src: url('neord___-webfont.eot');
+    src: url('neord___-webfont.eot?#iefix') format('embedded-opentype'),
+         url('neord___-webfont.woff') format('woff'),
+         url('neord___-webfont.ttf') format('truetype'),
+         url('neord___-webfont.svg#NeoRetroDrawRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'OstrichSansMedium';
+    src: url('ostrich-regular-webfont.eot');
+    src: url('ostrich-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('ostrich-regular-webfont.woff') format('woff'),
+         url('ostrich-regular-webfont.ttf') format('truetype'),
+         url('ostrich-regular-webfont.svg#OstrichSansMedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'PacificoRegular';
+    src: url('pacifico-webfont.eot');
+    src: url('pacifico-webfont.eot?#iefix') format('embedded-opentype'),
+         url('pacifico-webfont.woff') format('woff'),
+         url('pacifico-webfont.ttf') format('truetype'),
+         url('pacifico-webfont.svg#PacificoRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'PincoyablackBlack';
+    src: url('pincoyablack-webfont.eot');
+    src: url('pincoyablack-webfont.eot?#iefix') format('embedded-opentype'),
+         url('pincoyablack-webfont.woff') format('woff'),
+         url('pincoyablack-webfont.ttf') format('truetype'),
+         url('pincoyablack-webfont.svg#PincoyablackBlack') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'PTSansCaptionRegular';
+    src: url('ptc55f-webfont.eot');
+    src: url('ptc55f-webfont.eot?#iefix') format('embedded-opentype'),
+         url('ptc55f-webfont.woff') format('woff'),
+         url('ptc55f-webfont.ttf') format('truetype'),
+         url('ptc55f-webfont.svg#PTSansCaptionRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'QuicksandBook';
+    src: url('quicksand_book-webfont.eot');
+    src: url('quicksand_book-webfont.eot?#iefix') format('embedded-opentype'),
+         url('quicksand_book-webfont.woff') format('woff'),
+         url('quicksand_book-webfont.ttf') format('truetype'),
+         url('quicksand_book-webfont.svg#QuicksandBook') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SansationRegular';
+    src: url('sansation_regular-webfont.eot');
+    src: url('sansation_regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('sansation_regular-webfont.woff') format('woff'),
+         url('sansation_regular-webfont.ttf') format('truetype'),
+         url('sansation_regular-webfont.svg#SansationRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'TangerineRegular';
+    src: url('tangerine_regular-webfont.eot');
+    src: url('tangerine_regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('tangerine_regular-webfont.woff') format('woff'),
+         url('tangerine_regular-webfont.ttf') format('truetype'),
+         url('tangerine_regular-webfont.svg#TangerineRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'TitilliumText22LThin';
+    src: url('titilliumtext22l001-webfont.eot');
+    src: url('titilliumtext22l001-webfont.eot?#iefix') format('embedded-opentype'),
+         url('titilliumtext22l001-webfont.woff') format('woff'),
+         url('titilliumtext22l001-webfont.ttf') format('truetype'),
+         url('titilliumtext22l001-webfont.svg#TitilliumText22LThin') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'RobotoRegular';
+    src: url('Roboto-Regular-webfont.eot');
+    src: url('Roboto-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Roboto-Regular-webfont.woff') format('woff'),
+         url('Roboto-Regular-webfont.ttf') format('truetype'),
+         url('Roboto-Regular-webfont.svg#RobotoRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'RobotoBold';
+    src: url('Roboto-Bold-webfont.eot');
+    src: url('Roboto-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Roboto-Bold-webfont.woff') format('woff'),
+         url('Roboto-Bold-webfont.ttf') format('truetype'),
+         url('Roboto-Bold-webfont.svg#RobotoBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'RobotoThin';
+    src: url('Roboto-Thin-webfont.eot');
+    src: url('Roboto-Thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Roboto-Thin-webfont.woff') format('woff'),
+         url('Roboto-Thin-webfont.ttf') format('truetype'),
+         url('Roboto-Thin-webfont.svg#RobotoThin') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'RobotoLight';
+    src: url('Roboto-Light-webfont.eot');
+    src: url('Roboto-Light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Roboto-Light-webfont.woff') format('woff'),
+         url('Roboto-Light-webfont.ttf') format('truetype'),
+         url('Roboto-Light-webfont.svg#RobotoLight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'AlfaSlabOneRegular';
+    src: url('AlfaSlabOne-Regular-OTF-webfont.eot');
+    src: url('AlfaSlabOne-Regular-OTF-webfont.eot?#iefix') format('embedded-opentype'),
+         url('AlfaSlabOne-Regular-OTF-webfont.woff') format('woff'),
+         url('AlfaSlabOne-Regular-OTF-webfont.ttf') format('truetype'),
+         url('AlfaSlabOne-Regular-OTF-webfont.svg#AlfaSlabOneRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'PlayfairDisplayRegular';
+    src: url('PlayfairDisplay-Regular-webfont.eot');
+    src: url('PlayfairDisplay-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('PlayfairDisplay-Regular-webfont.woff') format('woff'),
+         url('PlayfairDisplay-Regular-webfont.ttf') format('truetype'),
+         url('PlayfairDisplay-Regular-webfont.svg#GoogleRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'PlayfairDisplayItalic';
+    src: url('PlayfairDisplay-Italic-webfont.eot');
+    src: url('PlayfairDisplay-Italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('PlayfairDisplay-Italic-webfont.woff') format('woff'),
+         url('PlayfairDisplay-Italic-webfont.ttf') format('truetype'),
+         url('PlayfairDisplay-Italic-webfont.svg#PlayfairDisplayItalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}

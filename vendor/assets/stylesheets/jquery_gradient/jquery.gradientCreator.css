@@ -1,0 +1,81 @@
+.gcGradientCreator
+{
+    margin-bottom: 18px;
+}
+.gcGradient
+{
+    border: 1px solid #333;
+}
+.gcPointsInfos
+{
+    display: none;    
+    margin-right: 20px;
+    margin-top: 4px;
+    position: absolute;
+    z-index: 80;
+}
+.gcPointsInfos .gcPointsInfosArrow
+{
+    border-style: solid;
+    border-width: 10px;
+    height: 0px;
+    width: 0px;
+    margin-left: 20px;
+}
+.gcPointsInfos .gcPointsInfosContent
+{
+    color: black;
+    padding: 8px;
+    padding-top: 5px;
+    padding-bottom: 4px;
+    font-size: 12px;
+    font-family: Verdana, Arial;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+.gcPoints
+{
+    position: absolute;
+    z-index: 99;
+    max-height: 20px;
+    margin-top: 2px;
+}
+.gcPoint
+{
+    position: relative;
+    width: 8px;
+    margin-left: -4px;
+    height: 8px;
+    border: 1px solid #333;
+}
+.gcPointPosition
+{
+    position: relative;
+    top: -12px;
+    margin-left: 6px;
+}
+.gcBtnPointDel
+{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url('/assets/images/colorpicker/delete.png');
+    position: relative;
+    top: -9px;
+    margin-left: 8px;
+}
+.gcPointColor {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    background: url(/assets/images/colorpicker/select2.png);
+}
+.gcPointColor div {
+    position: relative;
+    top: 4px;
+    left: 4px;
+    width: 28px;
+    height: 28px;
+    background: url(/assets/images/colorpicker/select2.png) center;
+}

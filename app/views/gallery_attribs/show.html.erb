@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Col:</b>
+  <%= @gallery_attrib.col %>
+</p>
+
+<p>
+  <b>Row:</b>
+  <%= @gallery_attrib.row %>
+</p>
+
+<p>
+  <b>Margin:</b>
+  <%= @gallery_attrib.margin %>
+</p>
+
+<p>
+  <b>Element:</b>
+  <%= @gallery_attrib.element_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_gallery_attrib_path(@gallery_attrib) %> |
+<%= link_to 'Back', gallery_attribs_path %>

@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Target email:</b>
+  <%= @form_field.target_email %>
+</p>
+
+<p>
+  <b>Message success:</b>
+  <%= @form_field.message_success %>
+</p>
+
+<p>
+  <b>Name title:</b>
+  <%= @form_field.name_title %>
+</p>
+
+<p>
+  <b>Email title:</b>
+  <%= @form_field.email_title %>
+</p>
+
+<p>
+  <b>Phone title:</b>
+  <%= @form_field.phone_title %>
+</p>
+
+<p>
+  <b>Message title:</b>
+  <%= @form_field.message_title %>
+</p>
+
+
+<%= link_to 'Edit', edit_form_field_path(@form_field) %> |
+<%= link_to 'Back', form_fields_path %>

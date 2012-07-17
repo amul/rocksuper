@@ -1,0 +1,33 @@
+<%= form_for(@gallery_attrib) do |f| %>
+  <% if @gallery_attrib.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@gallery_attrib.errors.count, "error") %> prohibited this gallery_attrib from being saved:</h2>
+
+      <ul>
+      <% @gallery_attrib.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :col %><br />
+    <%= f.number_field :col %>
+  </div>
+  <div class="field">
+    <%= f.label :row %><br />
+    <%= f.number_field :row %>
+  </div>
+  <div class="field">
+    <%= f.label :margin %><br />
+    <%= f.number_field :margin %>
+  </div>
+  <div class="field">
+    <%= f.label :element_id %><br />
+    <%= f.number_field :element_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

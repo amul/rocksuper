@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  transition: MyString
+  interval: 1
+  autoplay: false
+  caption: false
+  pagination: false
+  prev_nex_arr: MyString
+  font: MyString
+
+two:
+  transition: MyString
+  interval: 1
+  autoplay: false
+  caption: false
+  pagination: false
+  prev_nex_arr: MyString
+  font: MyString

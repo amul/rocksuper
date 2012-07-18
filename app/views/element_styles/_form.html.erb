@@ -1,0 +1,37 @@
+<%= form_for(@element_style) do |f| %>
+  <% if @element_style.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@element_style.errors.count, "error") %> prohibited this element_style from being saved:</h2>
+
+      <ul>
+      <% @element_style.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :element_id %><br />
+    <%= f.number_field :element_id %>
+  </div>
+  <div class="field">
+    <%= f.label :width %><br />
+    <%= f.number_field :width %>
+  </div>
+  <div class="field">
+    <%= f.label :height %><br />
+    <%= f.number_field :height %>
+  </div>
+  <div class="field">
+    <%= f.label :left %><br />
+    <%= f.number_field :left %>
+  </div>
+  <div class="field">
+    <%= f.label :top %><br />
+    <%= f.number_field :top %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,35 @@
+<h1>Listing slideshow_attribs</h1>
+
+<table>
+  <tr>
+    <th>Transition</th>
+    <th>Interval</th>
+    <th>Autoplay</th>
+    <th>Caption</th>
+    <th>Pagination</th>
+    <th>Prev nex arr</th>
+    <th>Font</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @slideshow_attribs.each do |slideshow_attrib| %>
+  <tr>
+    <td><%= slideshow_attrib.transition %></td>
+    <td><%= slideshow_attrib.interval %></td>
+    <td><%= slideshow_attrib.autoplay %></td>
+    <td><%= slideshow_attrib.caption %></td>
+    <td><%= slideshow_attrib.pagination %></td>
+    <td><%= slideshow_attrib.prev_nex_arr %></td>
+    <td><%= slideshow_attrib.font %></td>
+    <td><%= link_to 'Show', slideshow_attrib %></td>
+    <td><%= link_to 'Edit', edit_slideshow_attrib_path(slideshow_attrib) %></td>
+    <td><%= link_to 'Destroy', slideshow_attrib, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Slideshow attrib', new_slideshow_attrib_path %>

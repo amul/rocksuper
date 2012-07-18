@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Element:</b>
+  <%= @element_style.element_id %>
+</p>
+
+<p>
+  <b>Width:</b>
+  <%= @element_style.width %>
+</p>
+
+<p>
+  <b>Height:</b>
+  <%= @element_style.height %>
+</p>
+
+<p>
+  <b>Left:</b>
+  <%= @element_style.left %>
+</p>
+
+<p>
+  <b>Top:</b>
+  <%= @element_style.top %>
+</p>
+
+<p>
+  <b>Font Family:</b>
+  <%= @element_style.font_family %>
+</p>
+
+<p>
+  <b>Font Size:</b>
+  <%= @element_style.font_size %>
+</p>
+
+<p>
+  <b>Letter Spacing:</b>
+  <%= @element_style.letter_spacing %>
+</p>
+
+<p>
+  <b>Line Height:</b>
+  <%= @element_style.line_height %>
+</p>
+
+
+<%= link_to 'Edit', edit_element_style_path(@element_style) %> |
+<%= link_to 'Back', element_styles_path %>

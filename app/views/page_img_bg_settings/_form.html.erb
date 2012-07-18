@@ -1,0 +1,45 @@
+<%= form_for(@page_img_bg_setting) do |f| %>
+  <% if @page_img_bg_setting.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@page_img_bg_setting.errors.count, "error") %> prohibited this page_img_bg_setting from being saved:</h2>
+
+      <ul>
+      <% @page_img_bg_setting.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :global_page_setting_id %><br />
+    <%= f.number_field :global_page_setting_id %>
+  </div>
+  <div class="field">
+    <%= f.label :color %><br />
+    <%= f.text_field :color %>
+  </div>
+  <div class="field">
+    <%= f.label :hor_alignment %><br />
+    <%= f.text_field :hor_alignment %>
+  </div>
+  <div class="field">
+    <%= f.label :ver_alignment %><br />
+    <%= f.text_field :ver_alignment %>
+  </div>
+  <div class="field">
+    <%= f.label :repeat %><br />
+    <%= f.text_field :repeat %>
+  </div>
+  <div class="field">
+    <%= f.label :attachment %><br />
+    <%= f.text_field :attachment %>
+  </div>
+  <div class="field">
+    <%= f.label :image %><br />
+    <%= f.text_field :image %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

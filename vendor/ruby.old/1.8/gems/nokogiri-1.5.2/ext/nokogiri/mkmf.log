@@ -1,0 +1,338 @@
+find_header: checking for libxml/parser.h... -------------------- yes
+
+"gcc -E -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <libxml/parser.h>
+/* end */
+
+--------------------
+
+find_header: checking for libxslt/xslt.h... -------------------- yes
+
+"gcc -E -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <libxslt/xslt.h>
+/* end */
+
+--------------------
+
+find_header: checking for libexslt/exslt.h... -------------------- yes
+
+"gcc -E -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <libexslt/exslt.h>
+/* end */
+
+--------------------
+
+have_func: checking for iconv_open() in iconv.h... -------------------- no
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic     -lruby-static  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:5:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+/tmp/ccaQOn5v.o: In function `t':
+/home/bitnami/rocksuper/vendor/bundle/ruby/1.8/gems/nokogiri-1.5.2/ext/nokogiri/conftest.c:5: undefined reference to `libiconv_open'
+collect2: ld returned 1 exit status
+checked program was:
+/* begin */
+1: #include <iconv.h>
+2: 
+3: /*top*/
+4: int main() { return 0; }
+5: int t() { void ((*volatile p)()); p = (void ((*)()))iconv_open; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic     -lruby-static  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:5:1: error: too few arguments to function ‘libiconv_open’
+/opt/bitnami/common/include/iconv.h:73:16: note: declared here
+checked program was:
+/* begin */
+1: #include <iconv.h>
+2: 
+3: /*top*/
+4: int main() { return 0; }
+5: int t() { iconv_open(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for iconv_open() in -liconv... -------------------- yes
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic     -lruby-static -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:5:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include <iconv.h>
+2: 
+3: /*top*/
+4: int main() { return 0; }
+5: int t() { void ((*volatile p)()); p = (void ((*)()))iconv_open; return 0; }
+/* end */
+
+--------------------
+
+find_library: checking for xmlParseDoc() in -lxml2... -------------------- yes
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -liconv  -lruby-static -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:53: error: ‘xmlParseDoc’ undeclared (first use in this function)
+conftest.c:3:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:3:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlParseDoc; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -liconv  -lruby-static -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:1: warning: implicit declaration of function ‘xmlParseDoc’ [-Wimplicit-function-declaration]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlParseDoc(); return 0; }
+/* end */
+
+--------------------
+
+find_library: checking for xsltParseStylesheetDoc() in -lxslt... -------------------- yes
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lxml2 -liconv  -lruby-static -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:53: error: ‘xsltParseStylesheetDoc’ undeclared (first use in this function)
+conftest.c:3:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:3:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xsltParseStylesheetDoc; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lxml2 -liconv  -lruby-static -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:1: warning: implicit declaration of function ‘xsltParseStylesheetDoc’ [-Wimplicit-function-declaration]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xsltParseStylesheetDoc(); return 0; }
+/* end */
+
+--------------------
+
+find_library: checking for exsltFuncRegister() in -lexslt... -------------------- yes
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:53: error: ‘exsltFuncRegister’ undeclared (first use in this function)
+conftest.c:3:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:3:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))exsltFuncRegister; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:1: warning: implicit declaration of function ‘exsltFuncRegister’ [-Wimplicit-function-declaration]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { exsltFuncRegister(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlHasFeature()... -------------------- yes
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lexslt -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:53: error: ‘xmlHasFeature’ undeclared (first use in this function)
+conftest.c:3:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:3:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlHasFeature; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lexslt -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:1: warning: implicit declaration of function ‘xmlHasFeature’ [-Wimplicit-function-declaration]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlHasFeature(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlFirstElementChild()... -------------------- yes
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lexslt -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:53: error: ‘xmlFirstElementChild’ undeclared (first use in this function)
+conftest.c:3:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:3:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlFirstElementChild; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lexslt -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:1: warning: implicit declaration of function ‘xmlFirstElementChild’ [-Wimplicit-function-declaration]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlFirstElementChild(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlRelaxNGSetParserStructuredErrors()... -------------------- yes
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lexslt -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:53: error: ‘xmlRelaxNGSetParserStructuredErrors’ undeclared (first use in this function)
+conftest.c:3:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:3:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlRelaxNGSetParserStructuredErrors; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lexslt -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:1: warning: implicit declaration of function ‘xmlRelaxNGSetParserStructuredErrors’ [-Wimplicit-function-declaration]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlRelaxNGSetParserStructuredErrors(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlRelaxNGSetParserStructuredErrors()... -------------------- yes
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lexslt -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:53: error: ‘xmlRelaxNGSetParserStructuredErrors’ undeclared (first use in this function)
+conftest.c:3:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:3:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlRelaxNGSetParserStructuredErrors; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lexslt -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:1: warning: implicit declaration of function ‘xmlRelaxNGSetParserStructuredErrors’ [-Wimplicit-function-declaration]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlRelaxNGSetParserStructuredErrors(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlRelaxNGSetValidStructuredErrors()... -------------------- yes
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lexslt -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:53: error: ‘xmlRelaxNGSetValidStructuredErrors’ undeclared (first use in this function)
+conftest.c:3:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:3:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlRelaxNGSetValidStructuredErrors; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lexslt -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:1: warning: implicit declaration of function ‘xmlRelaxNGSetValidStructuredErrors’ [-Wimplicit-function-declaration]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlRelaxNGSetValidStructuredErrors(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlSchemaSetValidStructuredErrors()... -------------------- yes
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lexslt -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:53: error: ‘xmlSchemaSetValidStructuredErrors’ undeclared (first use in this function)
+conftest.c:3:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:3:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlSchemaSetValidStructuredErrors; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lexslt -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:1: warning: implicit declaration of function ‘xmlSchemaSetValidStructuredErrors’ [-Wimplicit-function-declaration]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlSchemaSetValidStructuredErrors(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for xmlSchemaSetParserStructuredErrors()... -------------------- yes
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lexslt -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:53: error: ‘xmlSchemaSetParserStructuredErrors’ undeclared (first use in this function)
+conftest.c:3:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:3:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlSchemaSetParserStructuredErrors; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/opt/bitnami/ruby/lib/ruby/1.8/x86_64-linux -I. -I-I-I/opt/local/include -I-I-I/usr/local/include -I-I-I/opt/bitnami/ruby/include -I-I-I/usr/include -I-I-I/usr/include/libxml2 -I/opt/local/include/libxml2 -I/usr/local/include/libxml2 -I/opt/bitnami/ruby/include/libxml2 -I-I/opt/local/include -I-I/usr/local/include -I-I/opt/bitnami/ruby/include -I-I/usr/include -I-I/usr/include/libxml2 -I/opt/local/include -I/usr/local/include -I/opt/bitnami/ruby/include -I/usr/include -I/usr/include/libxml2 -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include  -DAI_ADDRCONFIG=0 -I/opt/bitnami/common/include -I/opt/bitnami/common/include -I/bitnami/megastack-linux-x64/output/sqlite/include -I/opt/bitnami/common/include -I/opt/bitnami/common/include -m64 -fPIC -I/bitnami/megastack-linux-x64/output/ImageMagick/include/ImageMagick    -g -DXP_UNIX -O3 -Wall -Wcast-qual -Wwrite-strings -Wconversion -Wmissing-noreturn -Winline conftest.c  -L. -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/opt/local/lib -Wl,-R/opt/local/lib -L/usr/local/lib -Wl,-R/usr/local/lib -L/opt/bitnami/ruby/lib -Wl,-R/opt/bitnami/ruby/lib -L/usr/lib -Wl,-R/usr/lib -L. -L/bitnami/megastack-linux-x64/output/sqlite/lib -L/opt/bitnami/common/lib -L/bitnami/megastack-linux-x64/output/ImageMagick/lib -rdynamic -Wl,-export-dynamic    -lexslt -lxslt -lxml2 -liconv  -lruby-static -lexslt -lxslt -lxml2 -liconv  -lpthread -lrt -ldl -lcrypt -lm   -lc "
+conftest.c: In function ‘t’:
+conftest.c:3:1: warning: implicit declaration of function ‘xmlSchemaSetParserStructuredErrors’ [-Wimplicit-function-declaration]
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlSchemaSetParserStructuredErrors(); return 0; }
+/* end */
+
+--------------------
+

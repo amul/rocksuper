@@ -1,0 +1,45 @@
+<%= form_for(@slideshow_attrib) do |f| %>
+  <% if @slideshow_attrib.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@slideshow_attrib.errors.count, "error") %> prohibited this slideshow_attrib from being saved:</h2>
+
+      <ul>
+      <% @slideshow_attrib.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :transition %><br />
+    <%= f.text_field :transition %>
+  </div>
+  <div class="field">
+    <%= f.label :interval %><br />
+    <%= f.number_field :interval %>
+  </div>
+  <div class="field">
+    <%= f.label :autoplay %><br />
+    <%= f.check_box :autoplay %>
+  </div>
+  <div class="field">
+    <%= f.label :caption %><br />
+    <%= f.check_box :caption %>
+  </div>
+  <div class="field">
+    <%= f.label :pagination %><br />
+    <%= f.check_box :pagination %>
+  </div>
+  <div class="field">
+    <%= f.label :prev_nex_arr %><br />
+    <%= f.text_field :prev_nex_arr %>
+  </div>
+  <div class="field">
+    <%= f.label :font %><br />
+    <%= f.text_field :font %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

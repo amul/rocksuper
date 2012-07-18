@@ -1,0 +1,230 @@
+$ -> 
+  #console.log "slideshow.js.coffee.erb"
+  
+  resizeAll = (slideshow) =>
+    winWidth = parseInt(slideshow.width())
+    winHeight =  parseInt(slideshow.height())
+    winRatio = winWidth/winHeight
+    
+    console.log 'win wxhxr : '+winWidth+' x '+winHeight+' ratio: '+winRatio
+    #alert("=>"+winWidth+" "+winHeight);
+    #alert winHeight
+    slideshow.find("a").width(winWidth)
+    slideshow.find("a").height(winHeight)
+    
+    slideshow.find("img").each ->
+      parent = $(this).parent()
+      parent.css('display', 'block')
+      #alert('Now block!'+parent.css('display'))
+      
+      image = $(this)
+      #alert('image!');
+      imageWidth = parseInt(image.width())
+      imageHeight = parseInt(image.height())
+      imageRatio = imageWidth/imageHeight
+      consoleHieght = Math.round(winWidth/imageRatio)
+      #alert("=>"+imageWidth+" "+imageHeight)
+      console.log 'img wxhxr : '+imageWidth+' x '+imageHeight+' ratio: '+consoleHieght
+      
+      if winRatio>imageRatio
+        console.log 'winRatio>imageRatio'+' wxh : '+winWidth+'x'+consoleHieght
+        #alert('1')
+        image.css
+          width: winWidth
+          height: Math.round(winWidth/imageRatio)
+      else
+        #console.log 'NOT winRatio>imageRatio'+' wxh : '+winWidth+'x'+consoleHieght
+        #alert('2');
+        image.css
+          width: Math.round(winHeight*imageRatio)
+          height: winHeight
+      #alert(winWidth+" "+winHeight);
+      #center the image
+      dw = slideshow.width()
+      dh = slideshow.height()
+      iw = image.width()
+      ih = image.height()
+      if dw<iw #div is narrower than the image
+        #console.log "div is narrower than the image"
+        diff = iw - dw
+        left = -(diff/2)
+      if dh<ih #div is longer than the image
+        #console.log "div is longer than the image"
+        diff = ih - dh
+        top = -(diff/2)
+      #alert('here');
+      image.css
+        position: 'relative'
+        top: top
+        left: left
+        
+	
+  updateControls = (parent, val) ->	
+    switch(val)
+      when 'upon_hover'
+        $(parent).hover ->
+          $(parent+' .controls').css('display', 'block')
+        $(parent).mouseleave ->
+          $(parent+' .controls').css('display', 'none')			
+        break
+      when 'always'
+        $(parent).hover ->
+          $(parent+' .controls').css('display', 'block')
+        $(parent).mouseleave ->
+          $(parent+' .controls').css('display', 'block')
+        $(parent+' .controls').css('display', 'block')
+        break
+      when 'never'
+        $(parent).hover ->
+          $(parent+' .controls').css('display', 'none')
+        $(parent).mouseleave ->
+          $(parent+' .controls').css('display', 'none')
+        $(parent+' .controls').css('display', 'none')
+        break
+   
+  make_resizable_drag_element_slideshow = (element) ->
+    $(element).draggable({
+      handle: $(element)
+      create: (event, ui) ->
+      start: (event, ui) ->
+      drag: (event, ui) ->
+      stop: (event, ui) ->
+        #element_id_val = $element.data('elementid')
+        #element_style_id_val = $element.data('elementstyleid')
+        #left_val = ui.position.left
+        #top_val = ui.position.top
+        #setLeftTopPos(element_id_val, element_style_id_val, left_val, top_val)
+    }).resizable({
+      alsoResize: $(element).find('.content')
+      handles: "n, e, s, w, ne, nw, se, sw"
+      create: (event, ui) ->
+      start: (event, ui) ->
+      resize: (event, ui) ->
+        $(element).find('.content .slideshow')
+          .width(ui.size.width)
+          .height(ui.size.height)
+        $(element).find('.content .slideshow .slides_container')
+          .width(ui.size.width)
+          .height(ui.size.height)
+        slideshow = $(element).find('.slideshow .slides_container')
+        resizeAll(slideshow)
+      stop: (event, ui) ->
+        #element_id_val = $(this).data('elementid')
+        #element_style_id_val = $(this).data('elementstyleid')
+        #width_val  = ui.size.width
+        #height_val = ui.size.height
+        #setWHSize(element_id_val, element_style_id_val, width_val, height_val)
+    })
+        
+  $sample_slide_html = $ '
+    <div class="slide_show cur_selected element new_element" >
+      <div class="content" >    
+        <div class="slideshow">
+          <div class="slides_container">
+            <div class="slide">
+              <a href="http://deadwoodfilms.com/jquery/slideshow2/images/lion1.jpg" title="145.365 - Happy Bokeh Thursday! | Flickr - Photo Sharing!" target="_blank"><img src="http://deadwoodfilms.com/jquery/slideshow2/images/lion1.jpg" alt="Slide 1"></a>
+              <div class="caption" style="bottom:0">
+                <p>Happy Bokeh Thursday!</p>
+              </div>
+            </div>			
+            <div class="slide">
+              <a href="http://deadwoodfilms.com/jquery/slideshow2/images/lion2.jpg" title="We Eat Light | Flickr - Photo Sharing!" target="_blank"><img src="http://deadwoodfilms.com/jquery/slideshow2/images/lion2.jpg" alt="Slide 2"></a>
+              <div class="caption" style="bottom:0">
+                <p>LION</p>
+              </div>
+            </div>				
+            <div class="slide">
+              <a href="http://deadwoodfilms.com/jquery/slideshow2/images/lion3.jpg" title="“I must go down to the sea again, to the lonely sea and the sky; and all I ask is a tall ship and a star to steer her by.” | Flickr - Photo Sharing!" target="_blank"><img src="http://deadwoodfilms.com/jquery/slideshow2/images/lion3.jpg" alt="Slide 3"></a>
+              <div class="caption" style="bottom:0">
+                <p>Happy Bokeh Thursday!</p>
+              </div>
+        		</div>
+            <div class="slide">
+              <a href="http://deadwoodfilms.com/jquery/slideshow2/images/lion-man.jpg" title="twelve.inch | Flickr - Photo Sharing!" target="_blank"><img src="http://deadwoodfilms.com/jquery/slideshow2/images/lion-man.jpg" alt="Slide 4"></a>
+              <div class="caption" style="bottom:0">
+                <p>Happy Bokeh Thursday!</p>
+              </div>
+            </div>					
+          </div> <!-- .slides_container -->
+          <a href="#" class="prev controls"><img src="http://deadwoodfilms.com/jquery/slideshow2/img/arrow-prev.png" width="24" height="43" alt="Arrow Prev"></a>
+          <a href="#" class="next controls"><img src="http://deadwoodfilms.com/jquery/slideshow2/img/arrow-next.png" width="24" height="43" alt="Arrow Next"></a>
+        </div>          
+      </div> <!-- .content -->
+    </div>  
+  '
+  $slider_controller = $ '
+  <div class="slideshow-settings">
+    <p><label for="transition">Transition</label>
+      <select class="options" name="transitionx" id="transitionx" />
+        <option value="slideLeft">slide left</option>
+        <option value="slideRight">slide right</option>
+        <option value="slideUp">slide up</option>
+        <option value="slideDown">slide down</option>
+        <option value="fade" selected="selected">fade</option>
+      </select>
+      <p>
+        <label >Slide Interval</label>	
+        <div class="slider-interval"></div>
+        <input type="text" name="slide_interval" class="slide_interval" value="1000" class="textinput" />								
+      </p>
+      <p><input type="checkbox" class="options" name="autoplay" id="autoplay" /><label for="autoplay">Autoplay</label></p>
+      <p><input type="checkbox" class="options" name="show_caption" id="show_caption" /><label for="autoplay">Show Caption</label></p>
+      <p><input type="checkbox" class="options" name="show_pagination" id="show_pagination" /><label for="autoplay">Show Pagination</label></p>
+    </p>
+    <p>
+      <label>Previous & Next Arrow</label>
+      <select name="prev_next" class="prev_next">
+        <option  value="upon_hover">Upon Hover</option>
+        <option  value="always" selected="selected">Always</option>
+        <option  value="never">Never</option>
+      </select>
+    </p>	
+    <p>
+      <label>Font</label>
+      <select name="font" class="font">
+        <option  value="tahoma">Tahoma</option>
+        <option  value="courier new">Courier New</option>
+        <option value="Gorditas">Gorditas</option>
+        <option value="Bilbo">Bilbo</option>
+        <option value="Emilys Candy">Emilys Candy</option>
+        <option value="Ribeye Marrow">Ribeye Marrow</option>
+        <option value="Henny Penny">Henny Penny</option>
+      </select>
+    </p>
+  </div>
+  '
+  $('.slideshow', $sample_slide_html).slides
+    preload: true
+    preloadImage: 'http://deadwoodfilms.com/jquery/slideshow2/img/loading.gif'
+    play: 1000
+    pause: 500
+    hoverPause: true
+    effect : 'fade'
+    crossfade: true
+    
+
+    
+  $('#add_elem_slideshow').click ->    
+    console.log $sample_slide_html
+    $('#pageWrap').prepend($sample_slide_html)
+    $('.content .slideshow .slides_container, .content .slideshow, .content', $sample_slide_html).width(400).height(300)
+    resizeAll($('.slideshow .slides_container', $sample_slide_html))
+    element = $sample_slide_html
+    make_resizable_drag_element_slideshow(element)
+    
+    $sample_slide_html.bind 'dblclick', (event) ->
+      $slider_controller.css
+        'position': 'absolute'
+        'top': e.pageY+'px'
+        'left': e.pageX+'px'
+      $slider_controller.draggable()
+      $('#pageWrap').prepend($slider_controller)
+      #updateControls('.slideshow1', $('.slideshow1 .prev_next').val())
+      $('.slide a', $sample_slide_html).bind 'click', ->
+        return false
+      $('.prev_next', $slider_controller).bind 'change', ->
+        val = $(this).val()
+        updateControls( $('.slideshow', $sample_slide_html) , val)
+    
+    
+    

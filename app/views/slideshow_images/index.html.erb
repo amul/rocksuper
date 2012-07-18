@@ -1,0 +1,27 @@
+<h1>Listing slideshow_images</h1>
+
+<table>
+  <tr>
+    <th>Caption</th>
+    <th>Image</th>
+    <th>Element</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @slideshow_images.each do |slideshow_image| %>
+  <tr>
+    <td><%= slideshow_image.caption %></td>
+    <td><%= slideshow_image.image %></td>
+    <td><%= slideshow_image.element_id %></td>
+    <td><%= link_to 'Show', slideshow_image %></td>
+    <td><%= link_to 'Edit', edit_slideshow_image_path(slideshow_image) %></td>
+    <td><%= link_to 'Destroy', slideshow_image, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Slideshow image', new_slideshow_image_path %>

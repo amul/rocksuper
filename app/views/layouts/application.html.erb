@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rocksuper</title>
+  <% stylesheet_link_tag "ui-lightness/jquery-ui-1.8.19.custom.css", :media => "all" %>
+  <%= stylesheet_link_tag "http://fonts.googleapis.com/css?family=Lovers+Quarrel|Belgrano|Buenard|Crete+Round|Fredoka+One|Tienne|Graduate|Trocchi|Averia+Libre|Bree+Serif|Audiowide|Nunito|Doppio+One|Oxygen|Passion+One", :media => "all"%>
+  <%= stylesheet_link_tag    "application","fonts/fonts", :media => "all" %>
+  <%= stylesheet_link_tag "jquery_file_upload/jquery.fileupload-ui.css" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tag %>
+</head>
+<body>  
+  <div id="user_status">
+    
+    <% if current_user %>
+      <span class="topRightMenu signOut"> <a href="#preview" class="previewPage mode">Preview</a> | <%= current_user.name %> | <%= link_to "Sign Out", signout_path %></span>
+      <nav id="main" class="master">
+        <h1 class="h5lable invi">Main Nav</h1>
+        <ul>
+          <li id="pages_main_nav" class="main_nav">Pages
+            <ul class="sub">
+              <li>Manage Pages</li>
+              <li>Add Page</li>
+              <li><a id="add_blank_page">Add Blank Page</a></li>
+            </ul>
+          </li>
+          <li id="elements_main_nav" class="main_nav">Add an Element
+            <% if params[:controller] == "webpages" %>
+              <ul class="sub">
+                <%= content_tag :li, :id => "add_elem_form", :data => {:pageid => @page[:id] } do %>
+                  <a>Contact Form</a>
+                <% end %>
+                <%= content_tag :li, :id => "add_elem_gallery", :data => {:pageid => @page[:id] } do %>
+                  <a>Gallery</a>
+                <% end %>
+                <%= content_tag :li, :id => "add_elem_slideshow", :data => {:pageid => @page[:id] } do %>
+                  <a>Slideshow</a>
+                <% end %>
+                <%= content_tag :li, :id => "add_elem_picture", :data => {:pageid => @page[:id] } do %>
+                  <a>Picture</a>
+                <% end %>
+                <%= content_tag :li, :id => "add_elem_title", :data => {:pageid => @page[:id] } do %>
+                  <a>Title</a>
+                <% end %>
+                <%= content_tag :li, :id => "add_elem_paragraph", :data => {:pageid => @page[:id] } do %>
+                  <a>Paragraph</a>
+                <% end %>
+                <%= content_tag :li, :id => "add_elem_video", :data => {:pageid => @page[:id] } do %>
+                  <a>Video</a>
+                <% end %>
+                <%= content_tag :li, :id => "add_elem_bgdiv", :data => {:pageid => @page[:id] } do %>
+                  <a>Background Div</a>
+                <% end %>
+                <%= content_tag :li, :id => "add_elem_strip", :data => {:pageid => @page[:id] } do %>
+                  <a>Strip</a>
+                <% end %>
+                <%= content_tag :li, :id => "add_elem_vline", :data => {:pageid => @page[:id] } do %>
+                  <a>Vertical Line</a>
+                <% end %>
+                <%= content_tag :li, :id => "add_elem_hline", :data => {:pageid => @page[:id] } do %>
+                  <a>Horizontal Line</a>
+                <% end %>
+                <%= content_tag :li, :id => "add_elem_bigtext", :data => {:pageid => @page[:id] } do %>
+                  <a>Big Text</a>
+                <% end %>
+              </ul>
+            <% end %>
+          </li>
+          <li id="settings_main_nav" class="main_nav">Settings
+            <% if params[:controller] == "webpages" %>
+            <ul class="sub">
+                <%= content_tag :li, :id => "page_size_and_color_settings", :data => {:pageid => @page[:id] } do %>
+                  <a>Page Size&Color</a>
+                <% end %>
+                <%= content_tag :li, :id => "page_background_settings", :data => {:pageid => @page[:id] } do %>
+                  <a>Background</a>
+                <% end %>
+              <% end %>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <br class="clear" />
+    <% else %>
+    
+      <%= link_to "Sign in with Twitter", twitter_auth_path %> <br />
+      <%= link_to "Sign in with Facebook", facebook_auth_path %> <br />
+      <strong>Don't use these services?</strong>
+      <%= link_to "Create an account", identity_auth_register_path %> or login below.
+      
+      <%= form_tag "/auth/identity/callback" do %>
+        <div class="field">
+          <%= label_tag :auth_key, "Email" %><br>
+          <%= text_field_tag :auth_key %>
+        </div>
+        <div class="field">
+          <%= label_tag :password %><br>
+          <%= password_field_tag :password %>
+        </div>
+        <div class="actions"><%= submit_tag "Login" %></div>
+      <% end %>
+      
+    <% end %>
+    
+  </div>
+  <%= yield %>
+  
+  <%= yield(:foot) %>
+</body>
+</html>

@@ -1,0 +1,727 @@
+saveBorderRadiusForParagraph = (element_style_id_val, border_radius_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {border_radius: border_radius_val} }, 
+        (data)-> 
+          console.log "[pages.js] saveBorderRadiusForParagraph"
+        , 'json'
+saveBackgroundForParagraph = (element_style_id_val, background_style_g_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {background_style_g: background_style_g_val} }, 
+        (data)-> 
+          console.log "[pages.js] saveBackgroundForParagraph"
+        , 'json'
+saveBorderStyleForParagraph = (element_style_id_val, border_style_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {border_style: border_style_val} }, 
+        (data)-> 
+          console.log "[pages.js] saveBorderStyleForParagraph"
+        , 'json'
+savePaddingStyleForParagraph = (element_style_id_val, padding_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {padding: padding_val} }, 
+        (data)-> 
+          console.log "[pages.js] savePaddingStyleForParagraph"
+        , 'json'
+setLeftTopPos = (element_id_val, element_style_id_val, left_val, top_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {element_id: element_id_val, left: left_val, top: top_val} }, 
+        (data)-> 
+          console.log "[pages.js] left top pos saved"
+        , 'json'
+        
+setWHSize = (element_id_val, element_style_id_val, width_val, height_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {element_id: element_id_val, width: width_val, height: height_val} } 
+        (data)-> 
+          console.log "[pages.js] width height size saved"
+        'json'
+        
+setZindex = (element_id_val, element_style_id_val, zIndex) ->
+  $.post "/element_styles/"+element_style_id_val,
+    { _method:'PUT', element_style : {element_id: element_id_val, z_index: zIndex} }
+    (data)-> 
+      console.log "[pages.js] element zindex saved"
+    'json'
+    
+setFontFamily = (element_style_id_val, font_family_val) ->
+  $.post "/element_styles/"+element_style_id_val,
+    { _method:'PUT', element_style : {font_family: font_family_val} }
+    (data)-> 
+      console.log "[pages.js] element font family saved"
+    'json'
+    
+setFontSize = (element_style_id_val, font_size_val) ->
+  $.post "/element_styles/"+element_style_id_val,
+    { _method:'PUT', element_style : {font_size: font_size_val} }
+    (data)-> 
+      console.log "[pages.js] element font size saved"
+    'json'
+    
+setLineHeight = (element_style_id_val, line_height_val) ->
+  $.post "/element_styles/"+element_style_id_val,
+    { _method:'PUT', element_style : {line_height: line_height_val} }
+    (data)-> 
+      console.log "[pages.js] element line height saved"
+    'json'
+    
+setLetterSpacing = (element_style_id_val, letter_spacing_val) ->
+  $.post "/element_styles/"+element_style_id_val,
+    { _method:'PUT', element_style : {letter_spacing: letter_spacing_val} }
+    (data)-> 
+      console.log "[pages.js] element letter spacing saved"
+    'json'
+    
+setElementContent = (element_id_val, element_content_val) ->
+  $.post "/elements/"+element_id_val,
+    { _method:'PUT', element : {content: element_content_val} }
+    (data)-> 
+      console.log "[pages.js] element content saved"
+    'json'
+    
+delete_element = (element_id_val) ->
+  $.post "/elements/"+element_id_val,
+    { _method:'DELETE', elements : {element_id: element_id_val} }
+    (data)-> 
+      console.log "[pages.js] deleted element"
+    'json'
+    
+#========================================== HTML COMPONENT ====================================================
+#controller fr each of the elements
+$controller_div = $ "
+<div class='controller'>
+  <a class='lock_element'><img src=\"<%= asset_path('images/toolbar-button-lock.png') %>\" /></a>
+  <a class='settings_element'><img src=\"<%= asset_path('images/toolbar-button-settings.png') %>\" /></a>
+  <a class='zup'><img src='/assets/images/toolbar-button-up.png' /></a>
+  <a class='zdown'><img src='/assets/images/toolbar-button-down.png' /></a>
+  <a class='delete_element'><img src='/assets/images/toolbar-button-delete.png' /></a>
+</div>
+"
+#the element that shows after clicking the settings button
+generateSettingsHtml = (element_id, element_style_id, element) ->
+  if element.hasClass('paragraph') || element.hasClass('title')
+    $settings_div = $ "
+    <div id='settingsPannel' style='display:none'>
+      <span class='close_box_settings'>&nbsp;</span>
+      <span>Line Height</span><br />
+      <input type='text' id='elementLineHieght' value='' data-elementid="+element_id+" data-styleid="+element_style_id+" /><br />
+      <span>Letter Spacing</span><br />
+      <input type='text' id='elementLetterSpacing' value='' data-elementid="+element_id+" data-styleid="+element_style_id+" />
+    </div>
+    "
+  else if element.hasClass('bgdiv')
+    $settings_div = $ "
+    <div id='settingsPannel' style='display:none'>
+      <span class='close_box_settings'>&nbsp;</span>
+      <h3>options for background</h3>
+    </div>
+    "
+
+$ ->
+  $dialog_paragraph_settings_html = $ '      
+    <span>Color</span><br />
+    <div id="paragraphColorSelector" class="selector_jq"><div style="background-color: #0000ff"></div></div>
+    
+    <div id="gradientOptionsPicture" style="display:none;">
+      <div id="gradientBgColor" >&nbsp;</div>
+      <select id="gradientOrientation">
+        <option value="horizontal">Horizontal</option>
+        <option value="vertical" selected="selected">Vertical</option>
+      </select>
+    </div>
+    <input type="button" value="Use Gradient" id="useGradientBgPicture" /><br />
+    
+    <span>Radius</span><br />        
+    <div id="slider-borderRadius" class="slider"></div>  
+    <input type="text" id="borderRadius" name="borderRadius" value="input number" /><br />
+    
+    <span>Border Color</span><br />
+    <div id="paragraphColorSelectorBorder" class="selector_jq"><div style="background-color: #0000ff"></div></div>
+    
+    <span>Border Width</span><br />   
+    <div id="slider-borderWidth" class="slider"></div>  
+    <input type="text" id="borderWidth" name="borderWidth" value="input number" /><br />
+    
+    <span>Padding Width</span><br />   
+    <div id="slider-paddingWidth" class="slider"></div>  
+    <input type="text" id="paddingWidth" name="paddingWidth" value="input number" /><br />
+  '
+  $dialog_div_paragraph = $ '
+      <div id="dialog_paragraph" title="Paragraph Element">
+        <div class="paragraphPanelHorNav PanelHorNav" style="overflow:hidden;display:block;">
+          <div href="#" class="subPanelButton paragraph_settings">Settings</div>
+        </div>
+        <div class="paragraphPanelHor PanelHor" style="position:relative;">
+          <div class="paragraphPanel" style="width: 100%;">
+            loading . . .
+          </div>
+        </div>
+      </div>
+    '  
+  $('.paragraphPanel',$dialog_div_paragraph).html($dialog_paragraph_settings_html)
+
+  myNicEditor = new nicEditor()
+  $panel = $("<div id='myNicPanel'> </div>")
+  console.log "[pages.js] prepend panel "
+  $('#pageCanvas').prepend($panel)
+  myNicEditor.setPanel('myNicPanel')
+  $('#myNicPanel').hide()
+  isSelectElement = false
+  
+  $('.element').live "pageWrapEventOn", (e, myName, myValue)->
+      isSelectElement = true
+      console.log "[pages.js] live isSelectElement "+isSelectElement
+
+    
+  $('#add_blank_page').click ->
+    console.log "[pages.js] add new page"
+    title_val = 'Page '+ ($('#main_page_nav > li').length+1)
+    $.post "/pages", 
+      { _method:'POST', page : {active: 1, height: 1500, title: title_val} }, 
+      (data)-> 
+        html = "<tr id=\"page_" + data.page.id + "\">
+                  <td>"+data.page.user_id+"</td>
+                  <td>"+data.page.active+"</td>
+                  <td>"+data.page.height+"</td>
+                  <td>"+data.page.title+"</td>
+                  <td><a href='/pages/"+ data.page.id+"'>Show</a></td>
+                  <td><a href='/pages/"+data.page.id+"/edit'>Edit</a></td>
+                  <td><a href='/pages/"+data.page.id+"' data-confirm=\"Are you sure?\" data-method=\"delete\" rel=\"nofollow\">Destroy</a></td>
+                </tr>"
+        $('tbody').append html
+        li = "<li><a href='/webpages/"+data.page.id+"/edit'>"+data.page.title+"</a></li>"
+        $('#main_page_nav').append li
+      , 'json'
+      
+  $('nav#main ul li .sub').hide()  
+  $('nav#main ul li').click ->
+    if $(this).hasClass "current_sub_opened"
+      $(this).removeClass "current_sub_opened"
+      $(this).addClass "current_sub_closed"
+      $(this).find('.sub').hide()
+      
+      #console.log $(this).attr("id") + "main navigation unclick"
+    else
+      $(this).siblings().removeClass "current_sub_opened"
+      $('nav#main ul li .sub').hide()
+      $(this).find('.sub').show()
+      $(this).addClass "current_sub_opened"
+      
+      #console.log $(this).attr("id") + "main navigation click"
+            
+  $('#add_elem_paragraph').click ->
+    #create default text content
+    <% sample_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam semper, urna et condimentum viverra, diam leo viverra nunc, nec gravida tortor eros nec ante. Morbi ut tortor risus, sed feugiat tellus. Donec id nunc vitae ligula bibendum ullamcorper. Sed eget ullamcorper est. Aenean leo leo, pretium eget sagittis ac, rhoncus nec ligula. Morbi sed sem enim. Nam sollicitudin egestas ligula sit amet accumsan." %>
+
+    $.post "/elements", 
+      { _method:'POST', element : {page_id: $('#add_elem_paragraph').data('pageid'), elem_type: 'paragraph', content: '<%= sample_text %>'} }, 
+      (data)->       
+        $.post "/element_styles", 
+        { _method:'POST', element_style : {element_id: data.element.id} }, 
+        (data)->
+          #create an element
+          $element = $ "
+          <div class='paragraph cur_selected element new_element' data-elementid='"+data.element_style.element_id+"' data-elementstyleid='"+data.element_style.id+"'>
+            <div class='content' id='content_"+data.element_style.element_id+"'>
+              <%= sample_text %>
+            </div>
+            <div class='controller'>
+              <a class='lock_element'><img src=\"<%= asset_path('images/toolbar-button-lock.png') %>\" /></a>
+              <a class='settings_element'><img src='/assets/images/toolbar-button-settings.png' /></a>
+              <a class='zup'><img src='/assets/images/toolbar-button-up.png' /></a>
+              <a class='zdown'><img src='/assets/images/toolbar-button-down.png' /></a>
+              <a class='delete_element'><img src='/assets/images/toolbar-button-delete.png' /></a>
+            </div>
+          </div>
+          "
+          $('.element').removeClass('cur_selected')
+          $('.element').find('.controller').remove()
+          $('.element').resizable("option", "disabled", true).draggable("option", "disabled", true)
+          
+          $("#pageWrap").append($element)
+          
+          $element.draggable({
+            handle: $element
+            create: (event, ui) ->
+            start: (event, ui) ->
+            drag: (event, ui) ->
+            stop: (event, ui) ->
+              element_id_val = $element.data('elementid')
+              element_style_id_val = $element.data('elementstyleid')
+              left_val = ui.position.left
+              top_val = ui.position.top
+              setLeftTopPos(element_id_val, element_style_id_val, left_val, top_val)
+          }).resizable({
+            alsoResize: $element.find('.content')
+            handles: "n, e, s, w, ne, nw, se, sw"
+            create: (event, ui) ->
+            start: (event, ui) ->
+            resize: (event, ui) ->
+            stop: (event, ui) ->
+              element_id_val = $(this).data('elementid')
+              element_style_id_val = $(this).data('elementstyleid')
+              width_val  = ui.size.width
+              height_val = ui.size.height
+              setWHSize(element_id_val, element_style_id_val, width_val, height_val)
+          })
+
+          $element.mousedown (event)->
+            if isSelectElement==false
+              isSelectElement = true
+              console.log "[pages.js] set the #pageWrap event on --=val= "+isSelectElement
+            console.log("[pages.js] $element.hasClass('cur_selected') = "+!$element.hasClass('cur_selected'))
+            if !$element.hasClass('cur_selected')
+              $('.element').removeClass('cur_selected')
+              $('.element').find('.controller').remove()
+              if($element.find('.controller').length < 1)
+                console.log "[pages.js] set isSelectElement = true"
+                isSelectElement = true
+              
+                console.log "[pages.js] add class selected and append controller div"
+                $element.addClass('cur_selected').append($controller_div)
+                $other_elements = $('.element:not(.cur_selected)')
+                
+                console.log "[pages.js] other_elements resize drag disabled and enabled current element bec it is single click"
+                $other_elements.resizable("option", "disabled", true).draggable("option", "disabled", true)
+                $element.resizable("option", "disabled", false).draggable("option", "disabled", false)
+                
+                $cur_element_content = $element.find('.content')
+                    
+                $controller_div.mousedown (event)->
+                  event.preventDefault()
+                  event.stopPropagation()
+                  $target = $(event.target)
+                  $element_box = $(this).parents('.element')
+                  if $target.is('.zup') || $target.is('.zup img')
+                    console.log "[pages.js] z_index_add_new_elem"
+                    cur_zindex = $element_box.css('zIndex')
+                    $element_box.css
+                      zIndex: parseInt(cur_zindex)+1
+                      console.log parseInt(cur_zindex)+1
+                      element_id_val = $element.data('elementid')
+                      element_style_id_val = $element.data('elementstyleid')
+                      zIndex = parseInt(cur_zindex)+1
+                      setZindex(element_id_val, element_style_id_val, zIndex)
+                      console.log element_id_val
+                  else if $target.is('.zdown') || $target.is('.zdown img')
+                    console.log "[pages.js] z_index_subtract_new"
+                    cur_zindex = $element_box.css('zIndex')
+                    $element_box.css
+                      zIndex: parseInt(cur_zindex)-1
+                      console.log parseInt(cur_zindex)-1
+                      element_id_val = $element.data('elementid')
+                      element_style_id_val = $element.data('elementstyleid')
+                      zIndex = parseInt(cur_zindex)-1
+                      setZindex(element_id_val, element_style_id_val, zIndex)
+                  else if $target.is('.delete_element') || $target.is('.delete_element img')
+                    element_id_val = $element_box.data('elementid')
+                    $element_box.remove()
+                    delete_element(element_id_val)
+                    console.log "[pages.js] element_new has been deleted"
+                  else if $target.is('.settings_element') || $target.is('.settings_element img')
+                    if $cur_element.not('.title')
+                      console.log('[pages.js] settings_element click trigger')
+                      #$('body').prepend($settings_div)
+                      #$settings_div.show("slide", { direction: "right" }, 800)
+                      #$('.close_box_settings', $settings_div).click ->
+                      #  $settings_div.hide("slide", { direction: "right" }, 800)
+                      #alert "show box settings opt"
+                  else if $target.is('.lock_element') || $target.is('.lock_element img')
+                    alert('element locked')
+                    
+          $element.bind "dblclick", (event) ->
+            $target = $(event.target)
+            if $target.is('img', $('.controller'))
+              return
+              
+            console.log "[pages.js] show toolbar/panel for editor"
+            if $('#myNicPanel').is(':hidden')
+              $('#myNicPanel').show()
+            
+            console.log "[pages.js] set isSelectElement var right"
+            if isSelectElement==false
+              isSelectElement = true
+              console.log "[pages.js] set the #pageWrap event on --=val= "+isSelectElement
+            
+            console.log "[pages.js] check if element has class of editorOn so that it will stop when it is already editoron"
+            if $element.hasClass('editorOn')
+              console.log "[pages.js] stop making wisiwig"
+              return
+              
+            $cur_element_content_new = $('.content', $element)
+            
+            console.log "[pages.js] disable drag and resize for the editorOn for cleanliness"
+            $element.draggable("option", "disabled", true).resizable("option", "disabled", true)
+            
+            console.log "[pages.js] remove controller div for cleanliness"
+            $('.controller', $element).remove()
+            $other_elements = $('.element:not(.cur_selected)')
+            
+            console.log "[pages.js] add class editorOn and remove it for other elements are in active"
+            $other_elements.removeClass('editorOn')
+            $element.addClass('editorOn')
+            
+            console.log "[pages.js] add Instance on editor using .content "+$cur_element_content_new.attr('id')
+            myNicEditor.addInstance($cur_element_content_new.attr('id'))
+            $cur_element_content_new.focus();
+            
+            console.log "[pages.js] set blur event hundler for editor hide panel and post/removeInstance current element"+$cur_element_content_new.attr('id')
+            myNicEditor.addEvent 'blur', ->
+              element_id_val = $element.data('elementid')
+              element_content_val = $cur_element_content_new.html()
+              setElementContent(element_id_val, element_content_val)
+              if $('#myNicPanel').is(':visible')
+                $('#myNicPanel').hide()
+                
+            
+            console.log "[pages.js] make text wisiwig"
+            $divToTextAreaClone = $('.content',$cur_element)
+            $divToTextArea = $('.content',$cur_element)
+              
+          #console.log data.element.content
+        ,'json'
+      , 'json'
+        
+  $('#pageWrap').mousedown (event)->
+    if !isSelectElement
+      return
+    $cur_element = $(this)
+    
+    $target = $(event.target)
+    if $target.is('#pageWrap')
+      $('.element').removeClass('cur_selected')
+      $('.element').find('.controller').remove()
+      $('.element').resizable("option", "disabled", true).draggable("option", "disabled", true)
+      isSelectElement = false
+      console.log "[pages.js] set the #pageWrap event on --=val= "+isSelectElement
+      
+      if( (typeof $menu != 'undefined') && $menu.is(':visible'))
+        $menu.hide()
+      console.log "[pages.js] event handled"
+      
+      $('.element').removeClass('editorOn')
+      console.log "[pages.js] close_box_settings click"
+      $('.close_box_settings').trigger('click')
+      
+
+  #$('.element.paragraph').bind "dblclick", ->
+  #  $cur_p_element = $(this)
+  #  $cur_content = $cur_p_element.find('.content')
+  #  
+  #  console.log "[pages.js] add Instance on editor using .content "+$cur_content.attr('id')
+  #  myNicEditor.addInstance($cur_content.attr('id'))
+  #  
+  #  console.log "[pages.js] show toolbar/panel for editor"
+  #  if $('#myNicPanel').is(':hidden')
+  #    $('#myNicPanel').show()
+  
+  $('.element.paragraph .settings_element').live 'click', ->
+    $cur_element = $(this).parents('.element')
+    $cur_element.append($dialog_div_paragraph)
+    
+    cssGradient_val = "background: "+$('.content', $cur_element).css('background')+";"
+    border_width = 'none border_width'
+    hex = 'none hex'
+    
+    $dialog_div_paragraph.dialog
+      autoOpen: false
+      width: 526
+      zIndex: 13000
+      drag: (event, ui)->
+        $dialog_div_paragraph.css
+          'zIndex': 100005
+      #open: (event, ui)->          
+      close: (event, ui)->
+        $dialog_div_paragraph.remove()
+        element_style_id_val = $cur_element.data('elementstyleid')
+        background_style_g_val = cssGradient_val
+        saveBackgroundForParagraph(element_style_id_val, background_style_g_val)
+    
+    $dialog_div_paragraph.dialog('open')
+    
+    $('#useGradientBgPicture',$dialog_div_paragraph).bind 'click', ->
+      $cur_button = $(this)
+      if $('#gradientBgColor',$dialog_div_paragraph).data('gradientCreator')
+        console.log 'yes'
+      else
+        console.log 'no'
+      if $cur_button.val() == "Use Gradient"
+        $('#gradientOptionsPicture').attr('style', 'display:block;')
+        $('#paragraphColorSelector').attr('style', 'display:none;')
+        $('#gradientBgColor').gradientCreator
+          gradient: '#ebf1f6 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%',
+          target: $('.content', $cur_element),
+          tooltipGradient: ' #fceabb 0%,#fccd4d 49%,#f8b500 53%,#fbdf93 100%'
+          onChange: (stringGradient,cssGradient,ArrayColors) ->
+            console.log 'stringGradient val: '+stringGradient
+            console.log 'cssGradient val: '+cssGradient  
+            cssGradient_val = cssGradient          
+        $cur_button.val('Solid Color')
+      else
+        $('.content', $cur_element).removeStyle('background')
+        $('.content', $cur_element).css
+          'background': '#89c4eb'
+        $('#gradientOptionsPicture').attr('style', 'display:none;')
+        $('#paragraphColorSelector').attr('style', 'display:block;')
+        $cur_button.val('Use Gradient')
+      
+      $('#gradientOrientation').bind 'change', ->
+        $('#gradientBgColor').data('gradientCreator').setOrientation $(this).val()
+        
+    $('#paragraphColorSelector').ColorPicker
+      color: '#0000ff'
+      onChange: (hsb, hex, rgb)->
+        $('.content', $cur_element).css
+          'backgroundColor': '#'+hex
+      onSubmit: (hsb, hex, rgb, el) ->
+        console.log el
+        $(el).val(hex)
+        $(el).ColorPickerHide()
+        element_style_id_val = $cur_element.data('elementstyleid')
+        background_style_g_val = 'background: #'+hex+';'
+        cssGradient_val = background_style_g_val
+        saveBackgroundForParagraph(element_style_id_val, background_style_g_val)
+        
+    $('#slider-borderRadius').slider
+      min:1,
+      max:100,
+      value: 1,
+      slide: (event, ui) ->
+        val = ui.value
+        $('#borderRadius').val(val)
+      stop: (event, ui) ->
+        val = ui.value
+        console.log "upadate border radius"
+        $('.content', $cur_element).animate {
+          "borderRadius": val
+          },
+          900
+          ->
+            element_style_id_val = $cur_element.data('elementstyleid')
+            border_radius_val = val
+            saveBorderRadiusForParagraph(element_style_id_val, border_radius_val)
+
+    $('#paragraphColorSelectorBorder', $dialog_div_paragraph).ColorPicker
+      color: '#0000ff'
+      onChange: (hsb, hex, rgb)->
+        $('.content', $cur_element).css
+          'borderColor': '#'+hex
+      onSubmit: (hsb, hex, rgb, el) ->
+        console.log el
+        $(el).val(hex)
+        $(el).ColorPickerHide()
+        element_style_id_val = $cur_element.data('elementstyleid')
+        border_style_val = 'border: '+border_width+'px solid #'+hex+';'
+        hex_val = hex
+        saveBorderStyleForParagraph(element_style_id_val, border_style_val)
+        
+    $('#slider-borderWidth',$dialog_div_paragraph).slider
+      min:1,
+      max:20,
+      value: 1,
+      slide: (event, ui) ->
+        val = ui.value
+        $('#borderWidth', $dialog_div_paragraph).val(val)
+        border_width = val
+      stop: (event, ui) ->
+        val = ui.value
+        console.log "upadate border width"
+        $('.content', $cur_element).css
+          "borderWidth": val
+        element_style_id_val = $cur_element.data('elementstyleid')
+        border_style_val = 'border: '+border_width+'px solid #'+hex+';'
+        saveBorderStyleForParagraph(element_style_id_val, border_style_val)
+        
+    $('#slider-paddingWidth',$dialog_div_paragraph).slider
+      min:0,
+      max:30,
+      value: 1,
+      slide: (event, ui) ->
+        val = ui.value
+        $('#paddingWidth', $dialog_div_paragraph).val(val)
+        padding_width = val
+      stop: (event, ui) ->
+        val = ui.value
+        console.log "upadate padding width"
+        $('.content', $cur_element).css
+          "padding": val+'px'
+        element_style_id_val = $cur_element.data('elementstyleid')
+        padding_val = 'padding: '+val+'px;'
+        savePaddingStyleForParagraph(element_style_id_val, padding_val)
+
+  $('.element').each ->
+    $cur_element = $(this)
+    $cur_element_content = $cur_element.find('.content')    
+    if $cur_element.hasClass('locked')
+      $cur_element.draggable("option", "disabled", true).resizable("option", "disabled", true)
+      console.log "[pages.js] this is locked so no event for click and dblclick"
+      return
+    console.log "[pages.js] if is paragraph or title bind dlbclick event = "+$cur_element.is('.paragraph, .title')
+    if $cur_element.is('.paragraph, .title')
+      $cur_element.bind 'dblclick', (event)->
+        $target = $(event.target)
+        if $target.is('img', $('.controller'))
+          return
+      
+        #$top = parseInt( $cur_element.css('top').replace('px','') )
+        console.log "[pages.js] show toolbar/panel for editor"
+        if $('#myNicPanel').is(':hidden')
+          $('#myNicPanel').css
+            position: 'absolute'
+            top: $(window).scrollTop()+'px'
+            left: '50%'
+            marginLeft: '-305px'
+            'z-index': 13000
+            width: '610px'
+          .show()    
+          
+        console.log "[pages.js] set isSelectElement var right"
+        if isSelectElement==false
+          isSelectElement = true
+          console.log "[pages.js] set the #pageWrap event on --=val= "+isSelectElement
+        
+        console.log "[pages.js] check if element has class of editorOn so that it will stop when it is already editoron"
+        if $cur_element.hasClass('editorOn')
+          console.log "[pages.js] stop making wisiwig"
+          return
+          
+        $cur_element_content = $('.content', $cur_element)
+        
+        console.log "[pages.js] disable drag and resize for the editorOn for cleanliness"
+        $cur_element.draggable("option", "disabled", true).resizable("option", "disabled", true)
+        
+        console.log "[pages.js] remove controller div for cleanliness"
+        $('.controller', $cur_element).remove()
+        $other_elements = $('.element:not(.cur_selected)')
+        
+        console.log "[pages.js] add class editorOn and remove it for other elements are in active"
+        $other_elements.removeClass('editorOn')
+        $cur_element.addClass('editorOn')
+        
+        console.log "[pages.js] add Instance on editor using .content "+$cur_element_content.attr('id')
+        console.log myNicEditor
+        myNicEditor.addInstance($cur_element_content.attr('id'))
+        console.log myNicEditor
+        $cur_element_content.focus();
+        
+        console.log "[pages.js] set blur event hundler for editor hide panel and post/removeInstance current element"+$cur_element_content.attr('id')
+        myNicEditor.addEvent 'blur', ->
+          element_id_val = $cur_element.data('elementid')
+          element_content_val = $cur_element_content.html()
+          setElementContent(element_id_val, element_content_val)
+          if $('#myNicPanel').is(':visible')
+            $('#myNicPanel').hide()
+            
+        
+        console.log "[pages.js] make text wisiwig"
+        $divToTextAreaClone = $('.content',$cur_element)
+        $divToTextArea = $('.content',$cur_element)
+      
+        
+    
+    $cur_element.bind 'mousedown', (event)->
+      #event.preventDefault()
+      #event.stopPropagation()
+      $target = $(event.target)
+      
+      if $('body').hasClass('prevMode')
+        console.log "[pages] in preview mode do nothing"
+        return
+      if $cur_element.data("locked") == true
+        console.log "[pages.js] do not do anything bec. it is locked"
+        return
+      if $cur_element.hasClass('.editorOn') || $cur_element.hasClass('locked')
+        console.log '[pages.js] cancel mousedown even because it is dblclicked and in edit mode'
+        return
+      if isSelectElement==false
+        isSelectElement = true
+        console.log "[pages.js] set the #pageWrap event on --=val= "+isSelectElement
+        console.log "[pages.js] !$cur_element.hasClass('cur_selected') "+!$cur_element.hasClass('cur_selected')
+      if !$cur_element.hasClass('cur_selected')
+        $('.element').removeClass('cur_selected')
+        $('.element').find('.controller').remove()
+        console.log "[pages.js] $cur_element.find('.controller').length "+$cur_element.find('.controller').length
+        if($cur_element.find('.controller').length < 1)
+          #$('#pageWrap').trigger('mousedown')
+          console.log "[pages.js] set isSelectElement = true"
+          isSelectElement = true
+          
+          console.log "[pages.js] add class cur_selected and append controller div"
+          $cur_element.addClass('cur_selected').append($controller_div)
+          $other_elements = $('.element:not(.cur_selected)')
+          
+          console.log "[pages.js] other_elements resize drag disabled and enabled current element bec it is single click"
+          $other_elements.resizable("option", "disabled", true).draggable("option", "disabled", true)
+          $cur_element.resizable("option", "disabled", false).draggable("option", "disabled", false)
+          
+          console.log "[pages.js] set event handler for controller_div"
+          $controller_div.mousedown (event)->
+            event.preventDefault()
+            event.stopPropagation()
+            $target = $(event.target)
+            if $target.is('.zup') || $target.is('.zup img')
+              console.log "[pages.js] z_index_add"
+              cur_zindex = $(this).parents('.element').css('zIndex')
+              $(this).parents('.element').css
+                zIndex: parseInt(cur_zindex)+1
+                console.log parseInt(cur_zindex)+1
+                element_id_val = $cur_element.data('elementid')
+                element_style_id_val = $cur_element.data('elementstyleid')
+                zIndex = parseInt(cur_zindex)+1
+                setZindex(element_id_val, element_style_id_val, zIndex)
+            else if $target.is('.zdown') || $target.is('.zdown img')
+              console.log "[pages.js] z_index_subtract"
+              cur_zindex = $(this).parents('.element').css('zIndex')
+              $(this).parents('.element').css
+                zIndex: parseInt(cur_zindex)-1
+                console.log parseInt(cur_zindex)-1
+                element_id_val = $cur_element.data('elementid')
+                element_style_id_val = $cur_element.data('elementstyleid')
+                zIndex = parseInt(cur_zindex)-1
+                setZindex(element_id_val, element_style_id_val, zIndex)
+            else if $target.is('.delete_element') || $target.is('.delete_element img')
+              element_id_val = $(this).parents('.element').data('elementid')
+              $(this).parents('.element').remove()
+              delete_element(element_id_val)
+              console.log "[pages.js] element has been deleted (not callback)"
+            else if $target.is('.settings_element') || $target.is('.settings_element img')
+              console.log("[pages.js] $cur_element.is('.paragraph') : "+$cur_element.is('.paragraph'))
+              if $cur_element.is('.paragraph')
+                console.log '[pages.js] comment above'
+            else if $target.is('.lock_element') || $target.is('.lock_element img')
+              if $cur_element.hasClass('locked')
+                $cur_element.removeClass('locked')
+                console.log "[pages.js] unlocked element "+$cur_element.attr('id')
+                $cur_element.draggable("option", "disabled", false).resizable("option", "disabled", false)
+              else
+                $cur_element.addClass('locked')
+                $cur_element.draggable("option", "disabled", true).resizable("option", "disabled", false)
+                console.log "[pages.js] locked element "+$cur_element.attr('id')
+              
+    $cur_element.resizable
+      alsoResize: $('.content', this)
+      handles: "n, e, s, w, ne, nw, se, sw"
+      disabled: true
+      create: (event, ui) ->
+        $(this).resizable( "disable" )
+      start: (event, ui) ->
+      resize: (event, ui) ->
+      stop: (event, ui) ->
+        element_id_val = $(this).data('elementid')
+        element_style_id_val = $(this).data('elementstyleid')
+        width_val  = ui.size.width
+        height_val = ui.size.height
+        setWHSize(element_id_val, element_style_id_val, width_val, height_val)
+    .draggable
+      handle: this
+      disabled: true
+      create: (event, ui) ->
+        $(this).draggable( "disable" )
+      start: (event, ui) ->
+      drag: (event, ui) ->
+      stop: (event, ui) ->
+        element_id_val = $(this).data('elementid')
+        element_style_id_val = $(this).data('elementstyleid')
+        left_val = ui.position.left
+        top_val = ui.position.top
+        setLeftTopPos(element_id_val, element_style_id_val, left_val, top_val)
+        

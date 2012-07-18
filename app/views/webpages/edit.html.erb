@@ -1,0 +1,472 @@
+<% if @user.global_page_setting.page_img_bg_setting.attachment == 'stretch' && @user.global_page_setting.bg_type == "picture" %>
+  <script type="text/javascript">
+    $.backstretch('<%= @user.global_page_setting.page_img_bg_setting.image_url %>');
+  </script>
+<% end %>
+
+<% if @user.global_page_setting.present? %>
+<div id="pageCanvas" data-use="<%= @user.id %>" data-pageid="<%= @page.id %>" data-globalpagesetting="yes" data-globalpagesettingId="<%= @user.global_page_setting.id %>"
+  <% if @user.global_page_setting.bg_type == 'color' %>
+    style="background-color: <%= @user.global_page_setting.bg_color %>;"
+  <% end %>
+  style="
+  <% if @user.global_page_setting.page_img_bg_setting.attachment != 'stretch' %>
+    background-color: <%= @user.global_page_setting.bg_color %>;
+    <% if @user.global_page_setting.page_img_bg_setting.present? && @user.global_page_setting.bg_type == "picture" %>
+      <% style = @user.global_page_setting.page_img_bg_setting %>
+      background-image: url(<%= style.image_url %>); 
+      background-repeat: <%= style.repeat %>; 
+      background-position: <%= style.hor_alignment %> <%= style.ver_alignment %>;
+      background-attachment: <%= style.attachment %>;
+    <% end %>
+  <% end %>
+  <% if @user.global_page_setting.bg_type == 'texture' %>
+    background-image: url(<%= @user.global_page_setting.texture_bg %>);
+    background-repeat: repeat;
+  <% end %>
+  "
+
+  <% if @user.global_page_setting.page_img_bg_setting.present? %>
+    data-pageimgbgsettingid="<%= @user.global_page_setting.page_img_bg_setting.id %>"
+  <% end %>
+>
+<% else %>
+<div id="pageCanvas" data-use="<%= @user.id %>" data-pageid="<%= @page.id %>" data-globalpagesetting="no">
+<% end %>
+  <div id="pageWrap" style="
+    <% if @user.global_page_setting.page_width.to_i > 500 %>
+      width:<%= @user.global_page_setting.page_width %>px; 
+    <% end %>
+    <% if @page.height.to_i %>
+      height: <%= @page.height %>px; 
+    <% end %>
+    <% if @user.global_page_setting.canvas_bg_color.present? && @user.global_page_setting.canvas_bg_color != "transparent" %>
+      background-color: <%= @user.global_page_setting.canvas_bg_color %>
+    <% else %>
+      background: none;
+      box-shadow: none;
+      overflow: visible;
+    <% end %>
+    "
+  >
+  
+    <%= @page.id %>
+    <% @pages.length %>
+    <%= @elements.length %>
+    <ul id="main_page_nav" style="left: <%= @user.left %>px; top: <%= @user.top %>px;">
+      <% @pages.each do |page| %>
+        <li><%= link_to(page.title, edit_webpage_path(page)) %></li>
+      <% end %>
+    </ul>
+    
+        <div class="settings-video videoPanel" style="display:none;">
+          <span class="close_panel settingsVideoPanel">&nbsp;</span>
+          <form name="settings" onsubmit="return false" method="post" class="">
+            <p>
+              <label for="vid-url">Video URL</label>
+              <input type="text" name="vid-url" id="vid-url" class="textinput" value="" />
+            </p>
+            <p style="padding:3px 0 0; clear:both">
+              <input class="change-url" type="submit" value="Update" class="on" />      
+            <p>
+              <label for="control-bar">Control Bar</label>
+              <select name="control-bar" id="control-bar">
+                <option value="0">Show</option>
+                <option value="1">Hide</option>
+                <option value="2">Auto Hide</option>
+              </select>
+            </p>
+            <p>
+              <input type="checkbox" name="auto-play"><label for="" class="cbinline">Autoplay</label>
+            </p>
+            <p>
+              <input type="checkbox" name="loop"><label for="" class="cbinline">Loop</label>
+            </p>      
+            <p>
+              <input type="checkbox" name="show-title-bar"><label for="" class="cbinline">Show Title Bar</label>
+            </p>      
+            <p>
+              <input type="checkbox" name="light-control-bar"><label for="" class="cbinline">Light Control Bar</label>
+            </p>
+            <p>
+              <button id="dragtoggle" class="off">Drag</button>
+            </p>
+          </form>    
+        </div>
+    
+    <% @elements.each do |element| %>
+      <% #style = ElementStyle.find(element.element_style.id) %>
+      <% style = element.element_style %>
+      <% if element.locked? %>
+        <% locked_class = true %>
+      <% else %>
+        <% locked_class = false %>
+      <% end %>
+      
+      <% if element.elem_type == 'video'%>      
+        <div id="element_<%= element.id %>" class="element video ui-widget-content" data-elementid="<%= element.id %>" data-elementstyleid="<%= style.id %>" data-pageid="<%= @page.id %>" data-locked= <%= locked_class %> style="left:<%= style.left %>px;top:<%= style.top %>px;width:<%= style.width %>px;height:<%= style.height %>px;font-family: <%= style.font_family %>; font-size:<%= style.font_size %>px;z-index: <%= style.z_index %>;">
+        <!-- 
+          <iframe width="<%= style.width %>" height="<%= style.height %>" src="<%= element.content %>" frameborder="0" allowfullscreen></iframe>
+        -->
+        <object width="<%= style.width %>" height="<%= style.height %>" data="<%= element.content %>" type="application/x-shockwave-flash" >
+          <param NAME="wmode" VALUE="transparent" />
+          <param name="src" value="<%= element.content %>" />
+        </object>
+        <div class="cover" style="width:<%= style.width %>px;height:<%= style.height %>px;"></div>
+        </div>
+      <% elsif element.elem_type == 'picture'%>
+        <% pictures = element.images if element.images %>
+        <% picture = pictures.first %>
+        <%= div_for(element, :class => element.elem_type, :data => {:elementid => element.id, :elementstyleid => style.id, :pageid => @page.id, :locked => locked_class  }, :style => "left:#{style.left}px;top:#{style.top}px;width:#{style.width}px;height:#{style.height}px;font-family: #{style.font_family}; font-size: #{style.font_size}px; z-index: #{style.z_index};") do %>
+          <div id="content_<%= element.id %>" class="content<%= ' default' if !element.images %>" style="width:<%= style.width %>px;height:<%= style.height %>px;line-height:<%= style.line_height %>; letter-spacing:<%= style.letter_spacing %>px; font-size:<%= style.font_size %>px;  -webkit-border-radius: <%= style.border_radius %>px; border-radius: <%= style.border_radius %>px;             
+              -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; <%= style.background_style_g %> <%= style.border_style %>">
+            <% if element.images.count > 0 %>
+              <%= image_tag(picture.image_url.to_s, :size => "#{style.img_width}x#{style.img_height}", :alt => "#{picture.caption}", :data => {:imageid => picture.id, :imagedesc => picture.description, :imagecaption => picture.caption, :linktype => picture.link_type, :linktext => picture.link_text, :linktarget => picture.link_target}, :style => "position: static; margin-left: #{style.img_left}px; margin-top: #{style.img_top}px;") %>
+            <% else %>
+              <%= element.content.html_safe %>
+            <% end %>
+          </div>
+        <% end %>
+      <% elsif element.elem_type == 'gallery_grid_element' %>
+        <% gallery_attribute = element.gallery_attrib %>
+      <div id="element_<%= element.id %>" class="element <%= element.elem_type %>" data-gallery-grid-attr-id="<%= gallery_attribute.id %>" data-elementid="<%= element.id %>" data-elementstyleid="<%= style.id %>" data-pageid="<%= @page.id %>" data-locked= <%= locked_class %> style="left:<%= style.left %>px;top:<%= style.top %>px;width:<%= style.width %>px;height:<%= style.height %>px; z-index: <%= style.z_index %>;">
+        <div class="gallery_grid content <%= "default" if element.slideshow_images.count < 1 %>" style="width:<%= style.width %>px; height:<%= style.height %>px" class="ui-widget-content 1st" data-col="<%= gallery_attribute.col %>" data-row="<%= gallery_attribute.row %>" data-margin="<%= gallery_attribute.margin %>">
+          <% if element.slideshow_images.count < 1 %>
+            <div style="background:red" class="imgdiv"><img class="img1 image" src="/assets/images/default_images/avacados.jpg" /></div>
+            <div style="background:green" class="imgdiv"><img class="img2 image" src="/assets/images/default_images/ballons.jpg"/></div>
+            <div style="background:yellow" class="imgdiv"><img class="img2 image" src="/assets/images/default_images/candle.jpg"/></div>
+            <div style="background:blue" class="imgdiv"><img class="img2 image" src="/assets/images/default_images/eggs.jpg"/></div>
+            <div style="background:orange" class="imgdiv"><img class="img2 image" src="/assets/images/default_images/macari.jpg"/></div>
+            <div style="background:brown" class="imgdiv"><img class="img2 image" src="/assets/images/default_images/masonary.jpg"/></div>
+            <div style="background:pink" class="imgdiv"><img class="img2 image" src="/assets/images/default_images/okra.jpg"/></div>
+            <div style="background:pink" class="imgdiv"><img class="img2 image" src="/assets/images/default_images/planes.jpg"/></div>
+            <div style="background:pink" class="imgdiv"><img class="img2 image" src="/assets/images/default_images/standard.jpg"/></div>
+            <div style="background:pink" class="imgdiv"><img class="img2 image" src="/assets/images/default_images/tomatos.jpg"/></div>
+            <div style="background:pink" class="imgdiv"><img class="img2 image" src="/assets/images/default_images/wine.jpg"/></div>
+          <% else %>
+          
+            <% element.slideshow_images.order("position").each_with_index do |slideshow_image, index| %>
+            <div class="imgdiv">
+              <%= image_tag(slideshow_image.image_url.to_s, :id => "slideshow_image_#{slideshow_image.id}", :class => "img2 image", :alt => "#{slideshow_image.caption}", :data => { :caption => slideshow_image.caption, :description => slideshow_image.description, :link_text => slideshow_image.link_text, :link_type => slideshow_image.link_type, :link_target => slideshow_image.link_target, :id => slideshow_image.id, :orig_pos => index.to_i+1}) %>
+            </div>
+            <% end %>
+            
+          <% end %>
+        </div>
+        <div class="settings" style="position:absolute;visibility:hidden;">
+          <a class="close close_gallery_grid_settings"><img src="/assets/images/toolbar-button-delete.png"></a>
+          <form name="settings" onsubmit="return false" method="post" class="settings_form">
+            <p>
+              <label for="cols">Columns</label>
+              <div class="slider slider-cols"></div>      
+              <input type="number" name="cols" class="textinput cols" value="<%= gallery_attribute.col %>"  />
+            </p>
+            <p>
+              <label for="rows">Rows</label>
+              <div class="slider slider-rows"></div>      
+              <input type="number" name="rows" value="<%= gallery_attribute.row %>" class="textinput rows" />
+            </p>
+            <p>
+              <label for="margin">Margin</label>
+              <div class="slider slider-margin"></div>      
+              <input type="number" name="margin" value="<%= gallery_attribute.margin %>" class="textinput margin" />
+            </p>
+            <input type="hidden" name="expandmode" value="on" />
+          </form>
+        </div>
+      </div>
+      
+      <% elsif element.elem_type == 'slide_show_element' %>      
+        <div id="element_<%= element.id %>" class="slideshow element <%= element.elem_type %>" data-slideshow-attr-id="<%= element.slideshow_attrib.id %>" data-elementid="<%= element.id %>" data-elementstyleid="<%= style.id %>" data-pageid="<%= @page.id %>" data-locked= <%= locked_class %> data-autoplay="<%= element.slideshow_attrib.autoplay %>" data-transition="<%= element.slideshow_attrib.transition %>" style="left:<%= style.left %>px;top:<%= style.top %>px;width:<%= style.width %>px;height:<%= style.height %>px;font-family: <%= style.font_family %>; font-size:<%= style.font_size %>px;z-index: <%= style.z_index %>;">
+          <div class="slides_container <%= "default" if element.slideshow_images.count < 1 %>" style="width:<%= style.width %>px;height:<%= style.height %>px;">
+            <% if element.slideshow_images.count < 1 %>
+              <div  class="slide">
+                <a href="/assets/images/default_images/avacados.jpg" title="Avacados" target="_blank"><img src="/assets/images/default_images/avacados.jpg" alt="Slide 1"></a>
+                <div class="caption" style="bottom:0">
+                  <p>Avacados</p>
+                </div>
+              </div>      
+              <div class="slide">
+                <a href="/assets/images/default_images/ballons.jpg" title="Ballons" target="_blank"><img src="/assets/images/default_images/ballons.jpg" alt="Slide 4"></a>
+                <div class="caption" style="bottom:0">
+                  <p>Ballons</p>
+                </div>
+              </div>        
+              <div class="slide">
+                <a href="/assets/images/default_images/candle.jpg" title="Candle" target="_blank"><img src="/assets/images/default_images/candle.jpg" alt="Slide 5"></a>
+                <div class="caption" style="bottom:0">
+                  <p>Candle</p>
+                </div>
+              </div>  
+              <div class="slide">
+                <a href="/assets/images/default_images/eggs.jpg" target="_blank"><img src="/assets/images/default_images/eggs.jpg" alt="Slide 6"></a>
+                <div class="caption" style="bottom:0">
+                  <p>Eggs</p>
+                </div>
+              </div>
+            <% else %>
+              <% element.slideshow_images.order("position").each do |slideshow_image| %>
+                <div class="slide" data-id="<%= slideshow_image.id %>">
+                  <a href="<%= slideshow_image.image_url.to_s %>" target="_blank">
+                    <%= image_tag(slideshow_image.image_url.to_s, :id => "slideshow_image_#{slideshow_image.id}", :alt => "#{slideshow_image.caption}", :data => { :caption => slideshow_image.caption, :id => slideshow_image.id}) %>
+                  </a>
+                  <div class="caption" style="bottom:0">
+                    <p class="ss_image_caption ss_image_caption_<%= slideshow_image.id %>" data-id="<%= slideshow_image.id %>"><%= slideshow_image.caption %></p>
+                  </div>
+                </div>  
+              <% end %>
+            <% end %>
+          </div>          
+          
+          <script type="text/javascript">
+            $(window).load(function(){
+              <% unless element.slideshow_attrib.caption? %>
+                $('.caption', $('#element_<%= element.id %>.slideshow')).hide();
+              <% end %>
+              <% unless element.slideshow_attrib.pagination? %>
+                $('.pagination', $('#element_<%= element.id %>.slideshow')).hide();
+              <% end %>
+              $('#element_<%= element.id %>.slideshow').slides({
+                preload: true,
+                pagination: false,
+                preloadImage: 'http://deadwoodfilms.com/jquery/slideshow2/img/loading.gif',
+                fadeSpeed: 800,
+                <% if element.slideshow_attrib.autoplay? %>
+                  play: 5000,              
+                <% else %>
+                  play: 0,
+                <% end %>
+                //play: 5000,
+                pause: 2500,
+                hoverPause: true,        
+                effect : 'fade',
+                crossfade:true,
+                animationStart: function(current){
+                  $('.caption').animate({
+                    bottom:-35
+                  },100);
+                  if (window.console && console.log) {
+                    // example return of current slide number
+                    console.log('animationStart on slide: ', current);
+                  };
+                },
+                animationComplete: function(current){
+                  $('.caption').animate({
+                    bottom:0
+                  },200);
+                  if (window.console && console.log) {
+                    // example return of current slide number
+                    console.log('animationComplete on slide: ', current);
+                  };
+                },
+                slidesLoaded: function() {
+                  $('.caption').animate({
+                    bottom:0
+                  },200);
+                }
+              });
+            });
+          </script>
+          
+          <a href="#" class="prev controls">
+            <img src="http://deadwoodfilms.com/jquery/slideshow2/img/arrow-prev.png" width="24" height="43" alt="Arrow Prev">
+          </a>
+          <a href="#" class="next controls">
+            <img src="http://deadwoodfilms.com/jquery/slideshow2/img/arrow-next.png" width="24" height="43" alt="Arrow Next">
+          </a>
+          <div class="slideshow-settings" style="display:none;">
+            <a class="close_slide_show_settings"><img src="/assets/images/toolbar-button-delete.png"></a>
+            <p><label for="transition">Transition</label>
+              <select class="options" name="transitionx" id="transitionx" />
+                <option value="slideLeft" <%= "selected='selected'" if element.slideshow_attrib.transition == "slideLeft" %> >slide left</option>
+                <option value="slideRight" <%= "selected='selected'" if element.slideshow_attrib.transition == "slideRight" %> >slide right</option>
+                <option value="slideUp" <%= "selected='selected'" if element.slideshow_attrib.transition == "slideUp" %> >slide up</option>
+                <option value="slideDown" <%= "selected='selected'" if element.slideshow_attrib.transition == "slideDown" %> >slide down</option>
+                <option value="fade" <%= "selected='selected'" if element.slideshow_attrib.transition == "fade" %> >fade</option>
+              </select>
+              <p>
+                <label >Slide Interval</label>  
+                <div class="slider-interval"></div>
+                <input type="text" name="slide_interval" class="slide_interval" value="<%= element.slideshow_attrib.interval %>" class="textinput" /></p>
+              <p>
+                <input type="checkbox" class="options" name="autoplay" id="autoplay" <%= "checked='checked'" if element.slideshow_attrib.autoplay? %> />
+                <label for="autoplay">Autoplay</label></p>
+              <p>
+                <input type="checkbox" class="options" name="show_caption" id="show_caption" <%= "checked='checked'" if element.slideshow_attrib.caption? %> />
+                <label for="show_caption">Show Caption</label></p>
+              <p>
+                <input type="checkbox" class="options" name="show_pagination" id="show_pagination" <%= "checked='checked'" if element.slideshow_attrib.pagination? %> />
+                <label for="show_pagination">Show Pagination</label></p>
+            </p>
+            <p>
+              <label>Previous & Next Arrow</label>
+              <select name="prev_next" class="prev_next">
+                <option  value="upon_hover">Upon Hover</option>
+                <option  value="always" selected="selected">Always</option>
+                <option  value="never">Never</option>
+              </select>
+            </p>  
+            <p>
+              <label>Font</label>
+              <select name="font" class="font">
+                <option  value="tahoma">Tahoma</option>
+                <option  value="courier new">Courier New</option>
+                <option value="Gorditas">Gorditas</option>
+                <option value="Bilbo">Bilbo</option>
+                <option value="Emilys Candy">Emilys Candy</option>
+                <option value="Ribeye Marrow">Ribeye Marrow</option>
+                <option value="Henny Penny">Henny Penny</option>
+              </select>
+            </p>            
+            
+          </div>
+        </div>
+      <% elsif element.elem_type == 'form_element' %>      
+        <%= div_for(element, :class => element.elem_type, :data => {:elementid => element.id, :elementstyleid => style.id, :pageid => @page.id, :formfieldid => element.form_field.id, :locked => locked_class }, :style => "background: #ffffff;left:#{style.left}px;top:#{style.top}px;width:#{style.width}px;height:#{style.height}px;font-family: #{style.font_family}; font-size: #{style.font_size}px; z-index: #{style.z_index};") do %>
+          <form>
+            <label>
+              <!-- Name : -->
+              <input class="name" type="text" value="<%= element.form_field.name_title %>" style="width: 95%">
+            </label>
+            <label>
+              <!-- Email : -->
+              <input class="email" type="text" value="<%= element.form_field.email_title %>" style="width: 95%">
+            </label>
+            <label>
+              <!-- Phone : -->
+              <input class="phone" type="text" value="<%= element.form_field.phone_title %>" style="width: 95%">
+            </label>
+            <label>
+              <!-- Message : -->
+              <textarea class="message" rows="4" style="width: 95%"><%= element.form_field.message_title %></textarea>
+            </label>
+          </form>
+        <% end %>
+      <% else%>      
+        <%= div_for(element, :class => element.elem_type, :data => {:elementid => element.id, :elementstyleid => style.id, :pageid => @page.id, :locked => locked_class }, :style => "left:#{style.left}px;top:#{style.top}px;width:#{style.width}px;height:#{style.height}px;font-family: #{style.font_family}; font-size: #{style.font_size}px; z-index: #{style.z_index};") do %>
+          <div id="content_<%= element.id %>" class="content" style="width:<%= style.width %>px;height:<%= style.height %>px;line-height:<%= style.line_height %>; letter-spacing:<%= style.letter_spacing %> font-size:<%= style.font_size %>px; -webkit-border-radius: <%= style.border_radius %>px; border-radius: <%= style.border_radius %>px; 
+            -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; <%= style.background_style_g %> <%= style.border_style %> <%= style.padding %>">
+            <%= element.content.html_safe %>
+          </div>
+        <% end %>
+      <% end %>
+      
+    <% end %> <!-- @elements.each do |element| -->
+  <div>
+</div>
+
+
+<% content_for(:foot) do %>
+<script id="template-upload" type="text/x-jquery-tmpl">
+    <tr class="template-upload{{if error}} ui-state-error{{/if}}">
+        <td class="preview"></td>
+        <td class="name">${name}</td>
+        <td class="size">${size}</td>
+        {{if error}}
+            <td class="error" colspan="2">Error:
+                {{if error === 'custom_failure'}}Custom Error Message
+                {{else}}${error}
+                {{/if}}
+            </td>
+        {{else}}
+            <td class="progress"><div></div></td>
+            <td class="start"><button>Start</button></td>
+        {{/if}}
+        <td class="cancel"><button>Cancel</button></td>
+    </tr>
+</script>
+<script id="template-download" type="text/x-jquery-tmpl">
+    <tr class="template-download{{if error}} ui-state-error{{/if}}">
+        {{if error}}
+            <td></td>
+            <td class="name">${name}</td>
+            <td class="size">${size}</td>
+            <td class="error" colspan="2">Error:
+                {{if error === 1}}File exceeds upload_max_filesize (php.ini directive)
+                {{else}}${error}
+                {{/if}}
+            </td>
+        {{else}}
+			
+		<!--
+            <td class="preview">
+                {{if thumbnail_url}}
+                    <a href="${url}" target="_blank"><img src="${thumbnail_url}"></a>
+                {{/if}}
+            </td>
+            <td class="name">
+                <a href="${url}"{{if thumbnail_url}} target="_blank"{{/if}}>${name}</a>
+            </td>
+            <td class="size">${sizef}</td>
+            <td colspan="2"></td>
+		-->
+        {{/if}}
+
+    </tr>
+</script>
+
+  
+  
+  <script src="//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+  <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+  <%= javascript_include_tag "jquery_file_upload/jquery.image-gallery.js" %>
+  <%= javascript_include_tag "jquery_file_upload/jquery.iframe-transport.js" %>
+  <%= javascript_include_tag "jquery_file_upload/jquery.xdr-transport.js" %>
+  <%= javascript_include_tag "jquery_file_upload/jquery.fileupload.js" %>
+  <%= javascript_include_tag "jquery_file_upload/jquery.fileupload-ui.js" %>
+  <script>
+
+    $(function () {
+        // Initialize the jQuery File Upload widget:
+        $('#fileupload').fileupload({ 
+          maxFileSize: 3000000, 
+          sequentialUploads: true, 
+          acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i 
+          
+        }).bind('fileuploadstop', function() {
+          //$('.sort.subPanelButton.ss').trigger('click');
+          //window.location.reload();
+        }).bind('fileuploadprogressall', function() {
+          if( $('.fileupload-content').height() > 500 ) {
+            $('.PanelHor').css({
+              height: 547,
+              overflow: 'scroll-y',
+              //width: $('.fileupload-content').width()
+            });
+          } else {
+            $('.PanelHor').css({
+              height: $('.fileupload-content').height() + 60,
+              //width: $('.fileupload-content').width()
+            });
+          }
+
+          //window.location.reload();
+        });
+        ;
+        // 
+        // Load existing files:
+        $.getJSON($('#fileupload form').prop('action'), function (files) {
+            var fu = $('#fileupload').data('fileupload');
+            fu._adjustMaxNumberOfFiles(-files.length);
+            fu._renderDownload(files)
+                .appendTo($('#fileupload .files'))
+                .fadeIn(function () {
+                    // Fix for IE7 and lower:
+                    $(this).show();
+                });
+        });
+
+        // Open download dialogs via iframes,
+        // to prevent aborting current uploads:
+        $('#fileupload .files a:not([target^=_blank])').live('click', function (e) {
+            e.preventDefault();
+            $('<iframe style="display:none;"></iframe>')
+                .prop('src', this.href)
+                .appendTo('body');
+        });
+
+    });
+  </script>
+<% end %>
+
+  

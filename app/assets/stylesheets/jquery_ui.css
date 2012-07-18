@@ -1,0 +1,20 @@
+.slider .ui-state-default, 
+.slider .ui-widget-content .ui-state-default, 
+.slider .ui-widget-header .ui-state-default {
+  background: url(../assets/images/drag-handle.png) no-repeat scroll 0 0 transparent;
+  font-weight: normal; 
+  color: #ffffff; 
+  outline: none;
+  border:none;
+  top: -0.4em;
+}
+.slider.ui-slider-horizontal.ui-slider {
+  height: 6px;
+  background: #666666;
+  moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  -khtml-border-radius: 0;
+  border-radius: 0;
+  border: none;
+  width: 173px;
+}

@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Transition:</b>
+  <%= @slideshow_attrib.transition %>
+</p>
+
+<p>
+  <b>Interval:</b>
+  <%= @slideshow_attrib.interval %>
+</p>
+
+<p>
+  <b>Autoplay:</b>
+  <%= @slideshow_attrib.autoplay %>
+</p>
+
+<p>
+  <b>Caption:</b>
+  <%= @slideshow_attrib.caption %>
+</p>
+
+<p>
+  <b>Pagination:</b>
+  <%= @slideshow_attrib.pagination %>
+</p>
+
+<p>
+  <b>Prev nex arr:</b>
+  <%= @slideshow_attrib.prev_nex_arr %>
+</p>
+
+<p>
+  <b>Font:</b>
+  <%= @slideshow_attrib.font %>
+</p>
+
+
+<%= link_to 'Edit', edit_slideshow_attrib_path(@slideshow_attrib) %> |
+<%= link_to 'Back', slideshow_attribs_path %>

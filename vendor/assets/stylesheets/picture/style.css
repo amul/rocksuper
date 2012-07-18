@@ -1,0 +1,146 @@
+.gzoombutton{
+	position:absolute;
+	z-index:1000;
+	right:0;
+	bottom:0;
+}
+.overlay{
+	display:none;
+	background:#000;
+	opacity:.5;
+	z-index:99999999;
+	position:absolute;
+}
+.zoomslide{
+	width:300px;
+	position:absolute;
+	top:0;
+	right:50%;
+	display:none;
+}
+.ui-state-disabled{
+	opacity:1!important;
+}
+object{
+
+}
+.demo{
+	width:90%;
+	margin:0 auto;
+}
+#resizable-video{
+	width:640px;
+	height:390px;
+}
+
+.resizable{
+	border:none;
+	padding:0px;
+	border:solid green 1px;
+	position:relative;	
+	z-index:1000
+}
+.imgdiv{
+	background:gray;
+	overflow:hidden;
+}
+#resizable img{
+	margin:0px;
+	_overflow:hidden!important;
+}
+#the_image{
+	z-index:99999;
+}
+.ui-resizable-handle{
+	background:#fff;
+}
+.resizable { width: 150px; height: 150px;}
+.resizable h3 { text-align: center; margin: 0; }
+
+.inner{
+	overflow:hidden;
+	background:gray;
+	width:400px;
+	height:400px;
+}
+.imgdiv{
+	display:block;
+	_overflow:hidden;
+	background:green;
+	float:left;
+}
+.row{
+	clear:both;
+}
+#error{
+	position:absolute;
+	top:0; right:100;
+}
+.demo{
+	position:absolute;
+}
+
+/** Settings Area */
+.settings{
+	position:absolute;
+	top:0x; right:0px;
+	border:solid gray 2px;
+	padding:10px;
+	width:300px;
+	background:#fff;
+}
+
+.settings label{
+	display:block;
+	width:100px;
+}
+
+.settings .cbinline{
+	display:inline;
+}
+
+.setting  p{
+	clear:both;
+}
+
+
+.settings .textinput{
+	width:50px;
+	float:left;
+	margin-left:10px;
+}
+
+.settings select{
+	width:300px;
+}
+.settings .submit{
+	float:right;
+}
+
+.slider{
+	width:232px;
+	float:left;
+}
+/** ***************************************** */
+.toggle-button{
+	-moz-border-radius:4px;
+	border-radius:4px;
+	border:solid gray 1px;
+	padding:4px;
+	color:#fff;	
+}
+.state-on{
+	background:gray;	
+}
+
+.state-off{
+	background:blue;	
+}
+
+/*.state-on:hover{
+	background:blue;
+}*/
+
+/*.state-off:hover{
+	background:gray;	
+}*/

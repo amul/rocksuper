@@ -1,0 +1,366 @@
+(($)->
+    $.fn.hasScrollBar = ->
+        return this.get(0).scrollHeight > this.height()
+)(jQuery)
+setLineHeight = (element_style_id_val, line_height_val) ->
+  $.post "/element_styles/"+element_style_id_val,
+    { _method:'PUT', element_style : {line_height: line_height_val} }
+    (data)-> 
+      console.log "element line height saved"
+    'json'
+    
+setLetterSpacing = (element_style_id_val, letter_spacing_val) ->
+  $.post "/element_styles/"+element_style_id_val,
+    { _method:'PUT', element_style : {letter_spacing: letter_spacing_val} }
+    (data)-> 
+      console.log "element letter spacing saved"
+    'json'
+
+setFontSize = (element_style_id_val, font_size_val) ->
+  $.post "/element_styles/"+element_style_id_val,
+    { _method:'PUT', element_style : {font_size: font_size_val} }
+    (data)-> 
+      console.log "element font size saved"
+    'json'
+    
+setLeftTopPos = (element_id_val, element_style_id_val, left_val, top_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {element_id: element_id_val, left: left_val, top: top_val} }, 
+        (data)-> 
+          console.log "left top pos saved"
+        , 'json'
+        
+setWHSize = (element_id_val, element_style_id_val, width_val, height_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {element_id: element_id_val, width: width_val, height: height_val} } 
+        (data)-> 
+          console.log "width height size saved"
+        'json'
+        
+setElementContent = (element_id_val, element_content_val) ->
+  $.post "/elements/"+element_id_val,
+    { _method:'PUT', element : {content: element_content_val} }
+    (data)-> 
+      console.log "element content saved"
+    'json'
+    
+$dialog_title_div = $ '
+  <div id="dialog_title" title="Title Settings" style="display: none;">
+    <div class="ssPanelHorNav PanelHorNav" style="overflow:hidden;display:block;">
+      <div href="#" class="title_settings subPanelButton gg ss">Title Settings</div>
+    </div>
+    <div class="ggPanelHor ssPanelHor PanelHor" style="position:relative;">
+      <div class="settingsPanel" style="width: 100%;">
+        <span>Line Height</span><br />
+        <div id="slider-elementLineHieght" class="slider"></div>
+        <input type="text" id="elementLineHieght" value="" data-elementid="element_id" data-styleid="element_style_id" /><br />
+        <span>Letter Spacing</span><br />
+        <div id="slider-elementLetterSpacing" class="slider"></div>
+        <input type="text" id="elementLetterSpacing" value="" data-elementid="element_id" data-styleid="element_style_id" />
+      </div>
+    </div>
+  </div>
+'
+    
+$controller_div = $ "
+<div class='controller'>
+  <a class='lock_element'><img src=\"<%= asset_path('images/toolbar-button-lock.png') %>\" /></a>
+  <a class='settings_element'><img src=\"<%= asset_path('images/toolbar-button-settings.png') %>\" /></a>
+  <a class='zup'><img src='/assets/images/toolbar-button-up.png' /></a>
+  <a class='zdown'><img src='/assets/images/toolbar-button-down.png' /></a>
+  <a class='delete_element'><img src='/assets/images/toolbar-button-delete.png' /></a>
+</div>
+"
+$title_div_html = $ '
+  <div class="element title" data-elementid="1168" data-elementstyleid="1054" data-locked="false" data-pageid="177" id="element_1168" style="left:px;top:px;width:164px;height:34px;font-family: ; font-size: px; z-index: ;" aria-disabled="false">
+    <div id="content_1168" class="content" style="width:164px;height:34px;line-height:; letter-spacing:px; font-size:px;">
+      A sample title, enter your<br> own text here.
+    </div>
+  </div>
+'
+$ ->  
+  myNicEditor = new nicEditor()
+  $panel = $("<div id='myNicPanelTitle'> </div>")
+  $('#pageCanvas').prepend($panel)
+  myNicEditor.setPanel('myNicPanelTitle')
+  $('#myNicPanelTitle').hide()
+  isSelectElement = false
+  $('#add_elem_title').click ->
+    #create default text content
+    <% sample_text = "A sample title, enter your<br /> own text here." %>
+    
+    $.post "/elements", 
+      { _method:'POST', element : {page_id: $('#add_elem_title').data('pageid'), elem_type: 'title', content: '<%= sample_text %>'} }, 
+      (data)->
+        $title_div_html
+          .attr('id','element_'+data.element.id)
+          .data('elementid',data.element.id)
+          .data('pageid',data.element.page_id)
+        $.post "/element_styles", 
+          { _method:'POST', element_style : {element_id: data.element.id, width: 164,height: 34} }
+          (data)->
+            console.log "added"
+            $title_div_html
+              .data('elementstyleid',data.element_style.id)
+            $('.content',$title_div_html).attr('id','content_'+data.element_style.element_id)  
+                      
+            $("#pageWrap").append($title_div_html)
+            
+            $title_div_html.resizable
+              alsoResize: $('.content', $title_div_html)
+              handles: "n, e, s, w, ne, nw, se, sw"
+              disabled: true
+              create: (event, ui) ->
+                $(this).resizable( "disable" )
+              start: (event, ui) ->
+              resize: (event, ui) ->
+              stop: (event, ui) ->
+                element_id_val = $(this).data('elementid')
+                element_style_id_val = $(this).data('elementstyleid')
+                width_val  = ui.size.width
+                height_val = ui.size.height
+                setWHSize(element_id_val, element_style_id_val, width_val, height_val)
+            .draggable
+              #handle: this
+              disabled: true
+              create: (event, ui) ->
+                $(this).draggable( "disable" )
+              start: (event, ui) ->
+              drag: (event, ui) ->
+              stop: (event, ui) ->
+                element_id_val = $(this).data('elementid')
+                element_style_id_val = $(this).data('elementstyleid')
+                left_val = ui.position.left
+                top_val = ui.position.top
+                setLeftTopPos(element_id_val, element_style_id_val, left_val, top_val)
+                
+            $title_div_html.bind "resizestop", (event, ui)->
+              $curFontSize = parseInt($('.content', $title_div_html).css('fontSize').replace('px', ''))
+              element_style_id_val = $title_div_html.data('elementstyleid')
+              font_size_val = $curFontSize
+              setFontSize(element_style_id_val, font_size_val)
+                
+            $curFontSize = parseInt($('.content', $title_div_html).css('fontSize').replace('px', ''))
+            $title_div_html.bind "resize", (event, ui)->
+              $percentageW = (ui.size.width / ui.originalSize.width)
+              $percentageH = (ui.size.height / ui.originalSize.height)
+              $percentage = $percentageH
+              #$fontVal = Math.round(parseInt($curFontSize) * $percentage)
+              if $('.content', $title_div_html).hasScrollBar()
+                console.log 'yes scroll resizefont 2'
+              else
+                console.log 'no scroll resizefont 2'    
+                $fontVal = Math.round(parseInt($curFontSize) * $percentage)            
+              $('.content', $title_div_html).css
+                fontSize: $fontVal
+                lineHeight: 'normal'
+                
+            $title_div_html.bind 'dblclick', (event)->
+              $target = $(event.target)
+              if $target.is('img', $('.controller'))
+                return
+              $cur_element = $title_div_html
+              #$top = parseInt( $cur_element.css('top').replace('px','') )
+              console.log "[title] show toolbar/panel for editor"
+              if $('#myNicPanelTitle').is(':hidden')
+                $('#myNicPanelTitle').css
+                  position: 'absolute'
+                  top: $(window).scrollTop()+'px'
+                  left: '50%'
+                  marginLeft: '-305px'
+                  'z-index': 13000
+                  width: '610px'
+                .show()    
+                
+              console.log "set isSelectElement var right"
+              if isSelectElement==false
+                isSelectElement = true
+                console.log "set the #pageWrap event on --=val= "+isSelectElement
+              
+              console.log "check if element has class of editorOn so that it will stop when it is already editoron"
+              if $cur_element.hasClass('editorOn')
+                console.log "stop making wisiwig"
+                return
+                
+              $cur_element_content = $('.content', $cur_element)
+              
+              console.log "disable drag and resize for the editorOn for cleanliness"
+              $cur_element.draggable("option", "disabled", true).resizable("option", "disabled", true)
+              
+              console.log "remove controller div for cleanliness"
+              $('.controller', $cur_element).remove()
+              $other_elements = $('.element:not(.cur_selected)')
+              
+              console.log "add class editorOn and remove it for other elements are in active"
+              $other_elements.removeClass('editorOn')
+              $cur_element.addClass('editorOn')
+              
+              console.log "add Instance on editor using .content "+$cur_element_content.attr('id')
+              console.log myNicEditor
+              myNicEditor.addInstance($cur_element_content.attr('id'))
+              console.log myNicEditor
+              $cur_element_content.focus();
+              
+              console.log "set blur event hundler for editor hide panel and post/removeInstance current element"+$cur_element_content.attr('id')
+              myNicEditor.addEvent 'blur', ->
+                element_id_val = $cur_element.data('elementid')
+                element_content_val = $cur_element_content.html()
+                setElementContent(element_id_val, element_content_val)
+                if $('#myNicPanelTitle').is(':visible')
+                  $('#myNicPanelTitle').hide()
+                  
+              
+              console.log "[titles] make text wisiwig"
+              $divToTextAreaClone = $('.content',$cur_element)
+              $divToTextArea = $('.content',$cur_element)
+
+            $title_div_html.bind 'mousedown', ->              
+              
+              if isSelectElement==false
+                isSelectElement = true
+                console.log "set the #pageWrap event on --=val= "+isSelectElement
+              $cur_element =  $title_div_html;
+              if !$title_div_html.hasClass('cur_selected')
+                $('.element').removeClass('cur_selected')
+                $('.element').find('.controller').remove()
+                if($cur_element.find('.controller').length < 1)
+                  console.log "set isSelectElement = true if($cur_element.find('.controller').length < 1) @ title.js.coffee.erb"
+                  console.log isSelectElement
+                  console.log "add class cur_selected and append controller div @ title.js.coffee.erb"
+                  $title_div_html.addClass('cur_selected').append($controller_div)
+                  $other_elements = $('.element:not(.cur_selected)')
+                  
+                  console.log "other_elements resize drag disabled and enabled current element bec it is single click @ title.js.coffee.erb"
+                  $other_elements.resizable("option", "disabled", true).draggable("option", "disabled", true)
+                  $title_div_html.resizable("option", "disabled", false).draggable("option", "disabled", false)
+                          
+                  $controller_div.mousedown (event)->
+                    event.preventDefault()
+                    event.stopPropagation()
+                    $target = $(event.target)
+                    $element_box = $(this).parents('.element')
+                    if $target.is('.zup') || $target.is('.zup img')
+                      console.log "z_index_add_new_elem"
+                      cur_zindex = $element_box.css('zIndex')
+                      $element_box.css
+                        zIndex: parseInt(cur_zindex)+1
+                        console.log parseInt(cur_zindex)+1
+                        element_id_val = $element.data('elementid')
+                        element_style_id_val = $element.data('elementstyleid')
+                        zIndex = parseInt(cur_zindex)+1
+                        setZindex(element_id_val, element_style_id_val, zIndex)
+                        console.log element_id_val
+                    else if $target.is('.zdown') || $target.is('.zdown img')
+                      console.log "z_index_subtract_new"
+                      cur_zindex = $element_box.css('zIndex')
+                      $element_box.css
+                        zIndex: parseInt(cur_zindex)-1
+                        console.log parseInt(cur_zindex)-1
+                        element_id_val = $element.data('elementid')
+                        element_style_id_val = $element.data('elementstyleid')
+                        zIndex = parseInt(cur_zindex)-1
+                        setZindex(element_id_val, element_style_id_val, zIndex)
+                    else if $target.is('.delete_element') || $target.is('.delete_element img')
+                      element_id_val = $element_box.data('elementid')
+                      $element_box.remove()
+                      delete_element(element_id_val)
+                      console.log "element_new has been deleted"
+                    else if $target.is('.settings_element') || $target.is('.settings_element img')
+                      #cur_element.prepend($dialog_title_div.html())
+                      #dialog_title_div.dialog
+                      # autoOpen: false,
+                      # width: 526,
+                      # zIndex: 13000,
+                      # close: (event, ui) ->
+                      #   $dialog_title_div.remove()
+                      console.log '[titles] nothing'
+                      #$settings_div.show("slide", { direction: "right" }, 800)
+                      #$('.close_box_settings', $settings_div).click ->
+                      #  $settings_div.hide("slide", { direction: "right" }, 800)
+                      ##alert "show box settings opt"
+                    else if $target.is('.lock_element') || $target.is('.lock_element img')
+                      alert('element locked')
+
+          'json'
+      'json'
+      
+  $( ".element.title").each ->
+    $cur_element = $(this)
+    $curFontSize = parseInt($('.content', $cur_element).css('fontSize').replace('px', ''))
+    
+    $cur_element.bind "resizestart", (event, ui)->
+      $curFontSize = parseInt($('.content', $cur_element).css('fontSize').replace('px', ''))
+      console.log "start"
+      
+    $cur_element.bind "resize", (event, ui)->
+      $percentageW = (ui.size.width / ui.originalSize.width)
+      $percentageH = (ui.size.height / ui.originalSize.height)
+      $percentage = $percentageH
+      #$fontVal = Math.round($curFontSize * $percentage)
+      if $('.content', $cur_element).hasScrollBar()
+        console.log 'yes scroll resizefont 1'
+      else
+        console.log 'no scroll resizefont 1'
+        $fontVal = Math.round($curFontSize * $percentage)
+      $('.content', $cur_element).css
+        fontSize: $fontVal
+        lineHeight: 'normal'
+      console.log $curFontSize
+      console.log $fontVal
+      console.log $percentage
+      
+    $cur_element.bind "resizestop", (event, ui)->
+      console.log "stop"
+      $curFontSize = parseInt($('.content', $cur_element).css('fontSize').replace('px', ''))
+      element_style_id_val = $cur_element.data('elementstyleid')
+      font_size_val = $curFontSize
+      setFontSize(element_style_id_val, font_size_val)
+      
+  $('#pageWrap').mousedown (event)->
+    if !isSelectElement
+      return
+    $cur_element = $(this)
+    
+    $target = $(event.target)
+    if $target.is('#pageWrap')
+      $('.element').removeClass('cur_selected')
+      $('.element').find('.controller').remove()
+      $('.element').resizable("option", "disabled", true).draggable("option", "disabled", true)
+      isSelectElement = false
+      console.log "set the #pageWrap event on --=val= "+isSelectElement
+      
+      if( (typeof $menu != 'undefined') && $menu.is(':visible'))
+        $menu.hide()
+      console.log "event handled"
+      
+      $('.element').removeClass('editorOn')
+      console.log "close_box_settings click"
+      $('.close_box_settings').trigger('click')
+      
+  $('.title .settings_element').live 'click', ->
+    $cur_title_element = $(this).parents('.element');
+    $(this).parents('.element').prepend($dialog_title_div)
+    $dialog_title_div.dialog
+      autoOpen: false
+      width: 526
+      zIndex: 13000
+      close: (event, ui) ->
+        $dialog_title_div.remove()
+    #$cur_element_lineheight = $cur_title_element.find('.content').css('line-height')
+    #$('#slider-elementLineHieght', $dialog_title_div).slider({
+    #  min:0.5,
+    #  max:10
+    #});
+    $dialog_title_div.dialog('open')
+    $('#elementLineHieght').bind 'change', ->
+      $('.content', $cur_title_element).css
+        'line-height': $(this).val()
+      element_style_id_val = $cur_title_element.data('elementstyleid')
+      line_height_val = $(this).val()
+      setLineHeight(element_style_id_val, line_height_val)
+    $('#elementLetterSpacing').bind 'change', ->
+      $('.content', $cur_title_element).css
+        'letter-spacing': $(this).val()+'px'
+      element_style_id_val = $cur_title_element.data('elementstyleid')
+      letter_spacing_val = $(this).val()
+      setLetterSpacing(element_style_id_val, letter_spacing_val)

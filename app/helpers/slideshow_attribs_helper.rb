@@ -1,0 +1,2 @@
+module SlideshowAttribsHelper
+end

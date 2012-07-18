@@ -1,0 +1,8 @@
+#main_nav li {
+  display: inline;
+  float: left;
+  list-style: none;
+}
+.invi {
+  display: none;
+}

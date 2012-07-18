@@ -1,0 +1,29 @@
+<%= form_for(@global_page_setting) do |f| %>
+  <% if @global_page_setting.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@global_page_setting.errors.count, "error") %> prohibited this global_page_setting from being saved:</h2>
+
+      <ul>
+      <% @global_page_setting.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br />
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :page_width %><br />
+    <%= f.number_field :page_width %>
+  </div>
+  <div class="field">
+    <%= f.label :bg_color %><br />
+    <%= f.text_field :bg_color %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

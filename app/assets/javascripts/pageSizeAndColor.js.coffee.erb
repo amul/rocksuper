@@ -1,0 +1,177 @@
+putGlobalPageSettingsBGCanvass = (gps_id_val, canvas_bg_color_val) ->
+  $.post "/global_page_settings/"+gps_id_val, 
+        { _method:'PUT', global_page_setting : {canvas_bg_color: canvas_bg_color_val} }, 
+        (data)-> 
+          console.log "[pageSizeAndColor.js] global_page_setting cavas_bg_color (edit) saved"
+        , 'json'
+postGlobalPageSettingsBGCanvass = (user_id_val, canvas_bg_color_val) ->
+  $.post "/global_page_settings", 
+        { _method:'POST', global_page_setting : {user_id: user_id_val, canvas_bg_color: canvas_bg_color_val} }, 
+        (data)-> 
+          console.log "[pageSizeAndColor.js] global_page_setting cavas_bg_color (edit) saved"
+        , 'json'
+$ ->
+  page_gradient_val = null
+  gps_id = $('#pageCanvas').data('globalpagesettingid')
+  makeColorPickerForPageCanvas = (element, targetChange, uID)->
+    element.ColorPicker
+      color: '#0000ff'
+      onChange: (hsb, hex, rgb)->
+        element.find('div').css
+          'backgroundColor': '#'+hex
+        targetChange.css
+          'backgroundColor': '#'+hex
+          'backgroundImage': 'none'
+      onSubmit: (hsb, hex, rgb, el) ->
+        console.log el
+        $(el).val(hex)
+        $(el).ColorPickerHide()
+        user_id_val = uID
+        canvas_bg_color_val = '#'+hex
+        if $('#pageCanvas').data('globalpagesetting')=='yes'
+          gps_id_val = $('#pageCanvas').data('globalpagesettingid')
+          putGlobalPageSettingsBGCanvass(gps_id_val, canvas_bg_color_val)
+        else
+          postGlobalPageSettingsBGCanvass(user_id_val, canvas_bg_color_val)
+          
+  uID = $('#pageCanvas').data('use')
+  globalpagesettingid = $('#pageCanvas').data('globalpagesettingid')
+  pageid = $('#pageCanvas').data('pageid')
+  $('#page_size_and_color_settings').bind "click", ->
+    $dialog_page_size_and_color_settings = $ '
+      <div id="dialog" title="Page Size and Color" style="display: none;">
+        <label id="cpicker_canvas_bgcolor"> Canvas
+          <div id="canvasBgColorSelectorReal" class="selector_jq">
+            <div style="background-color: #0000ff"> </div>
+          </div>
+          <div id="gradientOptionsPageColor" style="display:none;">
+            <div class="gradientBgColor" >&nbsp;</div>
+            <select class="gradientOrientation">
+              <option value="horizontal">Horizontal</option>
+              <option value="vertical" selected="selected">Vertical</option>
+            </select>
+          </div>
+          <input type="button" value="Use Gradient" id="useGradientBg" /><br />
+        </label>
+        <form accept-charset="UTF-8" action="/global_page_settings" class="edit_global_page_setting" id="edit_global_page_setting_2" method="post">
+          <label> Width
+            <input name="_method" type="hidden" value="put">
+            <input id="pageWidth" name="global_page_setting[page_width]" type="number" >
+          </label>
+        </form>
+        <form accept-charset="UTF-8" action="/pages" class="edit_page" id="edit_page_7" method="post">
+          <label> Height
+            <input name="_method" type="hidden" value="put">
+            <input id="pageHeight" name="page[height]" type="number" >
+          </label>
+        </form>
+        <form accept-charset="UTF-8" action="/global_page_settings" class="edit_global_page_setting_canvas" id="edit_global_page_setting_transparent" method="post">
+          <label> Use Transparent Canvas BG
+            <input name="_method" type="hidden" value="put">
+            <input id="canvas_bg_color_checkbox" type="checkbox" value="transparent">
+            <input id="canvas_bg_color" name="global_page_setting[canvas_bg_color]" type="hidden" value="transparent">
+          </label>
+        </form>
+        <div class="actions">
+          <input name="commit" type="button" id="pageBackgroundOkBtn" value="Ok">
+        </div>
+      </div>
+    '
+    $('body').prepend($dialog_page_size_and_color_settings)
+    $dialog_page_size_and_color_settings.dialog
+      autoOpen: false
+      zIndex: 20000
+      
+    $('#useGradientBg',$dialog_page_size_and_color_settings).bind 'click', ->
+      $cur_button = $(this)
+      if $('.gradientBgColor',$dialog_page_size_and_color_settings).data('gradientCreator')
+        console.log 'yes'
+      else
+        console.log 'no'
+      if $cur_button.val() == "Use Gradient"
+        $('#gradientOptionsPageColor').attr('style', 'display:block;')
+        $('#canvasBgColorSelectorReal').attr('style', 'display:none;')
+        $('.gradientBgColor').gradientCreator
+          gradient: '#ebf1f6 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%',
+          target: $('#pageWrap'),
+          tooltipGradient: ' #fceabb 0%,#fccd4d 49%,#f8b500 53%,#fbdf93 100%'
+          onChange: (stringGradient,cssGradient,ArrayColors) ->
+            console.log 'stringGradient val: '+stringGradient
+            console.log 'cssGradient val: '+cssGradient
+            page_gradient_val = cssGradient
+        $cur_button.val('Solid Color')
+      else
+        $('#pageWrap').removeStyle('background')
+        $('#pageWrap').css
+          'background': '#89c4eb'
+        $('#gradientOptionsPageColor').attr('style', 'display:none;')
+        $('#canvasBgColorSelectorReal').attr('style', 'display:block;')
+        $cur_button.val('Use Gradient')
+      
+      $('.gradientOrientation',$dialog_page_size_and_color_settings).bind 'change', ->
+        $('.gradientBgColor').data('gradientCreator').setOrientation $(this).val()
+      
+    $dialog_page_size_and_color_settings.dialog("open")
+    $bg_color_canvas = $('#pageWrap').css('backgroundColor')
+    $bg_boxShadow_canvas = $('#pageWrap').css('boxShadow')
+    $('#canvas_bg_color_checkbox').change ->
+      if $('#canvas_bg_color_checkbox:checked').length >= 1
+        #$('#canvas_bg_color').val('transparent')
+        $('.edit_global_page_setting_canvas').attr('action', '/global_page_settings/'+gps_id)
+        $('#cpicker_canvas_bgcolor').hide()
+        $('#pageWrap').css
+          'background': 'none'
+          'boxShadow': 'none'
+      else
+        if $('#cpicker_canvas_bgcolor').is(':hidden')
+          $('#cpicker_canvas_bgcolor').show()
+          $('#pageWrap').css
+            'background': $bg_color_canvas
+            'boxShadow': $bg_boxShadow_canvas
+    
+    console.log "[pageSizeAndColor.js] set event ok in this form"
+    $('#pageBackgroundOkBtn').bind 'click', ->
+      if $('#pageWidth', $dialog_page_size_and_color_settings).val() != ""
+        $('#pageWidth', $dialog_page_size_and_color_settings).parents('.edit_global_page_setting').submit()
+      if $('#pageHeight', $dialog_page_size_and_color_settings).val() != ""
+        $('#pageHeight', $dialog_page_size_and_color_settings).parents('.edit_page').submit()
+      if $('#canvas_bg_color_checkbox:checked', $dialog_page_size_and_color_settings).length >= 1
+        $('#canvas_bg_color_checkbox:checked', $dialog_page_size_and_color_settings).parents('.edit_global_page_setting_canvas').submit()
+      if $('#useGradientBg').val() == 'Solid Color'
+        alert(page_gradient_val)
+      $dialog_page_size_and_color_settings.dialog("destroy")
+    
+    element = $('#canvasBgColorSelectorReal', $dialog_page_size_and_color_settings)
+    targetChange = $('#pageWrap')
+    makeColorPickerForPageCanvas(element, targetChange, uID)
+    
+    console.log '[pageSizeAndColor.js] sanitize forms'
+    $('.edit_global_page_setting', $dialog_page_size_and_color_settings).attr('action', '/global_page_settings/'+globalpagesettingid)
+    $('.edit_page', $dialog_page_size_and_color_settings).attr('action', '/pages/'+pageid)
+    
+    console.log '[pageSizeAndColor.js] make ajax form for page width and height'          
+    $('.edit_global_page_setting', $dialog_page_size_and_color_settings).ajaxForm
+      datatype: 'json'
+      success: (data)-> 
+        console.log '[pageSizeAndColor.js] put page width (global) success'
+        #server response
+        $html_response = $(data)
+        console.log $html_response
+        $('#pageWrap').css('width', $('#pageWidth').val())
+    $('.edit_page', $dialog_page_size_and_color_settings).ajaxForm
+      datatype: 'json'
+      success: (data)-> 
+        console.log '[pageSizeAndColor.js] put page ht success'
+        #server response
+        $html_response = $(data)
+        console.log $html_response
+    $('.edit_global_page_setting_canvas', $dialog_page_size_and_color_settings).ajaxForm
+      datatype: 'json'
+      success: (data)-> 
+        console.log '[pageSizeAndColor.js] put canvas bg color transparent success'
+        #server response
+        $html_response = $(data)
+        console.log $html_response
+    
+
+    

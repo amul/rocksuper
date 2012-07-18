@@ -1,0 +1,34 @@
+putElementLocked = (element_id_val, element_locked_val) ->
+  $.post "/elements/"+element_id_val,
+    { _method:'PUT', element : {locked: element_locked_val} }
+    (data)-> 
+      console.log "element locked saved : "
+    'json'
+
+$ ->
+  $('.element').live 'click', ->
+    $cur_element_block = $(this)
+    if $cur_element_block.find('.controller').length >= 1
+      console.log "set event handler for controller_div"
+      $('.controller', $cur_element_block).bind 'mousedown', (event)->
+        #event.preventDefault()
+        #event.stopPropagation()
+        $target = $(event.target)
+        if $target.is('.lock_element') || $target.is('.lock_element img')
+          element_id_val = $cur_element_block.data('elementid')
+          if $cur_element_block.hasClass('locked')
+            console.log 'locked f'
+            element_locked_val = 1
+            putElementLocked(element_id_val, element_locked_val)
+          else
+            console.log 'unlocked f'
+            element_locked_val = 0
+            putElementLocked(element_id_val, element_locked_val)
+
+  $('.element').each ->
+    $cur_element = $(this)
+    if $cur_element.data('locked') == true
+      console.log 'add class locked'
+      #$cur_element.resizable("option", "disabled", true).draggable("option", "disabled", true)
+      $cur_element.addClass('locked')
+      

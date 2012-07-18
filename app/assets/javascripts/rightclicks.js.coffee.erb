@@ -1,0 +1,311 @@
+putElementLocked = (element_id_val, element_locked_val) ->
+  $.post "/elements/"+element_id_val,
+    { _method:'PUT', element : {locked: element_locked_val} }
+    (data)-> 
+      console.log "element locked saved (rightclick) : "
+    'json'
+setLineHeight = (element_style_id_val, line_height_val) ->
+  $.post "/element_styles/"+element_style_id_val,
+    { _method:'PUT', element_style : {line_height: line_height_val} }
+    (data)-> 
+      console.log "element line height saved"
+    'json'
+    
+setLetterSpacing = (element_style_id_val, letter_spacing_val) ->
+  $.post "/element_styles/"+element_style_id_val,
+    { _method:'PUT', element_style : {letter_spacing: letter_spacing_val} }
+    (data)-> 
+      console.log "element letter spacing saved"
+    'json'
+setZindex = (element_id_val, element_style_id_val, zIndex) ->
+  $.post "/element_styles/"+element_style_id_val,
+    { _method:'PUT', element_style : {element_id: element_id_val, z_index: zIndex} }
+    (data)-> 
+      console.log "element zindex saved"
+    'json'
+setLeftTopPos = (element_style_id_val, left_val, top_val) ->
+  console.log element_style_id_val
+  console.log left_val
+  console.log top_val
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {left: left_val, top: top_val} }, 
+        (data)-> 
+          console.log "left top pos saved"
+        , 'json'
+setWHSize = (element_id_val, element_style_id_val, width_val, height_val) ->
+  console.log element_id_val
+  console.log element_style_id_val
+  console.log width_val
+  console.log height_val
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {element_id: element_id_val, width: width_val, height: height_val} } 
+        (data)-> 
+          console.log "width height size saved"
+        'json'
+duplicateElement = (page_id_val, elem_type_val, content_val, width_val, height_val, left_val, top_val, clone_element)->
+  $cur_elem_clone = clone_element
+  $.post "/elements", 
+    { _method:'POST', element : {page_id: page_id_val, elem_type: elem_type_val, content: content_val} }, 
+    (data)->
+      console.log "element_id "+data.element.id
+      $.post "/element_styles", 
+      { _method:'POST', element_style : {element_id: data.element.id, width: width_val, height: height_val, left: left_val, top: top_val} }, 
+      (data)->
+        console.log "element_id elem_style "+data.element_style.element_id
+        #create an element
+        $('.element').removeClass('cur_selected')
+        $('.element').find('.controller').remove()
+        $('.element').resizable("option", "disabled", true).draggable("option", "disabled", true)
+        $("#pageWrap").trigger('mousedown')
+        console.log "attribute correction for clone"
+        $cur_elem_clone
+          .attr
+            id: 'element_'+data.element_style.element_id
+            'data-elementid': data.element_style.element_id
+            'data-elementstyleid': data.element_style.id
+        $('#pageWrap').append($cur_elem_clone)
+        
+        console.log "resize and drag for clone"
+        $cur_elem_clone.resizable
+          alsoResize: $('.content', $cur_elem_clone )
+          stop: (event, ui) ->
+            element_id_val = $(this).data('elementid')
+            element_style_id_val = $(this).data('elementstyleid')
+            width_val  = ui.size.width
+            height_val = ui.size.height
+            setWHSize(element_id_val, element_style_id_val, width_val, height_val)
+        .draggable
+          stop: (event, ui) ->
+            element_style_id_val = $(this).data('elementstyleid')
+            left_val = ui.position.left
+            top_val = ui.position.top
+            setLeftTopPos(element_style_id_val, left_val, top_val)
+        
+        $cur_elem_clone.bind 'mousedown', (event)->
+          if $cur_elem_clone.hasClass('.editorOn') || $cur_elem_clone.hasClass('locked')
+            console.log 'cancel mousedown even because it is dblclicked and in edit mode'
+            return
+            
+          if isSelectElement==false
+            isSelectElement = true
+            
+        $controller_div = $('.controller', $cur_elem_clone)
+        console.log $controller_div
+        $controller_div.mousedown (event)->
+          #event.preventDefault()
+          #event.stopPropagation()
+          $target = $(event.target)
+          if $target.is('.zup') || $target.is('.zup img')
+            console.log "z_index_add"
+            cur_zindex = $(this).parents('.element').css('zIndex')
+            $(this).parents('.element').css
+              zIndex: parseInt(cur_zindex)+1
+              console.log parseInt(cur_zindex)+1
+              element_id_val = $cur_elem_clone.data('elementid')
+              element_style_id_val = $cur_elem_clone.data('elementstyleid')
+              zIndex = parseInt(cur_zindex)+1
+              setZindex(element_id_val, element_style_id_val, zIndex)
+          else if $target.is('.zdown') || $target.is('.zdown img')
+            console.log "z_index_subtract"
+            cur_zindex = $(this).parents('.element').css('zIndex')
+            $(this).parents('.element').css
+              zIndex: parseInt(cur_zindex)-1
+              console.log parseInt(cur_zindex)-1
+              element_id_val = $cur_elem_clone.data('elementid')
+              element_style_id_val = $cur_elem_clone.data('elementstyleid')
+              zIndex = parseInt(cur_zindex)-1
+              setZindex(element_id_val, element_style_id_val, zIndex)
+          else if $target.is('.delete_element') || $target.is('.delete_element img')
+            element_id_val = $(this).parents('.element').data('elementid')
+            $(this).parents('.element').remove()
+            delete_element(element_id_val)
+            console.log "element has been deleted (not calbak)"
+          else if $target.is('.settings_element') || $target.is('.settings_element img')
+            #console.log "dblclick click"
+            #$cur_element.trigger('dblclick')
+            element_id = $cur_elem_clone.data('elementid')
+            element_style_id = $cur_elem_clone.data('elementstyleid')
+            element = $cur_elem_clone
+            $settings_div = generateSettingsHtml(element_id, element_style_id, element)
+            $('body').prepend($settings_div)
+            $settings_div.show "slide", { direction: "right" }, 800, ->
+              $('#elementLetterSpacing').bind 'change', ->
+                elementId = $('#elementLineHieght').data('elementid')
+                $cur_element = $('#element_'+elementId)
+                
+                element_style_id_val = $('#elementLineHieght').data('styleid')
+                letter_spacing_val = $('#elementLetterSpacing').val()
+                setLetterSpacing(element_style_id_val, letter_spacing_val)
+                
+                $('.content', $cur_element).css
+                  letterSpacing: $('#elementLetterSpacing').val() + "px"
+              $('#elementLineHieght').bind 'change', ->
+                elementId = $('#elementLineHieght').data('elementid')
+                console.log elementId
+                $cur_element = $('#element_'+elementId)
+                
+                element_style_id_val = $('#elementLineHieght').data('styleid')
+                line_height_val = $('#elementLineHieght').val()
+                setLineHeight(element_style_id_val, line_height_val)
+                
+                $('.content', $cur_element).css
+                  lineHeight: $('#elementLineHieght').val()
+            $('.close_box_settings', $settings_div).click ->
+              $settings_div.hide "slide", { direction: "right" }, 800, ->
+                $settings_div.remove()
+          else if $target.is('.lock_element') || $target.is('.lock_element img')
+            $cur_elem_clone.addClass('locked')
+            $cur_elem_clone.draggable("option", "disabled", true).resizable("option", "disabled", false)
+            console.log "locked element "+$cur_elem_clone.attr('id')
+      ,'json'
+    'json'   
+    
+#the element that shows after clicking the settings button
+generateSettingsHtml = (element_id, element_style_id, element) ->
+  if element.hasClass('paragraph') || element.hasClass('title')
+    $settings_div = $ "
+    <div id='settingsPannel' style='display:none'>
+      <span class='close_box_settings'>&nbsp;</span>
+      <span>Line Height</span><br />
+      <input type='text' id='elementLineHieght' value='' data-elementid="+element_id+" data-styleid="+element_style_id+" /><br />
+      <span>Letter Spacing</span><br />
+      <input type='text' id='elementLetterSpacing' value='' data-elementid="+element_id+" data-styleid="+element_style_id+" />
+    </div>
+    "
+  else if element.hasClass('bgdiv')
+    $settings_div = $ "
+    <div id='settingsPannel' style='display:none'>
+      <span class='close_box_settings'>&nbsp;</span>
+      <h3>options for background</h3>
+    </div>
+    "
+    
+$controller_div = $ '
+  <div class="controller">
+    <a class="lock_element">
+      <img src="/assets/images/toolbar-button-lock.png">
+    </a>  
+    <a class="settings_element">
+      <img src="/assets/images/toolbar-button-settings.png">
+    </a>  
+    <a class="zup">
+      <img src="/assets/images/toolbar-button-up.png">
+    </a>  
+    <a class="zdown">
+      <img src="/assets/images/toolbar-button-down.png">
+    </a>  
+    <a class="delete_element">
+    <img src="/assets/images/toolbar-button-delete.png">
+    </a>
+  </div>
+'
+$ -> 
+  $menu = $ '<div style="border: 1px solid 000; padding: 10px; display: none; " id="menuElement" class="menu rightClickMenu vertical">
+    <div id="lock" class="first_li"><span>Lock</span></div>
+    <div id="duplicate" class="first_li"><span>Duplicate</span></div>
+    
+    <div class="sep_li"></div>
+    
+    <div class="first_li"><span>Edit</span></div>
+    <div class="first_li"><span>Event Log</span></div>
+    
+    <div class="sep_li"></div>
+    
+    <div class="first_li"><span>New</span></div>
+    <div class="first_li"><span>Preview</span></div>
+    
+    <div class="sep_li"></div>
+    
+    <div id="snapToGrid" class="first_li"><span>Snap to Grid</span></div>
+  </div>'
+  
+  $('body').prepend($menu)
+  
+  $lock = $('#lock', $menu)
+  $duplicate = $('#duplicate', $menu)
+  $snapToGrid = $('#snapToGrid', $menu)
+  
+  $('.element').live "contextmenu", (e)->
+    $cur_elem = $(this)
+    if $cur_elem.hasClass('locked')
+      $lock.html('<span>Unlock</span>')
+    else
+      $lock.html('<span>Lock</span>')
+    $menu.css({
+        top: e.pageY+'px',
+        left: e.pageX+'px',
+        position: 'absolute',
+        zIndex: 12000
+    }).show "fast", ->
+      $lock.bind "click", (event)->
+        event.preventDefault()
+        event.stopPropagation()
+        $target = $(event.target)
+        if $target.is('#lock') || $target.is('#lock span')
+          console.log "if"+$cur_elem.hasClass('locked')
+          if $cur_elem.hasClass('locked')
+            console.log "[richtclicks] set locked = false"
+            $cur_elem.data('locked', false)
+            console.log "[richtclicks] $cur_elem.addClass('cur_selected')"
+            $cur_elem.removeClass('locked')
+            $cur_elem.prepend($controller_div)
+            $cur_elem.addClass('cur_selected')
+            $cur_elem.draggable("option", "disabled", false).resizable("option", "disabled", false)
+            #will allow to resize once the element remove class locked
+            console.log "unlocked element "+$cur_elem.attr('id')
+            element_id_val = $cur_elem.data('elementid')
+            element_locked_val = 0
+            putElementLocked(element_id_val, element_locked_val)
+          else
+            console.log "[richtclicks] $cur_elem.removeClass('cur_selected')"
+            $cur_elem.addClass('locked')
+            $cur_elem.find('.controller').remove()
+            $cur_elem.removeClass('cur_selected')
+            $cur_elem.draggable("option", "disabled", true).resizable("option", "disabled", true)
+            console.log "locked element "+$cur_elem.attr('id')
+            element_id_val = $cur_elem.data('elementid')
+            element_locked_val = 1
+            putElementLocked(element_id_val, element_locked_val)
+          $menu.hide "fast", ->
+            $lock.unbind('click')
+          
+        
+      $duplicate.bind "click", (e)->
+        #alert "post a new element element style and a content"
+        $cur_elem_clone = $cur_elem.clone()
+        $cur_elem_left = $cur_elem_clone.css('left')
+        $cur_elem_top = $cur_elem_clone.css('top')
+        $cur_elem_clone
+          .attr
+            id: 'new_element_id'
+            'data-elementid': '123elementId'
+            'data-elementstyleid': '123styleid'
+          .css
+            top: (parseInt($cur_elem_top)+30)+'px',
+            left: (parseInt($cur_elem_left)+30)+'px',
+            position: 'absolute'
+        if $cur_elem_clone.hasClass('paragraph')
+          elem_type_val = 'paragraph'
+          page_id_val = $('#add_elem_paragraph').data('pageid')
+        else if $cur_elem_clone.hasClass('title')
+          elem_type_val = 'title'
+          page_id_val = $('#add_elem_title').data('pageid')
+        else if $cur_elem_clone.hasClass('picture')
+          elem_type_val = 'picture'  
+          page_id_val = $('#add_elem_picture').data('pageid')      
+        content_val = $('.content', $cur_elem_clone).html()
+        width_val  = parseInt($cur_elem_clone.width())
+        height_val = parseInt($cur_elem_clone.height())
+        left_val   = parseInt($cur_elem_clone.position().left)
+        top_val    = parseInt($cur_elem_clone.position().top)
+        clone_element = $cur_elem_clone
+        duplicateElement(page_id_val, elem_type_val, content_val, width_val, height_val, left_val, top_val, clone_element)
+        
+        $menu.hide "fast", ->
+          $duplicate.unbind('click')
+        
+      $snapToGrid.bind "click", ->
+        $cur_elem.draggable( "option", "grid", [50, 20] )
+        $menu.hide()
+        console.log "activate snap to grid drag"
+    return false

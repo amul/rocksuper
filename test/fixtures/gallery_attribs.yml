@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  col: 1
+  row: 1
+  margin: 1
+  element_id: 1
+
+two:
+  col: 1
+  row: 1
+  margin: 1
+  element_id: 1

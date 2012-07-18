@@ -1,0 +1,38 @@
+setLeftTopPosNav = (user_id_val, left_val_nav, top_val_nav) ->
+  $.post "/users/"+user_id_val, 
+        { _method:'PUT', user : {left: left_val_nav, top: top_val_nav} }, 
+        (data)-> 
+          console.log "left top pos saved from USER MODEL"
+        , 'json'
+$ ->
+  $uID = $('#pageCanvas').data('use')
+  $edit_btn = $ '
+    <a href="#editMode" class="editPage mode">Edit</a>
+  '
+  $('.previewPage.mode').live 'click', ->
+    console.log "[superScripts] hide"
+    $('#user_status').hide()
+    $('#pageCanvas').prepend($edit_btn)
+    $('#pageWrap').addClass('removeBoxShadow')
+    $('body').addClass('prevMode')
+    console.log "[superScripts] finish hide main panel/nav"
+    console.log('[superScripts] make gg lightbox on');
+    $('.gallery_grid_element').each ->
+      $('.gallery_grid_element a').lightBox()       
+    return false
+  $('.editPage.mode').live 'click', ->
+    console.log '[superScripts] show'
+    $('#user_status').show()
+    $edit_btn.remove()
+    $('#pageWrap').removeClass('removeBoxShadow')
+    console.log "[superScripts] finish show main panel/nav"
+    $('body').removeClass('prevMode')
+    return false
+  $('#main_page_nav').draggable
+    stop: (event, ui)->
+      user_id_val = $uID
+      left_val_nav = ui.position.left
+      top_val_nav = ui.position.top
+      console.log "setLeftTopPosNav vals "+user_id_val+" "+left_val_nav+" "+top_val_nav
+      setLeftTopPosNav(user_id_val, left_val_nav, top_val_nav)
+      

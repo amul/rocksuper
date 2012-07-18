@@ -1,0 +1,5 @@
+[user]
+	name = Amul Patle
+	email = amul84@yahoo.com
+[credential]
+	helper = cache --timeout=3600

@@ -1,0 +1,31 @@
+<h1>Listing element_styles</h1>
+
+<table>
+  <tr>
+    <th>Element</th>
+    <th>Width</th>
+    <th>Height</th>
+    <th>Left</th>
+    <th>Top</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @element_styles.each do |element_style| %>
+  <tr>
+    <td><%= element_style.element_id %></td>
+    <td><%= element_style.width %></td>
+    <td><%= element_style.height %></td>
+    <td><%= element_style.left %></td>
+    <td><%= element_style.top %></td>
+    <td><%= link_to 'Show', element_style %></td>
+    <td><%= link_to 'Edit', edit_element_style_path(element_style) %></td>
+    <td><%= link_to 'Destroy', element_style, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Element style', new_element_style_path %>

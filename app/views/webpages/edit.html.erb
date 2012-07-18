@@ -147,7 +147,11 @@
           
             <% element.slideshow_images.order("position").each_with_index do |slideshow_image, index| %>
             <div class="imgdiv">
+<<<<<<< HEAD
               <%= image_tag(slideshow_image.image_url.to_s, :id => "slideshow_image_#{slideshow_image.id}", :class => "img2 image", :alt => "#{slideshow_image.caption}", :data => { :caption => slideshow_image.caption, :description => slideshow_image.description, :link_text => slideshow_image.link_text, :link_type => slideshow_image.link_type, :link_target => slideshow_image.link_target, :id => slideshow_image.id, :orig_pos => index.to_i+1}) %>
+=======
+              <%= image_tag(slideshow_image.image_url.to_s, :id => "slideshow_image_#{slideshow_image.id}", :class => "img2 image", :alt => "#{slideshow_image.caption}", :data => { :caption => slideshow_image.caption, :id => slideshow_image.id, :orig_pos => index.to_i+1}) %>
+>>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
             </div>
             <% end %>
             

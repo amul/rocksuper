@@ -783,8 +783,13 @@ $ ->
   #          'height': 'auto'
 
   #        #alert('uploaded')
+<<<<<<< HEAD
     
   $('.element.picture').live "dblclick", (event) ->
+=======
+  
+  $('.element.picture').live "dblclick", ->
+>>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
     if $(event.target).is(".controller") || $(event.target).is(".controller a") || $(event.target).is(".controller a img")
       console.log 'trigger controller event.target'
       return
@@ -1006,9 +1011,13 @@ $ ->
         height_val = $cur_pic_elem.height()
         setWHSize(element_style_id_val, width_val, height_val)
         
+<<<<<<< HEAD
   $('.picture .settings_element').live "click", (event)->
     console.log 'abe'
     $(this).parents('.element.picture').trigger('dblclick')
+=======
+
+>>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
        
   $('.picture').each ->
     $cur_pic_elem = $(this)

@@ -79,6 +79,7 @@ $dialog_bg_div_html = $ '
   </div>
 '
 #bgdiv html fr each of the bgdiv elements
+<<<<<<< HEAD
 
 $ ->
   isSelectElement = false
@@ -90,6 +91,18 @@ $ ->
       </div>
     </div>
     '
+=======
+$bg_div_element = $ '
+<div class="element bgdiv" data-elementid="807" data-elementstyleid="696" data-locked="false" data-pageid="167" id="element_807" style="left:101px;top:109px;width:500px;height:300px;z-index: 9999;">
+  <div id="content_807" class="content" style="width:500px;height:300px;">
+    <div class="element_bgdiv bgdiv new" style="width: 100%; height: 100%; background-color: #abcabc; background-position: initial initial; background-repeat: initial initial; "> </div>
+  </div>
+</div>
+'
+$ ->
+  isSelectElement = false
+  $('#add_elem_bgdiv').click ->
+>>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
     bgdiv = "<div class='element_bgdiv bgdiv new_element' style='width:100%;height:100%;background:#abcabc;'> </div>"
     $.post "/elements", 
       { _method:'POST', element : {page_id: $('#add_elem_bgdiv').data('pageid'), elem_type: 'bgdiv', content: bgdiv} }
@@ -305,7 +318,11 @@ $ ->
         setElementContent(element_id_val, element_content_val)
     
       
+<<<<<<< HEAD
   $('.element.bgdiv').live "click", ->
+=======
+  $('.element.bgdiv').bind "click", ->
+>>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
     $cur_dvbg = $(this)
     $('.controller', $cur_dvbg).bind "mousedown", (event)->
       #event.preventDefault()

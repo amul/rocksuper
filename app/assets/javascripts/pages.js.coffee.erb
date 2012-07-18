@@ -686,7 +686,43 @@ $ ->
             else if $target.is('.settings_element') || $target.is('.settings_element img')
               console.log("[pages.js] $cur_element.is('.paragraph') : "+$cur_element.is('.paragraph'))
               if $cur_element.is('.paragraph')
+<<<<<<< HEAD
                 console.log '[pages.js] comment above'
+=======
+                #console.log "[pages.js] dblclick click"
+                #$cur_element.trigger('dblclick')
+                console.log '[pages.js] comment above'
+                #element_id = $cur_element.data('elementid')
+                #element_style_id = $cur_element.data('elementstyleid')
+                #element = $cur_element
+                #$settings_div = generateSettingsHtml(element_id, element_style_id, element)
+                #$('body').prepend($settings_div)
+                #$settings_div.show "slide", { direction: "right" }, 800, ->
+                #  $('#elementLetterSpacing').bind 'change', ->
+                #    elementId = $('#elementLineHieght').data('elementid')
+                #    $cur_element = $('#element_'+elementId)
+                #    
+                #    element_style_id_val = $('#elementLineHieght').data('styleid')
+                #    letter_spacing_val = $('#elementLetterSpacing').val()
+                #    setLetterSpacing(element_style_id_val, letter_spacing_val)
+                #    
+                #    $('.content', $cur_element).css
+                #      letterSpacing: $('#elementLetterSpacing').val() + "px"
+                #  $('#elementLineHieght').bind 'change', ->
+                #    elementId = $('#elementLineHieght').data('elementid')
+                #    console.log elementId
+                #    $cur_element = $('#element_'+elementId)
+                #    
+                #    element_style_id_val = $('#elementLineHieght').data('styleid')
+                #    line_height_val = $('#elementLineHieght').val()
+                #    setLineHeight(element_style_id_val, line_height_val)
+                #    
+                #    $('.content', $cur_element).css
+                #      lineHeight: $('#elementLineHieght').val()
+                #$('.close_box_settings', $settings_div).click ->
+                #  $settings_div.hide "slide", { direction: "right" }, 800, ->
+                #    $settings_div.remove()
+>>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
             else if $target.is('.lock_element') || $target.is('.lock_element img')
               if $cur_element.hasClass('locked')
                 $cur_element.removeClass('locked')

@@ -492,3 +492,18 @@ ls -lah
 df -H
 ls -lah
 touch tmp/restart.txt 
+ls
+cp -Rf ./* rocksupergit/
+ls -lah
+rm deploy07142012.tar 
+rm rocksupergit/
+rm -Rf rocksupergit/
+ls -lah
+rm a.sql 
+ls -lah
+git add .
+ls -lah
+touch tmp/restart.txt 
+tar -cf ./* deploy07182012.tar
+ls -lah
+tar -cf deploy07182012.tar ./*

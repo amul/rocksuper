@@ -147,11 +147,9 @@
           
             <% element.slideshow_images.order("position").each_with_index do |slideshow_image, index| %>
             <div class="imgdiv">
-<<<<<<< HEAD
               <%= image_tag(slideshow_image.image_url.to_s, :id => "slideshow_image_#{slideshow_image.id}", :class => "img2 image", :alt => "#{slideshow_image.caption}", :data => { :caption => slideshow_image.caption, :description => slideshow_image.description, :link_text => slideshow_image.link_text, :link_type => slideshow_image.link_type, :link_target => slideshow_image.link_target, :id => slideshow_image.id, :orig_pos => index.to_i+1}) %>
-=======
-              <%= image_tag(slideshow_image.image_url.to_s, :id => "slideshow_image_#{slideshow_image.id}", :class => "img2 image", :alt => "#{slideshow_image.caption}", :data => { :caption => slideshow_image.caption, :id => slideshow_image.id, :orig_pos => index.to_i+1}) %>
->>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
+              
+
             </div>
             <% end %>
             
@@ -223,60 +221,58 @@
           </div>          
           
           <script type="text/javascript">
-            $(window).load(function(){
-              <% unless element.slideshow_attrib.caption? %>
-                $('.caption', $('#element_<%= element.id %>.slideshow')).hide();
+            <% unless element.slideshow_attrib.caption? %>
+              $('.caption', $('#element_<%= element.id %>.slideshow')).hide();
+            <% end %>
+            <% unless element.slideshow_attrib.pagination? %>
+              $('.pagination', $('#element_<%= element.id %>.slideshow')).hide();
+            <% end %>
+            $('#element_<%= element.id %>.slideshow').slides({
+              preload: true,
+              pagination: false,
+              preloadImage: '/assets/images/default_images/loading.gif',
+              fadeSpeed: 800,
+              <% if element.slideshow_attrib.autoplay? %>
+                play: 5000,              
+              <% else %>
+                play: 0,
               <% end %>
-              <% unless element.slideshow_attrib.pagination? %>
-                $('.pagination', $('#element_<%= element.id %>.slideshow')).hide();
-              <% end %>
-              $('#element_<%= element.id %>.slideshow').slides({
-                preload: true,
-                pagination: false,
-                preloadImage: 'http://deadwoodfilms.com/jquery/slideshow2/img/loading.gif',
-                fadeSpeed: 800,
-                <% if element.slideshow_attrib.autoplay? %>
-                  play: 5000,              
-                <% else %>
-                  play: 0,
-                <% end %>
-                //play: 5000,
-                pause: 2500,
-                hoverPause: true,        
-                effect : 'fade',
-                crossfade:true,
-                animationStart: function(current){
-                  $('.caption').animate({
-                    bottom:-35
-                  },100);
-                  if (window.console && console.log) {
-                    // example return of current slide number
-                    console.log('animationStart on slide: ', current);
-                  };
-                },
-                animationComplete: function(current){
-                  $('.caption').animate({
-                    bottom:0
-                  },200);
-                  if (window.console && console.log) {
-                    // example return of current slide number
-                    console.log('animationComplete on slide: ', current);
-                  };
-                },
-                slidesLoaded: function() {
-                  $('.caption').animate({
-                    bottom:0
-                  },200);
-                }
-              });
+              //play: 5000,
+              pause: 2500,
+              hoverPause: true,        
+              effect : 'fade',
+              crossfade:true,
+              animationStart: function(current){
+                $('.caption').animate({
+                  bottom:-35
+                },100);
+                if (window.console && console.log) {
+                  // example return of current slide number
+                  console.log('animationStart on slide: ', current);
+                };
+              },
+              animationComplete: function(current){
+                $('.caption').animate({
+                  bottom:0
+                },200);
+                if (window.console && console.log) {
+                  // example return of current slide number
+                  console.log('animationComplete on slide: ', current);
+                };
+              },
+              slidesLoaded: function() {
+                $('.caption').animate({
+                  bottom:0
+                },200);
+              }
             });
           </script>
           
           <a href="#" class="prev controls">
-            <img src="http://deadwoodfilms.com/jquery/slideshow2/img/arrow-prev.png" width="24" height="43" alt="Arrow Prev">
+            <img src="/assets/images/default_images/arrow-prev.png" width="24" height="43" alt="Arrow Prev">
           </a>
           <a href="#" class="next controls">
-            <img src="http://deadwoodfilms.com/jquery/slideshow2/img/arrow-next.png" width="24" height="43" alt="Arrow Next">
+            <img src="/assets/images/default_images/arrow-next.png" width="24" height="43" alt="Arrow Next">
           </a>
           <div class="slideshow-settings" style="display:none;">
             <a class="close_slide_show_settings"><img src="/assets/images/toolbar-button-delete.png"></a>

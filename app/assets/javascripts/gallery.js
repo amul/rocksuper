@@ -113,7 +113,6 @@ setCaption = function(ss_img_id_val, caption_val) {
     return console.log("caption ss_image saved gallery.js");
   }, 'json');
 }
-<<<<<<< HEAD
 setDescriptionForPicture = function(ss_img_id_val, description_val) {
   return $.post("/slideshow_images/" + ss_img_id_val, {
     _method: 'PUT',
@@ -154,8 +153,6 @@ setLinkTargetForPicture = function(ss_img_id_val, link_target_val) {
     return console.log("setLinkTargetForPicture saved gallery.js");
   }, 'json');
 }
-=======
->>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
 
 delete_slide_show_img = function(ss_img_id_val) {
   return $.post("/slideshow_images/" + ss_img_id_val, {
@@ -181,6 +178,15 @@ setZindex = function(element_style_id_val, zIndex) {
 
 $(function() {
   //preload images before loading as gallery
+  //$('.element.gallery_grid_element').hide();
+  //$('.element.gallery_grid_element').each(function() {
+  //  $cur_gallery_elem = $(this)
+  //  $images_html = $('img', $('.element.gallery_grid_element .gallery_grid.content'))
+  //  $images_html.each(function() {
+  //    $(this).load($(this).attr('src'));
+  //  });
+  //  $('.element.gallery_grid_element').show();
+  //});
   images_srcs = [];
   $galleries = $('img', $('.element.gallery_grid_element .gallery_grid.content')).each(function() {
     images_srcs = $(this).attr('src');
@@ -367,7 +373,6 @@ $(function() {
       <a class='delete_element'><img src='/assets/images/toolbar-button-delete.png' /></a>\
     </div>\
   ");
-<<<<<<< HEAD
   
   var $setinfo_dialog;
       
@@ -441,9 +446,6 @@ $(function() {
       </div>\
     ');
   
-=======
-
->>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
   $settings_gallery_div = $('\
     <div class="gallery_settings_div" id="settings_div_id" style="position:relative; left: 0; top: 0; padding: 10px; width: 100%;">\
       <form name="settings" onsubmit="return false" method="post" class="settings_form">\
@@ -559,7 +561,6 @@ $(function() {
       }
     });
     
-<<<<<<< HEAD
     $setinfo_dialog.dialog({
       autoOpen: false,
       zIndex: 13000
@@ -568,8 +569,6 @@ $(function() {
       //}
     });
     
-=======
->>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
     element = $('#fileupload', $dialog_div_gallery_grid);
     makeMultiUpload(element);
     
@@ -606,7 +605,6 @@ $(function() {
     $('.sort.gg', $dialog_div_gallery_grid).click(function() {
       $('.ggPanelHor', $dialog_div_gallery_grid).cycle(1);
       $('.sortPanel', $dialog_div_gallery_grid).width('100%')
-<<<<<<< HEAD
       
       $('.set_info_gal').bind('click',function() {
         $cur_image_ss = $(this).parents('.slide_show_image_li').find('.ss_image_thumb')
@@ -674,8 +672,6 @@ $(function() {
         });
         
       });
-=======
->>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
       return false;
     });
     
@@ -685,10 +681,7 @@ $(function() {
       return false;
     });
     
-<<<<<<< HEAD
     
-=======
->>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
     //$sorted_images = $('#slide_show_images_sort_ul').find('img.img2');
     //$sorted_images.each(function() {
     //  $cur_sorted_image = $(this);
@@ -717,11 +710,7 @@ $(function() {
         .attr('style', 'display: inline;')
         .addClass('ss_image_thumb')
         .width(50)
-<<<<<<< HEAD
         .after('<input type="text" class="caption_text_input"  value="'+$caption+'" /><a class="delete_slide_image"><img src="/assets/images/toolbar-button-delete.png"></a><button class="set_info_gal" style="float:right">Set Info</button>')
-=======
-        .after('<input type="text" class="caption_text_input"  value="'+$caption+'" /><a class="delete_slide_image"><img src="/assets/images/toolbar-button-delete.png"></a>')
->>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
     });
     
     //Generate text input for caption

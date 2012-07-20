@@ -1,15 +1,12 @@
-<<<<<<< HEAD
-=======
 $hline_element_div = $ '
 <div class="element hline" data-elementid="807" data-elementstyleid="696" data-locked="false" data-pageid="167" id="element_807" style="left:101px;top:109px;width:360px;height:15px;z-index: 9999;">
   <div id="content_807" class="content" style="width:100%;height:15px;">
-    <div class="element_hline hline new" style="border-bottom: 1px dashed black; width: 100%; height: 1px; background-color: none; background-position: initial initial; background-repeat: initial initial; ">
+    <div class="element_hline hline new" style="border-bottom: 1px solid black; width: 100%; height: 1px; background-color: none; background-position: initial initial; background-repeat: initial initial; ">
       &nbsp;
     </div>
   </div>
 </div>
 '
->>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
 $dialog_hline_div = $ '
   <div id="dialog_hline" title="Line Settings" style="display: none;">
     <div class="ssPanelHorNav PanelHorNav" style="overflow:hidden;display:block;">
@@ -80,19 +77,16 @@ delete_element = (element_id_val) ->
 $ ->
   isSelectElement = false
   $('#add_elem_hline').click ->
-<<<<<<< HEAD
     $hline_element_div = $ '
     <div class="element hline" data-elementid="807" data-elementstyleid="696" data-locked="false" data-pageid="167" id="element_807" style="left:101px;top:109px;width:360px;height:15px;z-index: 9999;">
       <div id="content_807" class="content" style="width:100%;height:15px;">
-        <div class="element_hline hline new" style="border-bottom: 1px dashed black; width: 100%; height: 1px; background-color: none; background-position: initial initial; background-repeat: initial initial; ">
+        <div class="element_hline hline new" style="border-bottom: 1px solid black; width: 100%; height: 1px; background-color: none; background-position: initial initial; background-repeat: initial initial; ">
           &nbsp;
         </div>
       </div>
     </div>
     '
-=======
->>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
-    hline_element = "<div class='element_hline hline new_element' style='border-bottom: 1px dashed red;width:100%;height:1px'>&nbsp;</div>"
+    hline_element = "<div class='element_hline hline new_element' style='border-bottom: 1px solid black;width:100%;height:1px'>&nbsp;</div>"
     $.post "/elements", 
       { _method:'POST', element : {page_id: $('#add_elem_hline').data('pageid'), elem_type: 'hline', content: hline_element} }
       (data)->
@@ -213,8 +207,15 @@ $ ->
         'borderBottomStyle': $(this).val()
         'borderStyle': $(this).val()
         
+    $('#border_style_hline option',$dialog_hline_div).each ->
+      $cur_opt = $(this)
+      if $cur_opt.val() == $('.element_hline.hline',$cur_element).css('border-bottom-style')
+        $cur_opt.attr('selected','selected')
+        
+    $('#hlineColorSelector',$dialog_hline_div).find('div').css
+      'background-color': $('.element_hline.hline',$cur_element).css('border-bottom-color')
     $('#hlineColorSelector',$dialog_hline_div).ColorPicker
-      color: '#0000ff'
+      color: $('.element_hline.hline',$cur_element).css('border-bottom-color')
       onChange: (hsb, hex, rgb)->
         $('.content .element_hline.hline', $cur_element).css
           'borderBottomColor': '#'+hex
@@ -230,7 +231,7 @@ $ ->
     $('#lineWidthSliderHline',$dialog_hline_div).slider
       min:1,
       max:35,
-      value: 1,
+      value: parseInt($('.element_hline.hline',$cur_element).css('border-bottom-width')),
       slide: (event, ui) ->
         val = ui.value
       stop: (event, ui) ->

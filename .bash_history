@@ -550,3 +550,9 @@ nano db/migrate/20120719143611_alter_canvas_bg_color_type_to_global_page_setting
 touch tmp/restart.txt 
 bundle exec rake db:migrate --trace RAILS_ENV='production'
 touch tmp/restart.txt 
+ls -lah
+git add .
+git commit -a -m "07202012"
+git push origin2 master
+touch tmp/restart.txt 
+ls -lah

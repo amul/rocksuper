@@ -1140,7 +1140,7 @@ $(function() {
     
     group($cur_gallery_parent);
     loadMargin($cur_gallery_parent);
-    resizeAll($cur_gallery_parent);
+    //resizeAll($cur_gallery_parent);
     
     $( ".settings",$cur_gallery_parent).draggable();
     //$cur_gallery.resizable();

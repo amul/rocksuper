@@ -556,3 +556,10 @@ git commit -a -m "07202012"
 git push origin2 master
 touch tmp/restart.txt 
 ls -lah
+touch tmp/restart.txt 
+git add .
+git commit -a -m "07192012"
+git push origin2 master
+touch tmp/restart.txt 
+cleart
+clear

@@ -210,7 +210,7 @@ $ ->
             
   $('#add_elem_paragraph').click ->
     #create default text content
-    <% sample_text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam semper, urna et condimentum viverra, diam leo viverra nunc, nec gravida tortor eros nec ante. Morbi ut tortor risus, sed feugiat tellus. Donec id nunc vitae ligula bibendum ullamcorper. Sed eget ullamcorper est. Aenean leo leo, pretium eget sagittis ac, rhoncus nec ligula. Morbi sed sem enim. Nam sollicitudin egestas ligula sit amet accumsan." %>
+    <% sample_text = "Amul dolor sit amet, consectetur adipiscing elit. Nullam semper, urna et condimentum viverra, diam leo viverra nunc, nec gravida tortor eros nec ante. Morbi ut tortor risus, sed feugiat tellus. Donec id nunc vitae ligula bibendum ullamcorper. Sed eget ullamcorper est. Aenean leo leo, pretium eget sagittis ac, rhoncus nec ligula. Morbi sed sem enim. Nam sollicitudin egestas ligula sit amet accumsan." %>
 
     $.post "/elements", 
       { _method:'POST', element : {page_id: $('#add_elem_paragraph').data('pageid'), elem_type: 'paragraph', content: '<%= sample_text %>'} }, 
@@ -686,9 +686,7 @@ $ ->
             else if $target.is('.settings_element') || $target.is('.settings_element img')
               console.log("[pages.js] $cur_element.is('.paragraph') : "+$cur_element.is('.paragraph'))
               if $cur_element.is('.paragraph')
-<<<<<<< HEAD
                 console.log '[pages.js] comment above'
-=======
                 #console.log "[pages.js] dblclick click"
                 #$cur_element.trigger('dblclick')
                 console.log '[pages.js] comment above'
@@ -722,7 +720,6 @@ $ ->
                 #$('.close_box_settings', $settings_div).click ->
                 #  $settings_div.hide "slide", { direction: "right" }, 800, ->
                 #    $settings_div.remove()
->>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
             else if $target.is('.lock_element') || $target.is('.lock_element img')
               if $cur_element.hasClass('locked')
                 $cur_element.removeClass('locked')

@@ -13,9 +13,11 @@ postGlobalPageSettingsBGCanvass = (user_id_val, canvas_bg_color_val) ->
 $ ->
   page_gradient_val = null
   gps_id = $('#pageCanvas').data('globalpagesettingid')
-  makeColorPickerForPageCanvas = (element, targetChange, uID)->
+  makeColorPickerForPageCanvas = (element, targetChange, uID, defaultColor='#0000ff')->
     element.ColorPicker
-      color: '#0000ff'
+      color: defaultColor
+      onBeforeShow: ->
+        $(this).ColorPickerSetColor(defaultColor)
       onChange: (hsb, hex, rgb)->
         element.find('div').css
           'backgroundColor': '#'+hex
@@ -113,6 +115,8 @@ $ ->
       
     $dialog_page_size_and_color_settings.dialog("open")
     $bg_color_canvas = $('#pageWrap').css('backgroundColor')
+    $('#canvasBgColorSelectorReal div').css
+      'background-color': $bg_color_canvas
     $bg_boxShadow_canvas = $('#pageWrap').css('boxShadow')
     $('#canvas_bg_color_checkbox').change ->
       if $('#canvas_bg_color_checkbox:checked').length >= 1
@@ -138,12 +142,18 @@ $ ->
       if $('#canvas_bg_color_checkbox:checked', $dialog_page_size_and_color_settings).length >= 1
         $('#canvas_bg_color_checkbox:checked', $dialog_page_size_and_color_settings).parents('.edit_global_page_setting_canvas').submit()
       if $('#useGradientBg').val() == 'Solid Color'
-        alert(page_gradient_val)
+        console.log(page_gradient_val)
+        gps_id_val = $('#pageCanvas').data('globalpagesettingid')
+        canvas_bg_color_val = page_gradient_val
+        putGlobalPageSettingsBGCanvass(gps_id_val, canvas_bg_color_val)
+        
       $dialog_page_size_and_color_settings.dialog("destroy")
     
     element = $('#canvasBgColorSelectorReal', $dialog_page_size_and_color_settings)
     targetChange = $('#pageWrap')
-    makeColorPickerForPageCanvas(element, targetChange, uID)
+    defaultColor = $('#pageWrap').css('background-color')
+    makeColorPickerForPageCanvas(element, targetChange, uID, defaultColor)
+    element.ColorPickerSetColor(defaultColor)
     
     console.log '[pageSizeAndColor.js] sanitize forms'
     $('.edit_global_page_setting', $dialog_page_size_and_color_settings).attr('action', '/global_page_settings/'+globalpagesettingid)

@@ -4,6 +4,6 @@ class AlterBgColorToElementStyles < ActiveRecord::Migration
   end
 
   def down
-    change_column("element_styles", "bg_color", :stringssss)
+    change_column("element_styles", "bg_color", :string)
   end
 end

@@ -507,3 +507,46 @@ touch tmp/restart.txt
 tar -cf ./* deploy07182012.tar
 ls -lah
 tar -cf deploy07182012.tar ./*
+git pull https://github.com/amul/rocksuper.git
+git add .
+git commit -a -m "king"
+
+git commit -a -m "king"
+ls
+touch king
+ls
+git add king
+git commit -a -m "today"
+git push origin master
+git config --get-regexp '^(remote|branch)\.'
+git remote add origin2 https://github.com/amul/rocksuper.git
+git push origin2 master
+amul84
+ls -lah
+ls -lah
+git config --global user.name "Amul Patle"
+git config --global user.email amul84@yahoo.com
+git init
+git add .
+$ git commit -a -m "07182012"
+LS -LAH
+ls -lah
+git init
+git commit -a -m "07182012"
+git push origin master
+git add .
+git commit -a -m "07182012"
+git push origin master
+git pull https://github.com/amul/rocksuper.git
+git add .
+git commit -a -m "07182012"
+git push -u origin master
+touch tmp/restart.txt 
+touch tmp/restart.txt 
+ls
+touch tmp/restart.txt 
+rails g migration alter_canvas_bg_color_type_to_global_page_settings
+nano db/migrate/20120719143611_alter_canvas_bg_color_type_to_global_page_settings.rb
+touch tmp/restart.txt 
+bundle exec rake db:migrate --trace RAILS_ENV='production'
+touch tmp/restart.txt 

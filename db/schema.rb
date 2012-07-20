@@ -11,11 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(:version => 20120718033409) do
-=======
-ActiveRecord::Schema.define(:version => 20120717041308) do
->>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
+ActiveRecord::Schema.define(:version => 20120719143611) do
 
   create_table "element_styles", :force => true do |t|
     t.integer  "element_id"
@@ -81,7 +77,7 @@ ActiveRecord::Schema.define(:version => 20120717041308) do
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
     t.string   "bg_type"
-    t.string   "canvas_bg_color"
+    t.text     "canvas_bg_color"
     t.string   "texture_bg"
     t.text     "gradient_bg"
     t.string   "gb_type_pageWrap"
@@ -151,7 +147,6 @@ ActiveRecord::Schema.define(:version => 20120717041308) do
     t.string   "caption"
     t.string   "image"
     t.integer  "element_id"
-<<<<<<< HEAD
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.integer  "position"
@@ -159,11 +154,6 @@ ActiveRecord::Schema.define(:version => 20120717041308) do
     t.text     "link_text"
     t.string   "link_target"
     t.text     "description"
-=======
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "position"
->>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
   end
 
   add_index "slideshow_images", ["caption"], :name => "index_slideshow_images_on_caption"

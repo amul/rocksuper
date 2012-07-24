@@ -210,13 +210,13 @@ $ ->
             
   $('#add_elem_paragraph').click ->
     #create default text content
-    <% sample_text = "Amul dolor sit amet, consectetur adipiscing elit. Nullam semper, urna et condimentum viverra, diam leo viverra nunc, nec gravida tortor eros nec ante. Morbi ut tortor risus, sed feugiat tellus. Donec id nunc vitae ligula bibendum ullamcorper. Sed eget ullamcorper est. Aenean leo leo, pretium eget sagittis ac, rhoncus nec ligula. Morbi sed sem enim. Nam sollicitudin egestas ligula sit amet accumsan." %>
+    <% sample_text = "hello there Amul dolor sit amet, consectetur adipiscing elit. Nullam semper, urna et condimentum viverra, diam leo viverra nunc, nec gravida tortor eros nec ante. Morbi ut tortor risus, sed feugiat tellus. Donec id nunc vitae ligula bibendum ullamcorper. Sed eget ullamcorper est. Aenean leo leo, pretium eget sagittis ac, rhoncus nec ligula. Morbi sed sem enim. Nam sollicitudin egestas ligula sit amet accumsan." %>
 
     $.post "/elements", 
       { _method:'POST', element : {page_id: $('#add_elem_paragraph').data('pageid'), elem_type: 'paragraph', content: '<%= sample_text %>'} }, 
       (data)->       
         $.post "/element_styles", 
-        { _method:'POST', element_style : {element_id: data.element.id} }, 
+        { _method:'POST', element_style : {element_id: data.element.id, padding:5} },  
         (data)->
           #create an element
           $element = $ "

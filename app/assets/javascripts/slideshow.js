@@ -34,6 +34,46 @@ setCaption = function(ss_img_id_val, caption_val) {
     return console.log("caption ss_image saved slideshow.js");
   }, 'json');
 }
+setDescriptionForPicture = function(ss_img_id_val, description_val) {
+  return $.post("/slideshow_images/" + ss_img_id_val, {
+    _method: 'PUT',
+    slideshow_image: {
+      description: description_val
+    }
+  }, function(data) {
+    return console.log("description ss_image saved slideshow.js");
+  }, 'json');
+}
+setLinkTextForPicture = function(ss_img_id_val, link_text_val) {
+  return $.post("/slideshow_images/" + ss_img_id_val, {
+    _method: 'PUT',
+    slideshow_image: {
+      link_text: link_text_val
+    }
+  }, function(data) {
+    return console.log("setLinkTextForPicture ss_image saved slideshow.js");
+  }, 'json');
+}
+setLinkTypeForPicture = function(ss_img_id_val, link_type_val) {
+  return $.post("/slideshow_images/" + ss_img_id_val, {
+    _method: 'PUT',
+    slideshow_image: {
+      link_type: link_type_val
+    }
+  }, function(data) {
+    return console.log("setLinkTypeForPicture saved slideshow.js");
+  }, 'json');
+}
+setLinkTargetForPicture = function(ss_img_id_val, link_target_val) {
+  return $.post("/slideshow_images/" + ss_img_id_val, {
+    _method: 'PUT',
+    slideshow_image: {
+      link_target: link_target_val
+    }
+  }, function(data) {
+    return console.log("setLinkTargetForPicture saved slideshow.js");
+  }, 'json');
+}
 
 delete_slide_show_img = function(ss_img_id_val) {
   return $.post("/slideshow_images/" + ss_img_id_val, {
@@ -88,16 +128,16 @@ $(document).ready(function(){
     });
     // 
     // Load existing files:
-    $.getJSON($(element).find('form').prop('action'), function (files) {
-        var fu = $(element).data('fileupload');
-        fu._adjustMaxNumberOfFiles(-files.length);
-        fu._renderDownload(files)
-            .appendTo($(element).find('.files'))
-            .fadeIn(function () {
-                // Fix for IE7 and lower:
-                $(this).show();
-            });
-    });
+    //$.getJSON($(element).find('form').prop('action'), function (files) {
+    //    var fu = $(element).data('fileupload');
+    //    fu._adjustMaxNumberOfFiles(-files.length);
+    //    fu._renderDownload(files)
+    //        .appendTo($(element).find('.files'))
+    //        .fadeIn(function () {
+    //            // Fix for IE7 and lower:
+    //            $(this).show();
+    //        });
+    //});
   
     // Open download dialogs via iframes,
     // to prevent aborting current uploads:
@@ -110,6 +150,77 @@ $(document).ready(function(){
     
   }
   
+  var $setinfo_dialog;
+      
+  $setinfo_dialog = $('\
+      <div class="dialog_slideshow_setinfo" title="Set Info" id="set_info_id" style="position:relative; left: 0; top: 0; padding: 10px; width: 100%;">\
+        <div class="content">        \
+          <div class="group">\
+            <div class="group-inner">\
+              <div class="instruction instructions-link" style="margin-bottom: 15px; display: none; ">\
+                <div class="maintitle">Choose link type and destination</div>\
+              </div>\
+              <div class="instruction instructions-info" style="margin-bottom: 15px; ">\
+                <div class="maintitle">Choose a title, description and link for this element</div>\
+              </div>\
+              <div class="kvp info-only" style="">\
+                <div class="key">Title:</div><div class="val">\
+                <input type="text" value="" class="mainTitle wide"></div>\
+              </div>\
+              <div class="kvp info-only" style="">\
+                <div class="key">Description:</div><div class="val">\
+                <textarea rows="4" class="description wide"></textarea></div>\
+              </div>\
+              <div class="kvp">\
+                <div class="key">Link type:</div><div class="val">\
+                  <select class="link-type wide">\
+                    <option class="none" value="none" selected="selected">None</option>\
+                    <option class="website" value="website">External Website</option>\
+                    <option class="page" value="page">Internal Page</option>\
+                    <option class="anc" value="anc">Scroll to Element</option>\
+                    <option class="email" value="email">E-mail</option>\
+                  </select>\
+                </div>              \
+              </div>\
+              <div class="kvp link-val-container none" style="display: block; ">\
+                \
+              </div>\
+              <div class="kvp link-val-container website" style="display: none; ">\
+                <div class="key">URL:</div><div class="val">\
+                <input class="website-val wide" type="text" value=""></div>\
+              </div>\
+              <div class="kvp link-val-container website" style="display: none; ">\
+                <div class="key">Open in:</div><div class="val">\
+                  <select class="target wide">\
+                    <option class="self" value="_top">The Same Window</option>\
+                    <option class="blank" value="_blank">A New Window</option>\
+                  </select>\
+                </div>\
+              </div>\
+              <div class="kvp link-val-container email" style="display: none; ">\
+                <div class="key">E-mail:</div><div class="val">\
+                  <input class="email-val wide" type="text" value=""></div>\
+                </div>\
+              <div class="kvp link-val-container page" style="display: none; ">\
+                <div class="key">Page:</div><div class="val">\
+                  <select class="page-val wide"><option value="543F5A8AD02D4ACEBEF62A6446396F93">Page 1</option><option value="A4F5FEE3B4134517A5DF041BA59F8F94">Page 2</option><option value="29A41FE07299439A82C8FA2DA199C916">Page 3</option></select>\
+                </div>\
+              </div>\
+              <div class="kvp link-val-container anc" style="display: none; ">\
+                <div class="key">To Anchor:</div><div class="val">\
+                  <input class="anc-val wide" type="text" value=""></div>\
+              </div>\
+              \
+              <!-- <div class="kvp">\
+                <div class="key" style="width:420px"><input type="checkbox" class="like checkbox"></input> show a facebook Like button</div>\
+              </div>\
+               -->\
+              \
+            </div>\
+          </div>        \
+        </div>\
+      </div>\
+    ');
   
   var $latest_slide_show_added, $latest_slide_container, $controller_div;
   
@@ -211,6 +322,7 @@ $(document).ready(function(){
     </div>\
   ');
   
+  
   $add_elem_slideshow_page_id = $('#add_elem_slideshow').data('pageid');
   $('#add_elem_slideshow').click(function() {
     console.log('latest_slide_show_added');
@@ -248,9 +360,54 @@ $(document).ready(function(){
             element_id: element_id_val, 
             width: 592, 
             height: 247,
-            transition: 'fade'
-          }        
+            transition: 'fade',
+            autoplay: false,
+            pagination: false,
+            prev_nex_arr: 'never'
+          }    
         }, function(data) {
+          
+          //var postSlideShowImage = function(caption_val,description_val,element_id_val,image_url_val,image_thumb_url_val,position_val) {
+          var postSlideShowImage = function(imageObj) {
+            $.post("/slideshow_images", { _method:'POST',
+              slideshow_image : imageObj
+            }, function(data) {
+              console.log('image_slide_show post : ')
+            }, 'json');
+          }
+          
+          DefaultImage = (function() {
+            var imageCount = 0;
+            var myObj = function() {
+              imageCount +=1;
+              this.caption = "image "+imageCount;
+              this.element_id = element_id_val;
+              this.position = imageCount;
+              this.description = "Enter Image description here";
+            }
+            return myObj;
+          })();
+          
+          var img_url = {
+            "image1": "/assets/images/default_images/avacados.jpg",
+            "image2": "/assets/images/default_images/ballons.jpg",
+            "image3": "/assets/images/default_images/candle.jpg",
+            "image4": "/assets/images/default_images/eggs.jpg",
+            "image5": "/assets/images/default_images/macari.jpg",
+            "image6": "/assets/images/default_images/masonary.jpg",
+            "image7": "/assets/images/default_images/okra.jpg",
+            "image8": "/assets/images/default_images/planes.jpg",
+            "image9": "/assets/images/default_images/standard.jpg",
+            "image10": "/assets/images/default_images/tomatos.jpg",
+            "image11": "/assets/images/default_images/wine.jpg"
+          }
+
+          //here post images
+          $.each(img_url,function(key, value) {
+            var key = new DefaultImage();
+            key.default_image_url = value;
+            postSlideShowImage(key)            
+          });
           
           console.log('slideshow_attribs data set');
           $latest_slide_show_added
@@ -357,6 +514,8 @@ $(document).ready(function(){
               return console.log("element has been deleted (not callback)");
             } else if ($target.is('.settings_element') || $target.is('.settings_element img')) {
               return element_id = $cur_element.data('elementid');
+              //console.log('afterpost dblclick event');
+              //$(this).parents('.slideshow.element.slide_show_element').trigger('dblclick');
             }
           }); //$controller_div.mousedown
           
@@ -401,7 +560,7 @@ $(document).ready(function(){
   $('.slideshow-settings').draggable();
   $('.controls').draggable();
   
-  $('.element.slide_show_element').find('.slideshow-settings').hide();
+  //$('.element.slide_show_element').find('.slideshow-settings').hide();
   //$('.element.slide_show_element').live('click', function(event) {
   //  event.stopPropagation();
   //  var $settings_panel = $(this).find('.slideshow-settings');
@@ -544,6 +703,12 @@ $(document).ready(function(){
     setCaption(ss_img_id_val, caption_val);
     $('.ss_image_caption.ss_image_caption_'+ss_img_id_val).html(caption_val);
     $('#slideshow_image_'+ss_img_id_val).attr('data-caption', caption_val);
+  });
+  
+  //setting function element slideshow
+  $('.settings_element',$('.slideshow.element.slide_show_element')).live('click',function() {
+    console.log('dbltrigger');
+    $(this).parents('.slideshow.element.slide_show_element').trigger('dblclick');
   });
   
   
@@ -693,7 +858,7 @@ $(document).ready(function(){
         .attr('style', 'display: inline;')
         .addClass('gg_image_thumb')
         .width(50)
-        .after('<input type="text" class="caption_text_input"  value="'+$caption+'" /><a class="delete_slide_image"><img src="/assets/images/toolbar-button-delete.png"></a>')
+        .after('<input type="text" class="caption_text_input"  value="'+$caption+'" /><a class="delete_slide_image"><img src="/assets/images/toolbar-button-delete.png"></a><button class="set_info_gal" style="float:right">Set Info</button>')
     });
     //Generate text input for caption
     $images_list_ul.sortable({
@@ -702,11 +867,11 @@ $(document).ready(function(){
         $.post($(this).data('update-url'), $(this).sortable('serialize'));
       }
     });
-    if($('.slides_container', $cur_slideshow_element).hasClass('default')) {
-      $('.sortPanel', $dialog_div_slideshow).width('100%').html('<h2>No Image to sort.</h2>')
-    } else {
-      $('.sortPanel', $dialog_div_slideshow).width('100%').html($images_list_ul);
-    }
+    //if($('.slides_container', $cur_slideshow_element).hasClass('default')) {
+    //  $('.sortPanel', $dialog_div_slideshow).width('100%').html('<h2>No Image to sort.</h2>')
+    //} else {
+    $('.sortPanel', $dialog_div_slideshow).width('100%').html($images_list_ul);
+    //}
       
     
     var onAfterSsPanelHor;
@@ -734,12 +899,85 @@ $(document).ready(function(){
     
     $('.sort.ss', $dialog_div_slideshow).click(function() {
       $('.ssPanelHor', $dialog_div_slideshow).cycle(1);
+      
+      $('.set_info_gal').bind('click',function() {
+        $cur_image_ss = $(this).parents('.slide_show_image_li').find('.gg_image_thumb');
+        console.log($cur_image_ss);
+        
+        $setinfo_dialog.dialog("open");
+        
+        $('.mainTitle',$setinfo_dialog).val($(this).parents('.slide_show_image_li').find('.caption_text_input').val());
+        
+        $('.link-type', $setinfo_dialog).bind('change', function() {
+          var $select_button;
+          $select_button = $(this);
+          $('.link-val-container').not($('.' + $select_button.val())).hide();
+          $('.' + $(this).val()).show();
+          
+          var ss_img_id_val, link_type_val;
+          ss_img_id_val = $cur_image_ss.data('id');
+          link_type_val = $select_button.val();
+          setLinkTypeForPicture(ss_img_id_val, link_type_val);
+          
+          var $html_options, $ul_nav;
+          
+          if ($select_button.val() === 'page') {
+            $ul_nav = $('#main_page_nav');
+            $html_options = new Array();
+            $ul_nav.find('li').each(function(index, option) {
+              var $text, $url;
+              $url = $(this).find('a').attr('href');
+              $text = $(this).find('a').text();
+              return $html_options.push("<option value=\"" + $url + "\">" + $text + "</option>");
+            });
+            $('.page-val', $setinfo_dialog).html($html_options.join());
+          }
+          
+        });
+        
+        $('.target', $setinfo_dialog).bind('change', function() {
+          var ss_img_id_val, link_target_val;
+          ss_img_id_val = $cur_image_ss.data('id');
+          link_target_val = $(this).val();
+          setLinkTargetForPicture(ss_img_id_val, link_target_val);
+        });
+        
+        $('.mainTitle',$setinfo_dialog).bind('blur',function() {
+          var ss_img_id_val, caption_val;
+          ss_img_id_val = $cur_image_ss.data('id');
+          caption_val = $(this).val();
+          setCaption(ss_img_id_val, caption_val);
+        });
+        
+        $('.description', $setinfo_dialog).bind('blur',function() {
+          var ss_img_id_val, description_val;
+          ss_img_id_val = $cur_image_ss.data('id');
+          description_val = $(this).val();
+          setDescriptionForPicture(ss_img_id_val, description_val);
+        });
+        
+        $('.website-val', $setinfo_dialog).bind('blur', function() {
+          var ss_img_id_val, link_text_val;
+          ss_img_id_val = $cur_image_ss.data('id');
+          link_text_val = $(this).val();
+          return setLinkTextForPicture(ss_img_id_val, link_text_val);
+        });
+      });
+      
       return false;
     });
     $('.slideShowOptionsPanel.ss', $dialog_div_slideshow).click(function() {
       $('.ssPanelHor', $dialog_div_slideshow).cycle(2);
       //$('.slideShowOptions', $dialog_div_slideshow).parent().height( $('.slideShowOptions', $dialog_div_slideshow).height() );
       return false;
+    });
+    
+    $setinfo_dialog.dialog({
+      autoOpen: false,
+      zIndex: 13000
+      //close: function(event, ui) {
+      //  $dialog_div_gallery_grid.remove();
+      //}
     });
     
     //$('#transitionx').live('change', function() {

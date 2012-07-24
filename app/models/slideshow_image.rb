@@ -1,12 +1,8 @@
 class SlideshowImage < ActiveRecord::Base
   include Rails.application.routes.url_helpers
-  belongs_to :element, {:foreign_key => "element_id"}
-  
-#<<<<<<< HEAD
-  attr_accessible :caption, :element_id, :image, :link_type, :link_text, :link_target, :description
-#=======
-  attr_accessible :caption, :element_id, :image
-#>>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
+  belongs_to :element, {:foreign_key => "element_id"}  
+
+  attr_accessible :caption, :element_id, :image, :link_type, :link_text, :link_target, :description, :default_image_url
   
   mount_uploader :image, SlideshowImageUploader
   

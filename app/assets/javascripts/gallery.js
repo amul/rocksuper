@@ -178,15 +178,6 @@ setZindex = function(element_style_id_val, zIndex) {
 
 $(function() {
   //preload images before loading as gallery
-  //$('.element.gallery_grid_element').hide();
-  //$('.element.gallery_grid_element').each(function() {
-  //  $cur_gallery_elem = $(this)
-  //  $images_html = $('img', $('.element.gallery_grid_element .gallery_grid.content'))
-  //  $images_html.each(function() {
-  //    $(this).load($(this).attr('src'));
-  //  });
-  //  $('.element.gallery_grid_element').show();
-  //});
   images_srcs = [];
   $galleries = $('img', $('.element.gallery_grid_element .gallery_grid.content')).each(function() {
     images_srcs = $(this).attr('src');
@@ -196,6 +187,72 @@ $(function() {
   });
   
   var isSelectElement = false;
+  deactiveSelectElement = function() {
+    isSelectElement = false;
+    console.log('[gallery.js] deactiveSelectElement');
+    $('.element').removeClass('cur_selected');
+    $('.element').find('.controller').remove();
+    console.log('[gallery.js] disable drag and resize for elements then');
+    $('.element').draggable( "disable" ).resizable( "disable" );
+  }
+  
+  activeSelectElement = function(element) { 
+    console.log("set isSelectElement = true");
+    isSelectElement = true;
+    console.log('[videos-js.js] enable drag and resize');
+    $cur_video_block.draggable( "enable" ).resizable( "enable" );
+    $(element)
+      .addClass('cur_selected')
+      .resizable('enable')
+      .draggable('[videos-js.js] enable'); 
+      
+    console.log("$cur_video_block.find('.controller').length " + $(element).find('.controller').length);
+    
+    if ($(element).find('.controller').length < 1) {
+      console.log("add class cur_selected and append controller div");
+      $(element).addClass('cur_selected').append($controller_div);
+      
+      $controller_div.mousedown(function(event) {
+        var $target, cur_zindex, element_id, element_id_val, element_style_id_val, zIndex, $cur_element = $(this).parents('.element');
+        event.preventDefault();
+        event.stopPropagation();
+        $target = $(event.target);
+        if ($target.is('.zup') || $target.is('.zup img')) {
+          console.log("z_index_add");
+          cur_zindex = $(this).parents('.element').css('zIndex');
+          $(this).parents('.element').css({
+            zIndex: parseInt(cur_zindex) + 1
+          });
+          console.log(parseInt(cur_zindex) + 1);
+          element_id_val = $cur_element.data('elementid');
+          element_style_id_val = $cur_element.data('elementstyleid');
+          zIndex = parseInt(cur_zindex) + 1;
+          return setZindex(element_id_val, element_style_id_val, zIndex);
+        } else if ($target.is('.zdown') || $target.is('.zdown img')) {
+          console.log("z_index_subtract");
+          cur_zindex = $(this).parents('.element').css('zIndex');
+          $(this).parents('.element').css({
+            zIndex: parseInt(cur_zindex) - 1
+          });
+          console.log(parseInt(cur_zindex) - 1);
+          element_id_val = $cur_element.data('elementid');
+          element_style_id_val = $cur_element.data('elementstyleid');
+          zIndex = parseInt(cur_zindex) - 1;
+          return setZindex(element_id_val, element_style_id_val, zIndex);
+        } else if ($target.is('.delete_element') || $target.is('.delete_element img')) {
+          element_id_val = $(this).parents('.element').data('elementid');
+          $(this).parents('.element').remove();
+          delete_element(element_id_val);
+          return console.log("element has been deleted (not callback)");
+        } else if ($target.is('.settings_element') || $target.is('.settings_element img')) {
+          $cur_element.trigger('dblclick');
+          //return element_id = $cur_element.data('elementid');
+        }
+      }); //$controller_div.mousedown
+      
+    }            
+  }
+  
   function group(cur_gallery_parent){
     rows = $('input[name=rows]',$(cur_gallery_parent)).val();
     columns = $('input[name=cols]',$(cur_gallery_parent)).val();  
@@ -788,7 +845,6 @@ $(function() {
     
   });
   
-  
   //ALLREADY aaded in slideshow.js
   //caption update ss_image event
   //$('.caption_text_input').live('change',function() {
@@ -1002,8 +1058,7 @@ $(function() {
           console.log('append gallery here: post gallery attrib not set yet');  
           $('#pageCanvas').append($gallery_html);
           group(cur_gallery_parent);
-          resizeAll(cur_gallery_parent);
-          
+          resizeAll(cur_gallery_parent);          
           
           console.log('king kong : '+cur_gallery_parent.attr('class'));
           makeDragResizeDefault(cur_gallery_parent);
@@ -1140,7 +1195,7 @@ $(function() {
     
     group($cur_gallery_parent);
     loadMargin($cur_gallery_parent);
-    //resizeAll($cur_gallery_parent);
+    resizeAll($cur_gallery_parent);
     
     $( ".settings",$cur_gallery_parent).draggable();
     //$cur_gallery.resizable();
@@ -1245,6 +1300,17 @@ $(function() {
   
   $('.element.gallery_grid_element').live('click', function() {
     isSelectElement = true;
+    $cur_gallery_block = $(this)
+    if (!$cur_gallery_block.hasClass('cur_selected')) {
+      activeSelectElement($cur_gallery_block);
+    }
+  });
+  
+  $('#pageWrap').live('click', function(event) {
+    $target = $(event.target);
+    if($target.is('#pageWrap')) {
+      deactiveSelectElement();
+    }    
   });
   
   $('.settings_element').live('click', function() {

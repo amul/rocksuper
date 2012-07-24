@@ -563,3 +563,44 @@ git push origin2 master
 touch tmp/restart.txt 
 cleart
 clear
+touch tmp/restart.txt 
+cd tmp/
+ls
+nano restart.txt 
+cd ..
+touch tmp/restart.txt 
+ls -lah
+touch new_file_sample_git
+ls -lah
+git add new_file_sample_git
+git commit -a -m "the sample file msg"
+git push origin2 master
+ls -lah
+touch tmp/restart.txt 
+touch tmp/restart.txt 
+touch tmp/restart.txt
+bundle exec rake -T
+bundle exec rake log:clear
+touch tmp/restart.txt 
+ls -lah
+rm deploy07182012.tar 
+tar -cf deploy07212012.tar ./*
+touch tmp/restart.txt 
+ls -lah
+ls
+ls -lah
+cd ..
+ls -la
+cd deploy
+ls -la
+cd app
+ls -la
+cd assets
+ls -la
+cd stylesheets
+ls -la
+cd..
+cd .
+cd ..
+ls -la
+touch tmp/restart.txt

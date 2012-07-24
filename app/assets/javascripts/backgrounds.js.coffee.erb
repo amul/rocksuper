@@ -199,20 +199,20 @@ $ ->
     </form>
   '
   $dialog_div_settings = $ '
-    <div id="dialog" title="Page Background" style="display: none;">
+    <div id="dialogbackground" title="Page Background" style="display: none;">
       <div class="backgroundPanelHorNav">
-        <div href="#" class="color subPanelButton">Color</div>
         <div href="#" class="upload subPanelButton">Upload</div>
         <div href="#" class="texture subPanelButton">Skin</div>
+        <div href="#" class="color subPanelButton">Color</div>
       </div>
       <div class="backgroundPanelHor" style="position:relative;">
-        <div class="colorPanel">
-          loading . . .
-        </div>
         <div class="picturePanel">
           loading . . .
         </div>
         <div class="texturePanel">
+          loading . . .
+        </div>
+        <div class="colorPanel">
           loading . . .
         </div>
       </div>    
@@ -233,10 +233,10 @@ $ ->
       </div>
     </div>
   '
-  $('.texturePanel', $dialog_div_settings).html($adds_texture)
-  
-  
+  $('.colorPanel', $dialog_div_settings).html($dds_color)
+  $('.texturePanel', $dialog_div_settings).html($adds_texture)  
   $('.picturePanel', $dialog_div_settings).html($dds_picture)
+  $('.backgroundPanelHor', $dialog_div_settings).height('191px')
   
   pageBackgroundImage = $('#pageCanvas').css('backgroundImage')
   pageimgbgsettingid = $('#pageCanvas').data('pageimgbgsettingid')
@@ -290,45 +290,53 @@ $ ->
     success: (data)-> 
       console.log 'post background image attribute success'
       #server response
-      location.reload()
+      # the real location.reload()
   
   console.log 'bind event for image background attribute to auto upload when ok button was clicked'
   $('#pageBackgroundOkBtn', $dialog_div_settings).bind 'click', ->
     $('#new_page_img_bg_setting_ok', $dialog_div_settings).submit()
     
-  $('.colorPanel', $dialog_div_settings).html($dds_color)
+  #$('.colorPanel', $dialog_div_settings).html($dds_color)
+  
+  $('body').prepend($dialog_div_settings)
+  $dialog_div_settings.dialog
+    autoOpen: false
+    zIndex: 20000      
   
   $('#page_background_settings').bind "click", ->    
     onAfterBackgroundPanelHor = (curr, next, opts, fwd)->
       $current_panel = $(this)
+      if $current_panel.height() == 0 || $current_panel.height() == '0px'
+        $height = 191
+      else
+        $height = $current_panel.height()
       $current_panel.parents('.backgroundPanelHor').animate
-        height: $current_panel.height()
+        height: $height
     $('.backgroundPanelHor', $dialog_div_settings).cycle 
       fx: 'scrollHorz' # choose your transition type, ex: fade, scrollUp, shuffle, etc...
       timeout: 0
       fit: true
-      #width: 306
+      height: 'auto'
       speed:  'fast'
       after: onAfterBackgroundPanelHor      
       
     $('.color', $dialog_div_settings).click ->
-      $('.backgroundPanelHor', $dialog_div_settings).cycle(0);
+      $('.backgroundPanelHor', $dialog_div_settings).cycle(2);
       $('#pageBackgroundOkBtn', $dialog_div_settings).data('type', 'color')
       return false;
     $('.upload', $dialog_div_settings).click ->
-      $('.backgroundPanelHor', $dialog_div_settings).cycle(1);
+      $('.backgroundPanelHor', $dialog_div_settings).cycle(0);
       $('#pageBackgroundOkBtn', $dialog_div_settings).data('type', 'picture')      
       return false;
     $('.texture', $dialog_div_settings).click ->
-      $('.backgroundPanelHor', $dialog_div_settings).cycle(2);
+      $('.backgroundPanelHor', $dialog_div_settings).cycle(1);
       $('#pageBackgroundOkBtn', $dialog_div_settings).data('type', 'texture')
       return false;
       
-    $('body').prepend($dialog_div_settings)
-    $dialog_div_settings.dialog
-      autoOpen: false
-      zIndex: 20000
-    $dialog_div_settings.dialog("open")
+    $dialog_div_settings.dialog("open")    
+    
+    #$('.backgroundPanelHor', $dialog_div_settings).height('191px')
+    
     
     #select bg $('.background_settings_option_content', $dialog_div_settings).html($dds_color)
     

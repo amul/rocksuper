@@ -147,8 +147,11 @@
           
             <% element.slideshow_images.order("position").each_with_index do |slideshow_image, index| %>
             <div class="imgdiv">
-              <%= image_tag(slideshow_image.image_url.to_s, :id => "slideshow_image_#{slideshow_image.id}", :class => "img2 image", :alt => "#{slideshow_image.caption}", :data => { :caption => slideshow_image.caption, :description => slideshow_image.description, :link_text => slideshow_image.link_text, :link_type => slideshow_image.link_type, :link_target => slideshow_image.link_target, :id => slideshow_image.id, :orig_pos => index.to_i+1}) %>
-              
+              <% if slideshow_image.image.present? %>
+                <%= image_tag(slideshow_image.image_url.to_s, :id => "slideshow_image_#{slideshow_image.id}", :class => "img2 image", :alt => "#{slideshow_image.caption}", :data => { :caption => slideshow_image.caption, :description => slideshow_image.description, :link_text => slideshow_image.link_text, :link_type => slideshow_image.link_type, :link_target => slideshow_image.link_target, :id => slideshow_image.id, :orig_pos => index.to_i+1, :position => slideshow_image.position}) %>
+              <% else %>
+                <%= image_tag(slideshow_image.default_image_url.to_s, :id => "slideshow_image_#{slideshow_image.id}", :class => "img2 image", :alt => "#{slideshow_image.caption}", :data => { :caption => slideshow_image.caption, :description => slideshow_image.description, :link_text => slideshow_image.link_text, :link_type => slideshow_image.link_type, :link_target => slideshow_image.link_target, :id => slideshow_image.id, :orig_pos => index.to_i+1, :position => slideshow_image.position}) %>
+              <% end %>
 
             </div>
             <% end %>
@@ -208,14 +211,27 @@
               </div>
             <% else %>
               <% element.slideshow_images.order("position").each do |slideshow_image| %>
-                <div class="slide" data-id="<%= slideshow_image.id %>">
-                  <a href="<%= slideshow_image.image_url.to_s %>" target="_blank">
-                    <%= image_tag(slideshow_image.image_url.to_s, :id => "slideshow_image_#{slideshow_image.id}", :alt => "#{slideshow_image.caption}", :data => { :caption => slideshow_image.caption, :id => slideshow_image.id}) %>
-                  </a>
-                  <div class="caption" style="bottom:0">
-                    <p class="ss_image_caption ss_image_caption_<%= slideshow_image.id %>" data-id="<%= slideshow_image.id %>"><%= slideshow_image.caption %></p>
-                  </div>
-                </div>  
+              
+                <% if slideshow_image.image.present? %>
+                  <div class="slide" data-id="<%= slideshow_image.id %>">
+                    <a href="<%= slideshow_image.image_url.to_s %>" target="_blank">
+                      <%= image_tag(slideshow_image.image_url.to_s, :id => "slideshow_image_#{slideshow_image.id}", :alt => "#{slideshow_image.caption}", :data => { :caption => slideshow_image.caption, :id => slideshow_image.id}) %>
+                    </a>
+                    <div class="caption" style="bottom:0">
+                      <p class="ss_image_caption ss_image_caption_<%= slideshow_image.id %>" data-id="<%= slideshow_image.id %>"><%= slideshow_image.caption %></p>
+                    </div>
+                  </div>  
+                <% else %>
+                  <div class="slide" data-id="<%= slideshow_image.id %>">
+                    <a href="<%= slideshow_image.default_image_url.to_s %>" target="_blank">
+                      <%= image_tag(slideshow_image.default_image_url.to_s, :id => "slideshow_image_#{slideshow_image.id}", :alt => "#{slideshow_image.caption}", :data => { :caption => slideshow_image.caption, :id => slideshow_image.id}) %>
+                    </a>
+                    <div class="caption" style="bottom:0">
+                      <p class="ss_image_caption ss_image_caption_<%= slideshow_image.id %>" data-id="<%= slideshow_image.id %>"><%= slideshow_image.caption %></p>
+                    </div>
+                  </div>  
+                <% end %>
+              
               <% end %>
             <% end %>
           </div>          

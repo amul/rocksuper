@@ -440,14 +440,14 @@ $(function() {
       activeSelectElement($cur_video_block);
     }
     
-    //if( $('.settings-video').is(':hidden') ) {
-    //  $('.settings-video').css({
-    //    'position': 'fixed',
-    //    'top': '20px',
-    //    'right': '30px'
-    //  });
-    //  $('.settings-video').show();
-    //}
+    if( $('.settings-video').is(':hidden') ) {
+      $('.settings-video').css({
+        'position': 'fixed',
+        'top': '20px',
+        'right': '30px'
+      });
+      $('.settings-video').show();
+    }
     
     $cur_video_block_panel.removeAttr( 'data-elementid' );
     $cur_video_block_panel.attr( 'data-elementid', $cur_video_block.data('elementid') );
@@ -464,9 +464,11 @@ $(function() {
     //  console.log("set the #pageWrap event on --=val= "+isSelectElement);
     //  console.log("!$cur_video_block.hasClass('cur_selected') "+!$cur_video_block.hasClass('cur_selected'));
     //}
-    
-
          
+  });
+  
+  $('.change-url', $dialog_div_video).bind('click',function() {
+    
   });
   
 	$('.change-url').bind('click', function(){

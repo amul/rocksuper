@@ -3,12 +3,19 @@ jQuery.ajaxSetup
     xhr.setRequestHeader "X-CSRF-Token", 
     $('meta[name="csrf-token"]').attr('content')
     
+    
+saveIMGScaleTypeForPicture = (element_style_id_val, img_scale_type_val) ->
+  $.post "/element_styles/"+element_style_id_val, 
+        { _method:'PUT', element_style : {img_scale_type: img_scale_type_val} }, 
+        (data)-> 
+          console.log "[pictures.js] saveIMGScaleTypeForPicture"
+        , 'json'  
 saveBorderRadiusForPicture = (element_style_id_val, border_radius_val) ->
   $.post "/element_styles/"+element_style_id_val, 
         { _method:'PUT', element_style : {border_radius: border_radius_val} }, 
         (data)-> 
           console.log "[pictures.js] saveBorderRadiusForPicture"
-        , 'json'
+        , 'json'        
 saveBackgroundForPicture = (element_style_id_val, background_style_g_val) ->
   $.post "/element_styles/"+element_style_id_val, 
         { _method:'PUT', element_style : {background_style_g: background_style_g_val} }, 
@@ -249,7 +256,15 @@ $ ->
         'margin-top':top
         'margin-left':left
   $('.element.picture').each ->
-    new resizePicture($(this))
+    if $(this).data('resizetype') == 'fill'
+      new resizePicture($(this))
+    else if $(this).data('resizetype') == 'fit'
+      new resizePictureFit($(this))
+    else if $(this).data('resizetype') == '1to1'
+      new resizePictureOneIsToOne($(this))
+    else
+      new resizePicture($(this))
+    
   getPX = (element, attr) ->
     return parseInt((element.css(attr)).split("px"))
 
@@ -745,51 +760,8 @@ $ ->
       $('<iframe style="display:none;"></iframe>')
         .prop('src', this.href)
         .appendTo('body')
-
-
-  #$('body').prepend($modal_dialog_html)
-  #$modal_dialog_html.css
-  #  'background': '#919191'
-  #$modal_dialog_html.dialog
-  #  autoOpen: false
-  #  zIndex: 13000
-  #  #height: 140
-  #  #modal: true
-  #  #dialogClass: "picture_update_dialog"
-  #  drag: (event, ui)->
-  #    $modal_dialog_html.css
-  #      'zIndex': 100005
-  #  open: (event, ui)->
-  #    $('#new_image').ajaxForm
-  #      datatype: 'json'
-  #      success: (data)-> 
-  #        console.log 'post image success'
-  #        #alert( $('#pageWrap',data) )
-  #        #server response
-  #        $html_response = $(data)
-  #        #get element id @cur init state
-  #        element_id = parseInt($('#image_element_id', $modal_dialog_html).val())
-  #        #get element @ server response
-  #        $img_element_response = $('#element_'+element_id+'.element.picture', $html_response)
-  #        #get image_url @ server response
-  #        $img_url_response = $('.content', $img_element_response).find('img').attr('src')
-  #        #@last do the update
-  #        #$('input', $modal_dialog_html).val('')
-  #        $modal_dialog_html.dialog('close')
-  #        $img_element = $('#element_'+element_id+'.element.picture .content').find('img')
-  #        $img_element.attr
-  #          'src': $img_url_response
-  #          'width': 'auto'
-  #          'height': 'auto'
-
-  #        #alert('uploaded')
-<<<<<<< HEAD
     
   $('.element.picture').live "dblclick", (event) ->
-=======
-  
-  $('.element.picture').live "dblclick", ->
->>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
     if $(event.target).is(".controller") || $(event.target).is(".controller a") || $(event.target).is(".controller a img")
       console.log 'trigger controller event.target'
       return
@@ -999,9 +971,17 @@ $ ->
       if $cur_radio.val() == 'fill'
         console.log 'fill'
         resizePicture($cur_pic_elem)
+        
+        element_style_id_val = $cur_pic_elem.data('elementstyleid')
+        img_scale_type_val = 'fill'
+        saveIMGScaleTypeForPicture(element_style_id_val, img_scale_type_val)
       else if $cur_radio.val() == 'fit'
         console.log 'fit'
         resizePictureFit($cur_pic_elem)
+        
+        element_style_id_val = $cur_pic_elem.data('elementstyleid')
+        img_scale_type_val = 'fit'
+        saveIMGScaleTypeForPicture(element_style_id_val, img_scale_type_val)
       else if $cur_radio.val() == '1to1'
         console.log '1to1'
         resizePictureOneIsToOne($cur_pic_elem)
@@ -1011,37 +991,21 @@ $ ->
         height_val = $cur_pic_elem.height()
         setWHSize(element_style_id_val, width_val, height_val)
         
-<<<<<<< HEAD
+        img_scale_type_val = '1to1'
+        saveIMGScaleTypeForPicture(element_style_id_val, img_scale_type_val)
+        
   $('.picture .settings_element').live "click", (event)->
-    console.log 'abe'
+    console.log '[picture.js] settings_element'
     $(this).parents('.element.picture').trigger('dblclick')
-=======
-
->>>>>>> b7ee8549ac66a26eea29ae6112a969fc90b7d117
        
   $('.picture').each ->
     $cur_pic_elem = $(this)
-    #if $cur_pic_elem.data('resizetype') == 'fill'
-    #  resizePicture($cur_pic_elem)
-    #else if $cur_pic_elem.data('resizetype') == 'fit'
-    #  resizePictureFit($cur_pic_elem)
-    #else if $cur_pic_elem.data('resizetype') == '1to1'
-    #  resizePictureOneIsToOne($cur_pic_elem)
-    #else
-    #  resizePicture($cur_pic_elem)
-    #resizePicture($cur_pic_elem)
     $the_img = $('.content img', $cur_pic_elem)
-    #console.log $the_img
-        
-
+    
     $cur_pic_elem.bind "resizestop", (event, ui) ->
       console.log "margin-left: "+$the_img.css('margin-left')
       console.log "margin-top: "+$the_img.css('margin-top')
       console.log "width: "+$the_img.width()
-      
-      #element_id_val = $cur_pic_elem.data('elementid')      
-      #element_content_val = $('.content', $cur_pic_elem).html()
-      #setElementContent(element_id_val, element_content_val)
       
       element_style_id_val = $cur_pic_elem.data('elementstyleid')
       left_val = parseInt($the_img.css('margin-left'))
@@ -1059,37 +1023,3 @@ $ ->
         resizePictureOneIsToOne($cur_pic_elem)
       else
         resizePicture($cur_pic_elem)
-      #w=$cur_pic_elem.width()
-      #h=$cur_pic_elem.height()
-
-      #  
-      #winWidth=$cur_pic_elem.width()
-      #winHeight=$cur_pic_elem.height()
-      #winRatio = winWidth/winHeight
-      #console.log "winRatio: "+winRatio
-      
-      #imageWidth = $the_img.width()
-      #imageHeight = $the_img.height()
-      ##console.log "image wXh: "+imageWidth+" : "+imageHeight
-      #imageRatio = imageWidth/imageHeight
-      #console.log "imageRatio: "+imageRatio
-      
-      #if winRatio>imageRatio
-      #  $the_img.attr('width', w)
-      #  $the_img.attr('height', Math.round(w/imageRatio))          
-      #else
-      #  $the_img.attr('width', Math.round(h*imageRatio))
-      #  $the_img.attr('height', h)
-      
-      #if w<imageWidth #div is narrower than the image
-      #  diff = imageWidth - w
-      #  left = -(diff/2)
-      #  console.log "left: "+left
-      #if h<imageHeight #div is longer than the image
-      #  diff = imageHeight - h
-      #  top = -(diff/2)
-      #  console.log "top: "+top
-      #$the_img.css
-      #  position:'relative'
-      #  top:top
-      #  left:left

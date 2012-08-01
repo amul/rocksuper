@@ -117,7 +117,7 @@
       <% elsif element.elem_type == 'picture'%>
         <% pictures = element.images if element.images %>
         <% picture = pictures.first %>
-        <%= div_for(element, :class => element.elem_type, :data => {:elementid => element.id, :elementstyleid => style.id, :pageid => @page.id, :locked => locked_class  }, :style => "left:#{style.left}px;top:#{style.top}px;width:#{style.width}px;height:#{style.height}px;font-family: #{style.font_family}; font-size: #{style.font_size}px; z-index: #{style.z_index};") do %>
+        <%= div_for(element, :class => element.elem_type, :data => {:elementid => element.id, :elementstyleid => style.id, :resizetype => style.img_scale_type, :pageid => @page.id, :locked => locked_class  }, :style => "left:#{style.left}px;top:#{style.top}px;width:#{style.width}px;height:#{style.height}px;font-family: #{style.font_family}; font-size: #{style.font_size}px; z-index: #{style.z_index};") do %>
           <div id="content_<%= element.id %>" class="content<%= ' default' if !element.images %>" style="width:<%= style.width %>px;height:<%= style.height %>px;line-height:<%= style.line_height %>; letter-spacing:<%= style.letter_spacing %>px; font-size:<%= style.font_size %>px;  -webkit-border-radius: <%= style.border_radius %>px; border-radius: <%= style.border_radius %>px;             
               -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; <%= style.background_style_g %> <%= style.border_style %>">
             <% if element.images.count > 0 %>
@@ -125,6 +125,313 @@
             <% else %>
               <%= element.content.html_safe %>
             <% end %>
+          </div>
+        <% end %>   
+        
+      <% elsif element.elem_type == 'image_montage' %> 
+        <% galleryl_attribute = element.gallery_attrib %>
+        <%= div_for(element, :class => element.elem_type, :data => {:elementid => element.id, :elementstyleid => style.id, :pageid => @page.id, :locked => locked_class, :gallerygridattrid => galleryl_attribute.id  }, :style => "left:#{style.left}px;top:#{style.top}px;width:#{style.width}px;height:#{style.height}px;font-family: #{style.font_family}; font-size: #{style.font_size}px; z-index: #{style.z_index};") do %>
+          <div id="content_<%= element.id %>" class="content<%= ' default' if !element.images %>" style="width:<%= style.width %>px;height:<%= style.height %>px;line-height:<%= style.line_height %>; letter-spacing:<%= style.letter_spacing %>px; font-size:<%= style.font_size %>px;  -webkit-border-radius: <%= style.border_radius %>px; border-radius: <%= style.border_radius %>px;             
+              -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; <%= style.background_style_g %> <%= style.border_style %>">
+              
+            <div class="am-container">
+              <% if element.slideshow_images.present? %>
+              
+                <% element.slideshow_images.order("position").each_with_index do |slideshow_image, index| %>
+                  <% if slideshow_image.image.present? %>
+                    <a href="#">
+                      <%= image_tag(slideshow_image.image_url.to_s, :id => "slideshow_image_#{slideshow_image.id}", :class => "img2 image", :alt => "#{slideshow_image.caption}", :data => { :caption => slideshow_image.caption, :description => slideshow_image.description, :link_text => slideshow_image.link_text, :link_type => slideshow_image.link_type, :link_target => slideshow_image.link_target, :id => slideshow_image.id, :orig_pos => index.to_i+1, :position => slideshow_image.position}) %>
+                    </a>
+                  <% else %>
+                    <a href="#">
+                      <%= image_tag(slideshow_image.default_image_url.to_s, :id => "slideshow_image_#{slideshow_image.id}", :class => "img2 image", :alt => "#{slideshow_image.caption}", :data => { :caption => slideshow_image.caption, :description => slideshow_image.description, :link_text => slideshow_image.link_text, :link_type => slideshow_image.link_type, :link_target => slideshow_image.link_target, :id => slideshow_image.id, :orig_pos => index.to_i+1, :position => slideshow_image.position}) %>
+                    </a>
+                  <% end %>
+                <% end %>
+              
+              <% else %>
+                <a href="#"><img src="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg"></img></a>
+                <a href="#"><img src="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg"></img></a>
+                <a href="#"><img src="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg"></img></a>
+                <a href="#"><img src="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg"></img></a>
+                <a href="#"><img src="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg"></img></a>
+              <% end %>
+              
+            </div>
+            
+            <script type="text/javascript">
+              $(function() {
+                var $container   = $('#content_<%= element.id %> .am-container'),
+                  $imgs    = $container.find('img').hide(),
+                  totalImgs  = $imgs.length,
+                  cnt      = 0;
+                
+                $imgs.each(function(i) {
+                  var $img  = $(this);
+                  $('<img/>').load(function() {
+                    ++cnt;
+                    if( cnt === totalImgs ) {
+                      $imgs.show();
+                      $container.montage({
+                        fillLastRow        : true,
+                        alternateHeight      : true,
+                        alternateHeightRange  : {
+                          min  : 90,
+                          max  : 120
+                        }
+                      });
+                      
+                      /* 
+                       * just for this demo:
+                       */
+                      $('#overlay').fadeIn(500);
+                    }
+                  }).attr('src',$img.attr('src'));
+                });   
+              }); //$(function() {
+            </script>
+            
+          </div>
+        <% end %>
+      <% elsif element.elem_type == 'gallery_lightbox' %>
+        <% galleryl_attribute = element.gallery_attrib %>
+        <%= div_for(element, :class => element.elem_type, :data => {:elementid => element.id, :elementstyleid => style.id, :pageid => @page.id, :locked => locked_class, :gallerygridattrid => galleryl_attribute.id  }, :style => "left:#{style.left}px;top:#{style.top}px;width:#{style.width}px;height:#{style.height}px;font-family: #{style.font_family}; font-size: #{style.font_size}px; z-index: #{style.z_index};") do %>
+          <div id="content_<%= element.id %>" class="content<%= ' default' if !element.images %>" style="width:<%= style.width %>px;height:<%= style.height %>px;line-height:<%= style.line_height %>; letter-spacing:<%= style.letter_spacing %>px; font-size:<%= style.font_size %>px;  -webkit-border-radius: <%= style.border_radius %>px; border-radius: <%= style.border_radius %>px;             
+              -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; <%= style.background_style_g %> <%= style.border_style %>">
+            <style type="text/css">
+              #content_<%= element.id %> .componentWrapperClass .thumbHolder,  
+              #content_<%= element.id %> .componentWrapperClass .thumbHolder a img.thumb_hidden {
+                width: <%= galleryl_attribute.cell_width %>px;
+                height: <%= galleryl_attribute.cell_height %>px;
+              }
+            </style>
+            <!-- wrapper for the whole component -->
+            <div id="componentWrapper" class="componentWrapperClass">
+                       
+                    <div class="thumbContainer">
+                    
+                       <!--
+                        data-title: optional title , if used it will show on hover, empty for none like this: data-title='' or delete whole attribute,
+                        
+                        -to add prettyphoto content example, place this:
+                        <a class="pp_content" href="link/to/big/image" data-rel="prettyPhoto[gallery1]" title="Optional description."><img class="thumb_hidden" src="link/to/small/image" width="200" height="140" alt="Optional title" /></a>
+                        class has to be 'pp_content' for my jquery code to recognize it. a 'title' = description, img 'alt' = title as per prettyphoto documentation.
+                        -->    
+                          
+                          <div class="thumbInnerContainer">
+                               
+                               <div class='thumbHolder' 
+                                   data-title="Proin magna nunc">  
+                                   <a class="pp_content" href="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" data-rel="prettyPhoto[gallery1]" title="Optional description in Prettyphoto."><img class="thumb_hidden" src="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" width="240" height="155" alt="Optional image title" /></a>  
+                               </div>
+                               
+                               <div class='thumbHolder' 
+                                   data-title="Proin magna nunc">  
+                                   <a class="pp_content" href="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" data-rel="prettyPhoto[gallery1]" title="Optional description in Prettyphoto."><img class="thumb_hidden" src="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" width="240" height="155" alt="Optional image title" /></a>  
+                               </div>
+                               
+                               <div class='thumbHolder' 
+                                   data-title="Proin magna nunc">  
+                                   <a class="pp_content" href="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" data-rel="prettyPhoto[gallery1]" title="Optional description in Prettyphoto."><img class="thumb_hidden" src="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" width="240" height="155" alt="Optional image title" /></a>  
+                               </div>
+                               
+                               <div class='thumbHolder' 
+                                   data-title="Proin magna nunc">  
+                                   <a class="pp_content" href="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" data-rel="prettyPhoto[gallery1]" title="Optional description in Prettyphoto."><img class="thumb_hidden" src="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" width="240" height="155" alt="Optional image title" /></a>  
+                               </div>
+                               
+                               <div class='thumbHolder' 
+                                   data-title="Proin magna nunc">  
+                                   <a class="pp_content" href="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" data-rel="prettyPhoto[gallery1]" title="Optional description in Prettyphoto."><img class="thumb_hidden" src="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" width="240" height="155" alt="Optional image title" /></a>  
+                               </div>
+                               
+                               <div class='thumbHolder' 
+                                   data-title="Proin magna nunc">  
+                                   <a class="pp_content" href="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" data-rel="prettyPhoto[gallery1]" title="Optional description in Prettyphoto."><img class="thumb_hidden" src="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" width="240" height="155" alt="Optional image title" /></a>  
+                               </div>
+                               
+                               <div class='thumbHolder' 
+                                   data-title="Proin magna nunc">  
+                                   <a class="pp_content" href="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" data-rel="prettyPhoto[gallery1]" title="Optional description in Prettyphoto."><img class="thumb_hidden" src="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" width="240" height="155" alt="Optional image title" /></a>  
+                               </div>
+                               
+                               <div class='thumbHolder' 
+                                   data-title="Proin magna nunc">  
+                                   <a class="pp_content" href="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" data-rel="prettyPhoto[gallery1]" title="Optional description in Prettyphoto."><img class="thumb_hidden" src="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" width="240" height="155" alt="Optional image title" /></a>  
+                               </div>
+                               
+                               <div class='thumbHolder' 
+                                   data-title="Proin magna nunc">  
+                                   <a class="pp_content" href="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" data-rel="prettyPhoto[gallery1]" title="Optional description in Prettyphoto."><img class="thumb_hidden" src="https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg" alt="Optional image title" /></a>  
+                               </div>
+                          
+                          </div>
+                          
+                  </div>
+                  
+                  <div class="thumbBackward thumb_hidden"><img src="/assets/images/gallery_lightbox/thumb_backward.png" alt="" width="21" height="31" /></div>  
+                  <div class="thumbForward thumb_hidden"><img src="/assets/images/gallery_lightbox/thumb_forward.png" alt="" width="21" height="31" /></div>  
+                     
+              </div>
+              
+          </div>
+          
+          <script type="text/javascript">
+            
+            function thumbGallerySetupDone(){
+              //function called when component is ready to receive public function calls
+              //console.log('thumbGallerySetupDone');
+            }
+            
+            function detailActivated(){
+              //function called when prettyphoto is opened
+              //console.log('detailActivated');
+            }
+            
+            function detailClosed(){
+              //function called when prettyphoto is closed
+              //console.log('detailClosed');
+            }
+            
+            function overThumb(i,j){
+              //function called when mouse over thumb holder (plus returned item number: i = first level, j = second level)
+              //console.log('overThumb: ', i,' , ', j);
+            }
+            
+            function outThumb(i, j){
+              //function called when mouse out thumb holder (plus returned item number: i = first level, j = second level)
+              //console.log('outThumb: ', i,' , ', j);
+            }
+            
+            jQuery(window).load(function() {
+              //jQuery.noConflict();
+                  
+              jQuery('#element_<%= element.id %> .componentWrapperClass').thumbGallery({  
+                /*layoutType: grid/line */
+                layoutType: 'grid',
+                /*thumbOrientation: horizontal/vertical */
+                thumbOrientation: 'horizontal',
+                /*moveType: scroll/buttons */
+                moveType: 'buttons',
+                /*scrollOffset: how much to move scrollbar and scrolltrack off the content (enter 0 or above) */
+                scrollOffset: 25,
+                
+                /* SIZE RESTRAIN */
+                /*maxWidth:(enter 0 for none, or higher)  */
+                maxWidth: 0,
+                /*maxHeight: (enter 0 for none, or higher) */
+                maxHeight: 0,
+                
+                /* GRID SETTINGS */
+                /*verticalSpacing:  */
+                verticalSpacing: 10,
+                /*horizontalSpacing:  */
+                horizontalSpacing: 10,
+                /*buttonSpacing: button spacing from the grid itself */
+                buttonSpacing: 10,
+                
+                /* LINE SETTINGS */
+                /* thumbsScrollValue: speed of the thumb scroll on button down (number higher than 0) */
+                thumbsScrollValue: 150,
+                
+                /*innerSlideshowDelay: slideshow delay for inner items in seconds, random value between: 'min, max', 
+                enter both number the same for equal time delay like for example 2 seconds: '2,2' */
+                innerSlideshowDelay:[2,4],
+                /*innerSlideshowOn: autoplay inner slideshow, true/false */
+                innerSlideshowOn:false,
+                
+                /*containerWidthAddOn: add on container wrapper width if needed (enter 0 or above) */
+                containerWidthAddOn:0,
+                /*containerHeightAddOn: add on container wrapper height if needed (enter 0 or above) */
+                containerHeightAddOn:0
+              });    
+             
+             });
+            
+          </script>
+          
+        <% end %>
+        
+      <% elsif element.elem_type == 'grid_gallery' %>
+      
+        <%= div_for(element, :class => element.elem_type, :data => {:elementid => element.id, :elementstyleid => style.id, :pageid => @page.id, :locked => locked_class  }, :style => "left:#{style.left}px;top:#{style.top}px;width:#{style.width}px;height:#{style.height}px;font-family: #{style.font_family}; font-size: #{style.font_size}px; z-index: #{style.z_index};") do %>
+          <div id="content_<%= element.id %>" class="content<%= ' default' if !element.images %>" style="width:<%= style.width %>px;height:<%= style.height %>px;line-height:<%= style.line_height %>; letter-spacing:<%= style.letter_spacing %>px; font-size:<%= style.font_size %>px;  -webkit-border-radius: <%= style.border_radius %>px; border-radius: <%= style.border_radius %>px;             
+              -moz-background-clip: padding; -webkit-background-clip: padding-box; background-clip: padding-box; <%= style.background_style_g %> <%= style.border_style %>">
+          
+            <div class="my-gallery">
+              <div class="dg-cell">
+                <div class="dg-cell-src">https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg</div>
+                <div class="dg-cell-title">This is a title 1.</div>
+                <div class="dg-cell-description">This is a description 1.</div>
+              </div>
+              <div class="dg-cell">
+                <div class="dg-cell-src">https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/492/Chrysanthemum.jpg</div>
+                <div class="dg-cell-title">This is a title 2.</div>
+                <div class="dg-cell-description">This is a description 2.</div>
+              </div>
+              <div class="dg-cell">
+                <div class="dg-cell-src">https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/478/Tulips.jpg</div>
+                <div class="dg-cell-title">This is a title 3.</div>
+                <div class="dg-cell-description">This is a description 3.</div>
+              </div>  
+              <div class="dg-cell">
+                <div class="dg-cell-src">http://23.23.174.56/assets/images/default_images/standard.jpg</div>
+                <div class="dg-cell-title">This is a title 4.</div>
+                <div class="dg-cell-description">This is a description 4.</div>
+              </div>
+              <div class="dg-cell">
+                <div class="dg-cell-src">http://23.23.174.56/assets/images/default_images/tomatos.jpg</div>
+                <div class="dg-cell-title">This is a title 5.</div>
+                <div class="dg-cell-description">This is a description 5.</div>
+              </div>
+              <div class="dg-cell">
+                <div class="dg-cell-src">http://23.23.174.56/assets/images/default_images/wine.jpg</div>
+                <div class="dg-cell-title">This is a title 6.</div>
+                <div class="dg-cell-description">This is a description 6.</div>
+              </div>
+              <div class="dg-cell">
+                <div class="dg-cell-src">https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/496/Koala.jpg</div>
+                <div class="dg-cell-title">This is a title 1.</div>
+                <div class="dg-cell-description">This is a description 1.</div>
+              </div>
+              <div class="dg-cell">
+                <div class="dg-cell-src">https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/492/Chrysanthemum.jpg</div>
+                <div class="dg-cell-title">This is a title 2.</div>
+                <div class="dg-cell-description">This is a description 2.</div>
+              </div>
+              <div class="dg-cell">
+                <div class="dg-cell-src">https://teststorage123.s3.amazonaws.com/uploads/slideshow_image/image/478/Tulips.jpg</div>
+                <div class="dg-cell-title">This is a title 3.</div>
+                <div class="dg-cell-description">This is a description 3.</div>
+              </div>  
+              <div class="dg-cell">
+                <div class="dg-cell-src">http://23.23.174.56/assets/images/default_images/standard.jpg</div>
+                <div class="dg-cell-title">This is a title 4.</div>
+                <div class="dg-cell-description">This is a description 4.</div>
+              </div>
+              <div class="dg-cell">
+                <div class="dg-cell-src">http://23.23.174.56/assets/images/default_images/tomatos.jpg</div>
+                <div class="dg-cell-title">This is a title 5.</div>
+                <div class="dg-cell-description">This is a description 5.</div>
+              </div>
+              <div class="dg-cell">
+                <div class="dg-cell-src">http://23.23.174.56/assets/images/default_images/wine.jpg</div>
+                <div class="dg-cell-title">This is a title 6.</div>
+                <div class="dg-cell-description">This is a description 6.</div>
+              </div>
+            </div>
+              
+            <script type="text/javascript">
+              (function ($, undefined) {
+                $(document).ready(function() {
+                  $('.my-gallery').dynamicGallery({
+                    scale_images: true,
+                    //click_action: "lightbox",
+                    show_title_in_lightbox: true
+                  });
+                });
+              }(jQuery));
+            </script>
           </div>
         <% end %>
       <% elsif element.elem_type == 'gallery_grid_element' %>
@@ -237,50 +544,52 @@
           </div>          
           
           <script type="text/javascript">
-            <% unless element.slideshow_attrib.caption? %>
-              $('.caption', $('#element_<%= element.id %>.slideshow')).hide();
-            <% end %>
-            <% unless element.slideshow_attrib.pagination? %>
-              $('.pagination', $('#element_<%= element.id %>.slideshow')).hide();
-            <% end %>
-            $('#element_<%= element.id %>.slideshow').slides({
-              preload: true,
-              pagination: false,
-              preloadImage: '/assets/images/default_images/loading.gif',
-              fadeSpeed: 800,
-              <% if element.slideshow_attrib.autoplay? %>
-                play: 5000,              
-              <% else %>
-                play: 0,
+            $(document).ready(function() {
+              <% unless element.slideshow_attrib.caption? %>
+                $('.caption', $('#element_<%= element.id %>.slideshow')).hide();
               <% end %>
-              //play: 5000,
-              pause: 2500,
-              hoverPause: true,        
-              effect : 'fade',
-              crossfade:true,
-              animationStart: function(current){
-                $('.caption').animate({
-                  bottom:-35
-                },100);
-                if (window.console && console.log) {
-                  // example return of current slide number
-                  console.log('animationStart on slide: ', current);
-                };
-              },
-              animationComplete: function(current){
-                $('.caption').animate({
-                  bottom:0
-                },200);
-                if (window.console && console.log) {
-                  // example return of current slide number
-                  console.log('animationComplete on slide: ', current);
-                };
-              },
-              slidesLoaded: function() {
-                $('.caption').animate({
-                  bottom:0
-                },200);
-              }
+              <% unless element.slideshow_attrib.pagination? %>
+                $('.pagination', $('#element_<%= element.id %>.slideshow')).hide();
+              <% end %>
+              $('#element_<%= element.id %>.slideshow').slides({
+                preload: true,
+                pagination: false,
+                preloadImage: '/assets/images/default_images/loading.gif',
+                fadeSpeed: 800,
+                <% if element.slideshow_attrib.autoplay? %>
+                  play: 5000,              
+                <% else %>
+                  play: 0,
+                <% end %>
+                //play: 5000,
+                pause: 2500,
+                hoverPause: true,        
+                effect : 'fade',
+                crossfade:true,
+                animationStart: function(current){
+                  $('.caption').animate({
+                    bottom:-35
+                  },100);
+                  if (window.console && console.log) {
+                    // example return of current slide number
+                    console.log('animationStart on slide: ', current);
+                  };
+                },
+                animationComplete: function(current){
+                  $('.caption').animate({
+                    bottom:0
+                  },200);
+                  if (window.console && console.log) {
+                    // example return of current slide number
+                    console.log('animationComplete on slide: ', current);
+                  };
+                },
+                slidesLoaded: function() {
+                  $('.caption').animate({
+                    bottom:0
+                  },200);
+                }
+              });
             });
           </script>
           
@@ -368,6 +677,8 @@
       <% end %>
       
     <% end %> <!-- @elements.each do |element| -->
+    
+    
   <div>
 </div>
 
@@ -403,8 +714,8 @@
                 {{/if}}
             </td>
         {{else}}
-			
-		<!--
+      
+    <!--
             <td class="preview">
                 {{if thumbnail_url}}
                     <a href="${url}" target="_blank"><img src="${thumbnail_url}"></a>
@@ -415,7 +726,7 @@
             </td>
             <td class="size">${sizef}</td>
             <td colspan="2"></td>
-		-->
+    -->
         {{/if}}
 
     </tr>

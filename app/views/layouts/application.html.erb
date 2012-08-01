@@ -27,6 +27,15 @@
           <li id="elements_main_nav" class="main_nav">Add an Element
             <% if params[:controller] == "webpages" %>
               <ul class="sub">
+                <%= content_tag :li, :id => "add_elem_image_montage", :data => {:pageid => @page[:id] } do %>
+                  <a>Image Montage</a>
+                <% end %>
+                <%= content_tag :li, :id => "add_elem_grid_lightbox", :data => {:pageid => @page[:id] } do %>
+                  <a>Gallery Lightbox</a>
+                <% end %>
+                <%= content_tag :li, :id => "add_elem_gridgal", :data => {:pageid => @page[:id] } do %>
+                  <a>Grid Gallery</a>
+                <% end %>
                 <%= content_tag :li, :id => "add_elem_form", :data => {:pageid => @page[:id] } do %>
                   <a>Contact Form</a>
                 <% end %>

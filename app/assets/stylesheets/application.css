@@ -12,8 +12,12 @@
  *= require ui-lightness/jquery-ui-1.8.19.custom.css
  *= require jquery_gradient/jquery.colorpicker.css
  *= require jquery_gradient/jquery.gradientCreator.css
+ *= require dynamicgrid/dynamic.grid.css
  *= require colorpicker/css/colorpicker.css
  *= require picture/jquery.gzoom.css
+ *= require gallery_lightbox/prettyPhoto.css
+ *= require gallery_lightbox/index_grid_horizontal_buttons.css
+ *= require montage/montage.css
  *= require picture/style
  *= require jquery_ui.css
  *= require_self

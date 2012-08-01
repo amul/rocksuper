@@ -84,35 +84,6 @@ $ ->
       autoOpen: false
       zIndex: 20000
       
-    $('#useGradientBg',$dialog_page_size_and_color_settings).bind 'click', ->
-      $cur_button = $(this)
-      if $('.gradientBgColor',$dialog_page_size_and_color_settings).data('gradientCreator')
-        console.log 'yes'
-      else
-        console.log 'no'
-      if $cur_button.val() == "Use Gradient"
-        $('#gradientOptionsPageColor').attr('style', 'display:block;')
-        $('#canvasBgColorSelectorReal').attr('style', 'display:none;')
-        $('.gradientBgColor').gradientCreator
-          gradient: '#ebf1f6 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%',
-          target: $('#pageWrap'),
-          tooltipGradient: ' #fceabb 0%,#fccd4d 49%,#f8b500 53%,#fbdf93 100%'
-          onChange: (stringGradient,cssGradient,ArrayColors) ->
-            console.log 'stringGradient val: '+stringGradient
-            console.log 'cssGradient val: '+cssGradient
-            page_gradient_val = cssGradient
-        $cur_button.val('Solid Color')
-      else
-        $('#pageWrap').removeStyle('background')
-        $('#pageWrap').css
-          'background': '#89c4eb'
-        $('#gradientOptionsPageColor').attr('style', 'display:none;')
-        $('#canvasBgColorSelectorReal').attr('style', 'display:block;')
-        $cur_button.val('Use Gradient')
-      
-      $('.gradientOrientation',$dialog_page_size_and_color_settings).bind 'change', ->
-        $('.gradientBgColor').data('gradientCreator').setOrientation $(this).val()
-      
     $dialog_page_size_and_color_settings.dialog("open")
     $bg_color_canvas = $('#pageWrap').css('backgroundColor')
     $('#canvasBgColorSelectorReal div').css
@@ -132,6 +103,35 @@ $ ->
           $('#pageWrap').css
             'background': $bg_color_canvas
             'boxShadow': $bg_boxShadow_canvas
+            
+    $('#useGradientBg',$dialog_page_size_and_color_settings).bind 'click', ->
+      $cur_button = $(this)
+      if $('.gradientBgColor',$dialog_page_size_and_color_settings).data('gradientCreator')
+        console.log 'yes'
+      else
+        console.log 'no'
+      if $cur_button.val() == "Use Gradient"
+        $('#gradientOptionsPageColor').attr('style', 'display:block;')
+        $('#canvasBgColorSelectorReal').attr('style', 'display:none;')
+        $('.gradientBgColor').gradientCreator
+          gradient: '#ebf1f6 0%,#abd3ee 50%,#89c3eb 51%,#d5ebfb 100%',
+          target: $('#pageWrap'),
+          tooltipGradient: ' #fceabb 0%,#fccd4d 49%,#f8b500 53%,#fbdf93 100%',
+          onChange: (stringGradient,cssGradient,ArrayColors) ->
+            console.log 'stringGradient val: '+stringGradient
+            console.log 'cssGradient val: '+cssGradient
+            page_gradient_val = cssGradient
+        $cur_button.val('Solid Color')
+      else
+        $('#pageWrap').removeStyle('background')
+        $('#pageWrap').css
+          'background': '#89c4eb'
+        $('#gradientOptionsPageColor').attr('style', 'display:none;')
+        $('#canvasBgColorSelectorReal').attr('style', 'display:block;')
+        $cur_button.val("Use Gradient")
+      
+      $('.gradientOrientation',$dialog_page_size_and_color_settings).bind 'change', ->
+        $('.gradientBgColor').data('gradientCreator').setOrientation $(this).val()
     
     console.log "[pageSizeAndColor.js] set event ok in this form"
     $('#pageBackgroundOkBtn').bind 'click', ->

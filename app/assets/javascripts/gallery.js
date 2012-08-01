@@ -176,7 +176,7 @@ setZindex = function(element_style_id_val, zIndex) {
   }, 'json');
 }
 
-$(function() {
+$(document).ready(function() {
   //preload images before loading as gallery
   images_srcs = [];
   $galleries = $('img', $('.element.gallery_grid_element .gallery_grid.content')).each(function() {
@@ -864,6 +864,99 @@ $(function() {
     })
   }
   
+  function resizeAllMod(cur_gallery_parent) {
+    var rows = $('input[name=rows]',$(cur_gallery_parent)).val();
+    var columns = $('input[name=cols]',$(cur_gallery_parent)).val();  
+    
+    var margl = getPX($(".imgdiv",$(cur_gallery_parent)), "margin-right");
+    var margb = getPX($(".imgdiv",$(cur_gallery_parent)), "margin-bottom");
+    var win = $('.gallery_grid', $(cur_gallery_parent));
+    var w = Math.ceil(win.width() / columns)-margl;
+    var h = Math.ceil(win.height() / rows)-margb;
+    var galw = $(cur_gallery_parent).width();
+    var galh = $(cur_gallery_parent).height();
+    var margin = parseInt($(".margin",$(cur_gallery_parent)).val());
+    
+    $(".gallery_grid",$(cur_gallery_parent)).css({
+      width:(w+margin)*columns, 
+      height:(h+margin)*rows
+    });
+    //set right width for the parent of grid gallery
+    $(cur_gallery_parent).css({
+      width:(w+margin)*columns, 
+      height:(h+margin)*rows
+    });
+
+    $(".row",$(cur_gallery_parent)).each(function(){
+      $(this).css({
+        width:(w+margin)*columns,
+        height:h
+      });
+      //$("img.image", $(this).find(".imgdiv")).load();
+      
+      $(this).find(".imgdiv").each(function() {
+        $imgdiv_wrap = $(this);
+        $(this).css({
+            height: h,
+            width: w
+        });
+      });
+      
+      $images = $(this).find(".imgdiv img");
+      $images.each(function(index, Element) {
+        $(Element).load(function() {
+          
+          var $image = $(this);
+          
+          var winWidth = $(this).parents(".imgdiv").width();
+          var winHeight = $(this).parents(".imgdiv").height();
+          var winRatio = winWidth / winHeight;
+          
+          var $imageWidth = $image.width();
+          var $imageHeight = $image.height();          
+          var imageRatio = $imageWidth / $imageHeight;
+          
+          if(winRatio > imageRatio) {
+            $image.css({
+              width: winWidth,
+              height: Math.round(winWidth / imageRatio)
+            });
+          } else {
+            $image.css({
+              width: Math.round(winHeight * imageRatio),
+              height: winHeight
+            });
+          }  
+  
+          //center the image
+          dw = $(this).parents(".imgdiv").width(); dh = $(this).parents(".imgdiv").height();
+          iw = $(this).width(); ih = $(this).height();
+          var top = 0, left = 0;
+          
+          console.log("$(image).width(): " + iw);
+          console.log("dw: "+dw);
+          
+          if(dw < iw){ //div is narrower than the image
+            diff = iw - dw;
+            left = -(diff/2);
+          }
+          if(dh < ih){ //div is longer than the image
+            diff = ih - dh;
+            top = -(diff/2);
+          }
+          $(this).css({position:'relative', top:top, left:left});   
+          
+          
+          //$(Element).width(w);
+          //$(Element).height(h);
+          
+        });
+      });
+
+    });
+    
+  }
+  
   function resizeAll(cur_gallery_parent, expand) {
     var rows = $('input[name=rows]',$(cur_gallery_parent)).val();
     var columns = $('input[name=cols]',$(cur_gallery_parent)).val();  
@@ -1195,7 +1288,7 @@ $(function() {
     
     group($cur_gallery_parent);
     loadMargin($cur_gallery_parent);
-    resizeAll($cur_gallery_parent);
+    resizeAllMod($cur_gallery_parent);
     
     $( ".settings",$cur_gallery_parent).draggable();
     //$cur_gallery.resizable();

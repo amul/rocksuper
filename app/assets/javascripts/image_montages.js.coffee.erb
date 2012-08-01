@@ -1,0 +1,165 @@
+$ ->
+
+  makeMultiUpload = (element) ->     
+    #// Initialize the jQuery File Upload widget:
+    $(element).fileupload
+      maxFileSize: 3000000
+      sequentialUploads: true
+      acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i 
+    .bind 'fileuploadstop', ->
+      #//$('.sort.subPanelButton.ss').trigger('click');
+      window.location.reload()
+    .bind 'fileuploadprogressall', ->
+      if $('.fileupload-content').height() > 500
+        $('.PanelHor').css
+          height: 547
+          overflow: 'scroll-y'
+      else
+        $('.PanelHor').css
+          height: $('.fileupload-content').height() + 60,
+          #//width: $('.fileupload-content').width()
+  
+      #//window.location.reload();
+      
+    #// Load existing files:
+    $.getJSON $(element).find('form').prop('action'), (files) -> 
+      fu = $(element).data('fileupload')
+      fu._adjustMaxNumberOfFiles(-files.length)
+      fu._renderDownload(files)
+        .appendTo($(element).find('.files'))
+        .fadeIn ->
+          #// Fix for IE7 and lower:
+          $(this).show()
+  
+    #// Open download dialogs via iframes,
+    #// to prevent aborting current uploads:
+    $(element).find('.files a:not([target^=_blank])').live 'click', (e) ->
+        e.preventDefault()
+        $('<iframe style="display:none;"></iframe>')
+            .prop('src', this.href)
+            .appendTo('body')
+  
+  $settings_gallery_div = $ '
+    <div class="gallery_settings_div" id="settings_div_id" style="position:relative; left: 0; top: 0; padding: 10px; width: 100%;">
+      <form name="settings" onsubmit="return false" method="post" class="settings_form">
+        <p>
+          <label>Cell Width</label>
+          <div class="slider slider-cellWidth"></div>      
+          <input type="number" name="cellWidth" class="textinput cellWidth" value=""  />
+        </p>
+      </form>
+    </div>
+  '
+  
+  $div_image_montage_multi_upload = $ '
+    <div id="fileupload" class="ui-widget">
+      <form accept-charset="UTF-8" action="/slideshow_images" class="new_slideshow_image" enctype="multipart/form-data" id="new_slideshow_image" method="post">
+        <div class="fileupload-buttonbar ui-widget-header ui-corner-top">
+          <label class="fileinput-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button" aria-disabled="false">
+            <span class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span>
+            <span class="ui-button-text">
+              <span>Five megabytes png/gif/jpg...</span>            
+            </span>
+            <input id="slideshow_image_image" name="slideshow_image[image]" type="file">
+          </label>
+          <input id="slideshow_image_element_id" name="slideshow_image[element_id]" type="hidden" >
+        </div>
+      </form>
+      <div class="fileupload-content ui-widget-content ui-corner-bottom">
+        <table class="files"><tbody></tbody></table>
+        <div class="fileupload-progressbar ui-progressbar ui-widget ui-widget-content ui-corner-all" style="display: none; " role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="ui-progressbar-value ui-widget-header ui-corner-left" style="display: none; width: 0%; "></div>
+        </div>
+      </div>
+    </div>
+      '
+
+  $dialog_div_image_montage = $ '
+      <div id="dialog_image_montage" title="Image Montage Settings">
+        <div class="image_montagePanelHorNav PanelHorNav" style="overflow:hidden;display:block;">
+          <div href="#" class="upload subPanelButton image_montage">Upload</div>
+          <div href="#" class="image_montage_sort subPanelButton image_montage" style="width:100px">Sort</div>
+          <div href="#" class="image_montage_settings subPanelButton image_montage" style="width:70px">Settings</div>
+        </div>
+        <div class="image_montagePanelHor PanelHor" style="position:relative;">
+          <div class="image_montagePanel" style="width: 100%;">
+            loading . . .
+          </div>
+          <div class="image_montageSortPanel">
+            loading . . .
+          </div>
+          <div class="image_montageSettingsPanel">
+            loading . . .
+          </div>
+        </div>
+      </div>
+    '  
+  $('.image_montagePanel', $dialog_div_image_montage).html($div_image_montage_multi_upload)
+  $('.image_montageSettingsPanel', $dialog_div_image_montage).html($settings_gallery_div)
+  
+  page_id_val = $('#add_elem_gridgal').data('pageid')
+  $('#add_elem_image_montage').bind 'click', ->
+    element_id_val = null
+    $.post "/elements", 
+      { _method:'POST', element : {page_id: page_id_val, elem_type: 'image_montage'} }
+      (data)->
+        element_id_val = data.element.id
+        console.log "[image_montages.js] created element type/block image_montage"      
+        $.post "/element_styles",
+          { _method:'POST', element_style : {element_id: data.element.id, width: 500, height: 300} }
+          (data)->
+            console.log "[image_montages.js] created element_styles for image_montage"            
+            $.post "/gallery_attribs",
+              { _method: 'POST', gallery_attrib : {element_id: element_id_val} }
+              (data)->
+                console.log "[image_montages.js] created gallery_attrib for image_montage"
+                #add component here
+              'json'            
+          'json'          
+      'json'
+      
+  $('.element.image_montage').live 'dblclick', ->
+    $cur_elem = $(this)
+    
+    $cur_elem.append($dialog_div_image_montage)
+    $dialog_div_image_montage.dialog
+      autoOpen: false
+      width: 526
+      zIndex: 13000
+      drag: (event, ui)->
+        $dialog_div_image_montage.css
+          'zIndex': 100005
+      close: (event, ui)->
+        $dialog_div_image_montage.remove()
+        
+    element = $('#fileupload', $dialog_div_image_montage)
+    makeMultiUpload(element)
+      
+    console.log('assign correct id to post'+$(this).data('elementid'))
+    $('#slideshow_image_element_id', $dialog_div_image_montage).val( $(this).data('elementid') )
+    
+    $dialog_div_image_montage.dialog('open')
+    
+    onAfterimage_montagePanelHor = (curr, next, opts, fwd)->
+      $current_panel = $(this)
+      $current_panel.parents('.image_montagePanelHor').animate
+        height: $current_panel.height()
+    
+    $('.image_montagePanelHor', $dialog_div_image_montage).cycle
+      fx: 'scrollHorz'
+      timeout: 0
+      fit: true
+      speed: 'fast'
+      after: onAfterimage_montagePanelHor
+      
+    $('.upload.image_montage', $dialog_div_image_montage).click ->
+      $('.image_montagePanelHor', $dialog_div_image_montage).cycle(0)
+      return false
+    $('.image_montage_sort.image_montage', $dialog_div_image_montage).click ->
+      $('.image_montagePanelHor', $dialog_div_image_montage).cycle(1)
+      return false
+    $('.image_montage_settings.image_montage', $dialog_div_image_montage).click ->
+      $('.image_montagePanelHor', $dialog_div_image_montage).cycle(2)
+      return false
+
+  

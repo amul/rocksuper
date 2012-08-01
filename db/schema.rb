@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120724194737) do
+ActiveRecord::Schema.define(:version => 20120801172119) do
 
   create_table "element_styles", :force => true do |t|
     t.integer  "element_id"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(:version => 20120724194737) do
     t.integer  "img_top"
     t.text     "background_style_g"
     t.text     "border_style"
+    t.string   "img_scale_type"
   end
 
   create_table "elements", :force => true do |t|
@@ -64,8 +65,10 @@ ActiveRecord::Schema.define(:version => 20120724194737) do
     t.integer  "row"
     t.integer  "margin"
     t.integer  "element_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "cell_width"
+    t.integer  "cell_height"
   end
 
   add_index "gallery_attribs", ["element_id"], :name => "index_gallery_attribs_on_element_id"

@@ -1,0 +1,214 @@
+$ ->
+
+  makeMultiUpload = (element) ->     
+    #// Initialize the jQuery File Upload widget:
+    $(element).fileupload
+      maxFileSize: 3000000
+      sequentialUploads: true
+      acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i 
+    .bind 'fileuploadstop', ->
+      #//$('.sort.subPanelButton.ss').trigger('click');
+      window.location.reload()
+    .bind 'fileuploadprogressall', ->
+      if $('.fileupload-content').height() > 500
+        $('.PanelHor').css
+          height: 547
+          overflow: 'scroll-y'
+      else
+        $('.PanelHor').css
+          height: $('.fileupload-content').height() + 60,
+          #//width: $('.fileupload-content').width()
+  
+      #//window.location.reload();
+      
+    #// Load existing files:
+    $.getJSON $(element).find('form').prop('action'), (files) -> 
+      fu = $(element).data('fileupload')
+      fu._adjustMaxNumberOfFiles(-files.length)
+      fu._renderDownload(files)
+        .appendTo($(element).find('.files'))
+        .fadeIn ->
+          #// Fix for IE7 and lower:
+          $(this).show()
+  
+    #// Open download dialogs via iframes,
+    #// to prevent aborting current uploads:
+    $(element).find('.files a:not([target^=_blank])').live 'click', (e) ->
+        e.preventDefault()
+        $('<iframe style="display:none;"></iframe>')
+            .prop('src', this.href)
+            .appendTo('body')
+  
+  $settings_gallery_div = $ '
+    <div class="gallery_settings_div" id="settings_div_id" style="position:relative; left: 0; top: 0; padding: 10px; width: 100%;">
+      <form name="settings" onsubmit="return false" method="post" class="settings_form">
+        <p>
+          <label for="cols">Columns</label>
+          <div class="slider slider-cols"></div>      
+          <input type="number" name="cols" class="textinput cols" value=""  />
+        </p>
+        <p>
+          <label for="max_rows">Max Rows</label>
+          <div class="slider slider-max_rows"></div>      
+          <input type="number" name="max_rows" value="" class="textinput max_rows" />
+        </p>
+        <p>
+          <label for="margin">Padding</label>   
+          <input type="number" name="padding" value="" class="textinput padding" />
+        </p>
+        <p>
+          <label >Click Action</label> 
+          <select id="click_action">
+            <option value="lightbox">Lightbox</option>
+            <option value="link">Link</option>
+          </select>
+        </p>
+      </form>
+    </div>
+  '
+  
+  $div_grid_gallery_multi_upload = $ '
+    <div id="fileupload" class="ui-widget">
+      <form accept-charset="UTF-8" action="/slideshow_images" class="new_slideshow_image" enctype="multipart/form-data" id="new_slideshow_image" method="post">
+        <div class="fileupload-buttonbar ui-widget-header ui-corner-top">
+          <label class="fileinput-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" role="button" aria-disabled="false">
+            <span class="ui-button-icon-primary ui-icon ui-icon-plusthick"></span>
+            <span class="ui-button-text">
+              <span>Five megabytes png/gif/jpg...</span>            
+            </span>
+            <input id="slideshow_image_image" name="slideshow_image[image]" type="file">
+          </label>
+          <input id="slideshow_image_element_id" name="slideshow_image[element_id]" type="hidden" >
+        </div>
+      </form>
+      <div class="fileupload-content ui-widget-content ui-corner-bottom">
+        <table class="files"><tbody></tbody></table>
+        <div class="fileupload-progressbar ui-progressbar ui-widget ui-widget-content ui-corner-all" style="display: none; " role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="ui-progressbar-value ui-widget-header ui-corner-left" style="display: none; width: 0%; "></div>
+        </div>
+      </div>
+    </div>
+      '
+
+  $dialog_div_grid_gallery = $ '
+      <div id="dialog_grid_gallery" title="Grid Gallery Settings">
+        <div class="grid_galleryPanelHorNav PanelHorNav" style="overflow:hidden;display:block;">
+          <div href="#" class="upload subPanelButton grid_gallery">Upload</div>
+          <div href="#" class="grid_gallery_sort subPanelButton grid_gallery" style="width:100px">Sort</div>
+          <div href="#" class="grid_gallery_settings subPanelButton grid_gallery" style="width:70px">Settings</div>
+        </div>
+        <div class="grid_galleryPanelHor PanelHor" style="position:relative;">
+          <div class="grid_galleryPanel" style="width: 100%;">
+            loading . . .
+          </div>
+          <div class="grid_gallerySortPanel">
+            loading . . .
+          </div>
+          <div class="grid_gallerySettingsPanel">
+            loading . . .
+          </div>
+        </div>
+      </div>
+    '  
+  $('.grid_galleryPanel', $dialog_div_grid_gallery).html($div_grid_gallery_multi_upload)
+  $('.grid_gallerySettingsPanel', $dialog_div_grid_gallery).html($settings_gallery_div)
+    
+  page_id_val = $('#add_elem_gridgal').data('pageid')
+  $('#add_elem_gridgal').click ->
+    $.post "/elements", 
+      { _method:'POST', element : {page_id: page_id_val, elem_type: 'grid_gallery'} }
+      (data)->
+        console.log "created element type/block grid gallery"      
+        $.post "/element_styles",
+          { _method:'POST', element_style : {element_id: data.element.id, width: 500, height: 400} }
+          (data)->
+            console.log "created element_styles for grid gallery"
+            
+            
+            
+          'json'          
+      'json'
+
+  $('.grid_gallery .settings_element').live 'click', ->
+    console.log '[gridgallery.js] settings_element'
+    $(this).parents('.grid_gallery').trigger('dblclick')
+  
+  $('.grid_gallery').live 'dblclick', (event)->
+    if $(this).hasClass('locked')
+      console.log '[gridgallery.js] in preview mode do nothing'
+      return
+  
+    if $(event.target).is(".controller") || $(event.target).is(".controller a") || $(event.target).is(".controller a img")
+      console.log '[gridgallery.js] trigger controller event.target'
+      return
+    $cur_elem = $(this)
+    
+    $cur_elem.append($dialog_div_grid_gallery)
+    $dialog_div_grid_gallery.dialog
+      autoOpen: false
+      width: 526
+      zIndex: 13000
+      drag: (event, ui)->
+        $dialog_div_grid_gallery.css
+          'zIndex': 100005
+      close: (event, ui)->
+        $dialog_div_grid_gallery.remove()
+        
+    element = $('#fileupload', $dialog_div_grid_gallery)
+    makeMultiUpload(element)
+      
+    console.log('assign correct id to post'+$(this).data('elementid'))
+    $('#slideshow_image_element_id', $dialog_div_grid_gallery).val( $(this).data('elementid') )
+    
+    $dialog_div_grid_gallery.dialog('open')
+    
+    onAftergrid_galleryPanelHor = (curr, next, opts, fwd)->
+      $current_panel = $(this)
+      $current_panel.parents('.grid_galleryPanelHor').animate
+        height: $current_panel.height()
+    
+    $('.grid_galleryPanelHor', $dialog_div_grid_gallery).cycle
+      fx: 'scrollHorz'
+      timeout: 0
+      fit: true
+      speed: 'fast'
+      after: onAftergrid_galleryPanelHor
+      
+    $('.upload.grid_gallery', $dialog_div_grid_gallery).click ->
+      $('.grid_galleryPanelHor', $dialog_div_grid_gallery).cycle(0)
+      return false
+    $('.grid_gallery_sort.grid_gallery', $dialog_div_grid_gallery).click ->
+      $('.grid_galleryPanelHor', $dialog_div_grid_gallery).cycle(1)
+      return false
+    $('.grid_gallery_settings.grid_gallery', $dialog_div_grid_gallery).click ->
+      $('.grid_galleryPanelHor', $dialog_div_grid_gallery).cycle(2)
+      return false
+      
+    $cols = null
+    $max_rows = null
+    $click_action = null
+    $padding = null
+    
+    $('.textinput.cols').bind 'change', ->
+      $cols = $(this).val()    
+      $cur_elem.dynamicGallery
+        "cols": $cols
+        
+        
+    $('.textinput.max_rows').bind 'change', ->
+      $max_rows = $(this).val()
+      $cur_elem.dynamicGallery
+        "max_rows": $max_rows
+        
+    $('#click_action').bind 'change', ->
+      $click_action = $(this).val()
+      $cur_elem.dynamicGallery
+        "click_action": $click_action
+        
+    $('.textinput.padding').bind 'change', ->
+      $padding = $(this).val()
+      $cur_elem.dynamicGallery
+        "padding": $padding   
+      
+    
+    

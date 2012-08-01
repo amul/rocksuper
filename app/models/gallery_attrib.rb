@@ -2,6 +2,6 @@ class GalleryAttrib < ActiveRecord::Base
   
   belongs_to :element, {:foreign_key => "element_id"}
   
-  attr_accessible :col, :element_id, :margin, :row
+  attr_accessible :col, :element_id, :margin, :row, :cell_width, :cell_height
   
 end

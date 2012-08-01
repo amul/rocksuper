@@ -604,3 +604,63 @@ cd .
 cd ..
 ls -la
 touch tmp/restart.txt
+clar
+clear
+rails c
+touch tmp/restart.txt 
+bundle exec rake -T
+bundle exec rake log:clear
+touch tmp/restart.txt 
+ls -lah
+nano king
+rm king
+ls
+ls -lah
+touch tmp/restart.txt 
+mysql
+mysql --user=sup1re_db
+mysql --user=sup1re_db -p
+rails g migration add_default_image_url_to_slideshow_images default_image_url:text
+nano db/migrate/20120724194737_add_default_image_url_to_slideshow_images.rb
+bundle exec rake db:migrate --trace RAILS_ENV='production'
+touch tmp/restart.txt 
+irb
+touch tmp/restart.txt 
+rails g
+git add .
+git commit -a -m "07242012"
+ls -lah
+cd log
+ls
+ls -lah
+cd ..
+ls -lah
+git push origin2 master
+ls -lah
+rm deploy07212012.tar 
+tar -cf deploy07252012.tar ./*
+irb
+rails c
+touch tmp/restart.txt 
+touch tmp/restart.txt 
+ls -lah
+touch tmp/restart.txt 
+ls -lah
+touch tmp/restart.txt 
+ls -lah
+touch tmp/restart.txt 
+ls -lah
+touch tmp/restart.txt 
+ls -lah
+touch tmp/restart.txt 
+irb
+rails c
+clear
+touch tmp/restart.txt 
+rails g migration add_cell_wxh_to_gallery_attribs cell_width:integer cell_height:integer
+nano db/migrate/20120731152856_add_cell_wxh_to_gallery_attribs.rb
+ls
+rm deploy07252012.tar 
+tar -cf deploy07302012.tar ./*
+bundle exec rake db:migrate --trace RAILS_ENV='production'
+touch tmp/restart.txt 

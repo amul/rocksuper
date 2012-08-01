@@ -40,6 +40,7 @@ makeColorPickerForPageCanvas = (element, targetChange, uID)->
       $(el).ColorPickerHide()
       user_id_val = uID
       bg_color_val = '#'+hex
+      console.log 'makeColorPickerForPageCanvas'
       if $('#pageCanvas').data('globalpagesetting')=='yes'
         gps_id_val = $('#pageCanvas').data('globalpagesettingid')
         putGlobalPageSettings(gps_id_val, bg_color_val)
@@ -62,6 +63,7 @@ makeColorPickerForPageCanvasPic = (element, targetChange, uID)->
       $(el).ColorPickerHide()
       user_id_val = uID
       bg_color_val = '#'+hex
+      console.log 'makeColorPickerForPageCanvasPic'
       if $('#pageCanvas').data('globalpagesetting')=='yes'
         gps_id_val = $('#pageCanvas').data('globalpagesettingid')
         putGlobalPageSettings(gps_id_val, bg_color_val)
@@ -354,64 +356,64 @@ $ ->
       putGlobalPageSettingsType(gps_id_val, bg_type_val)
       $dialog_div_settings.dialog("close")
     
-    $('.bgSettingsSelect').bind "change", ->
-      $cur_select = $(this)
-      if $cur_select.val() == 'color'
-        $('.background_settings_option_content', $dialog_div_settings).html($dds_color)
-        $('#pageBackgroundOkBtn', $dialog_div_settings).data('type', 'color')
-        element = $('#pageBgColorSelector', $dds_color)
-        targetChange = $('#pageCanvas')
-        makeColorPickerForPageCanvas(element, targetChange, uID)
-        
-      else if $cur_select.val() == 'picture'
-        $('.background_settings_option_content', $dialog_div_settings).html($dds_picture)
-        $('#pageBackgroundOkBtn', $dialog_div_settings).data('type', 'picture')
-        
-        console.log 'bind UI events for bg attribute!'
-        bgAttributeUIEvents($dialog_div_settings)
-        
-        console.log "pageBackgroundImage : "+pageBackgroundImage
-        if pageBackgroundImage != "none"
-          $('#new_page_img_bg_setting', $dialog_div_settings).prepend($edit_form)
-          $('#new_page_img_bg_setting', $dialog_div_settings).attr('action', '/page_img_bg_settings/'+pageimgbgsettingid)
-        
-        console.log 'make ajax form for image upload'          
-        $('#new_page_img_bg_setting', $dialog_div_settings).ajaxForm
-          datatype: 'json'
-          success: (data)-> 
-            console.log 'post image success'
-            #server response
-            $html_response = $(data)
-            $img_url = $('#image_url', $html_response).text()
-            #console.log 'update background Image : '+$img_url
-            #alert $img_url            
-            $('#pageCanvas').css('backgroundImage', $img_url)
-            
-        console.log 'bind event for image input file to auto upload when image select'
-        $('#page_img_bg_setting_image', $dialog_div_settings).bind 'change', ->
-          $('#page_img_bg_setting_image', $dialog_div_settings).parents('form').submit()
-          
-        console.log 'set image ref : page_img_bg_setting_global_page_setting_id =>'+gps_id_val
-        $('#page_img_bg_setting_global_page_setting_id', $dialog_div_settings).val(gps_id_val)
-        
-        console.log 'sanitize form bg attribute'
-        $('#new_page_img_bg_setting_ok', $dialog_div_settings).attr('action', '/page_img_bg_settings/'+pageimgbgsettingid)
-        $('#page_img_bg_setting_global_page_setting_id_ok', $dialog_div_settings).val(gps_id_val)
-        
-        $('#new_page_img_bg_setting_ok', $dialog_div_settings).ajaxForm
-          datatype: 'json'
-          success: (data)-> 
-            console.log 'post background image attribute success'
-            #server response
-            location.reload()
-        
-        console.log 'bind event for image background attribute to auto upload when ok button was clicked'
-        $('#pageBackgroundOkBtn', $dialog_div_settings).bind 'click', ->
-          $('#new_page_img_bg_setting_ok', $dialog_div_settings).submit()
-            
-        console.log 'make color picker'
-        element = $('#pageBgColorSelectorPicture', $dds_picture)
-        targetChange = $('#pageCanvas')
-        makeColorPickerForPageCanvasPic(element, targetChange, uID)
+    #$('.bgSettingsSelect').bind "change", ->
+    #  $cur_select = $(this)
+    #  if $cur_select.val() == 'color'
+    #    $('.background_settings_option_content', $dialog_div_settings).html($dds_color)
+    #    $('#pageBackgroundOkBtn', $dialog_div_settings).data('type', 'color')
+    #    element = $('#pageBgColorSelector', $dds_color)
+    #    targetChange = $('#pageCanvas')
+    #    makeColorPickerForPageCanvas(element, targetChange, uID)
+    #    
+    #  else if $cur_select.val() == 'picture'
+    #    $('.background_settings_option_content', $dialog_div_settings).html($dds_picture)
+    #    $('#pageBackgroundOkBtn', $dialog_div_settings).data('type', 'picture')
+    #    
+    #    console.log 'bind UI events for bg attribute!'
+    #    bgAttributeUIEvents($dialog_div_settings)
+    #    
+    #    console.log "pageBackgroundImage : "+pageBackgroundImage
+    #    if pageBackgroundImage != "none"
+    #      $('#new_page_img_bg_setting', $dialog_div_settings).prepend($edit_form)
+    #      $('#new_page_img_bg_setting', $dialog_div_settings).attr('action', '/page_img_bg_settings/'+pageimgbgsettingid)
+    #    
+    #    console.log 'make ajax form for image upload'          
+    #    $('#new_page_img_bg_setting', $dialog_div_settings).ajaxForm
+    #      datatype: 'json'
+    #      success: (data)-> 
+    #        console.log 'post image success'
+    #        #server response
+    #        $html_response = $(data)
+    #        $img_url = $('#image_url', $html_response).text()
+    #        #console.log 'update background Image : '+$img_url
+    #        #alert $img_url            
+    #        $('#pageCanvas').css('backgroundImage', $img_url)
+    #        
+    #    console.log 'bind event for image input file to auto upload when image select'
+    #    $('#page_img_bg_setting_image', $dialog_div_settings).bind 'change', ->
+    #      $('#page_img_bg_setting_image', $dialog_div_settings).parents('form').submit()
+    #      
+    #    console.log 'set image ref : page_img_bg_setting_global_page_setting_id =>'+gps_id_val
+    #    $('#page_img_bg_setting_global_page_setting_id', $dialog_div_settings).val(gps_id_val)
+    #    
+    #    console.log 'sanitize form bg attribute'
+    #    $('#new_page_img_bg_setting_ok', $dialog_div_settings).attr('action', '/page_img_bg_settings/'+pageimgbgsettingid)
+    #    $('#page_img_bg_setting_global_page_setting_id_ok', $dialog_div_settings).val(gps_id_val)
+    #    
+    #    $('#new_page_img_bg_setting_ok', $dialog_div_settings).ajaxForm
+    #      datatype: 'json'
+    #      success: (data)-> 
+    #        console.log 'post background image attribute success'
+    #        #server response
+    #        location.reload()
+    #    
+    #    console.log 'bind event for image background attribute to auto upload when ok button was clicked'
+    #    $('#pageBackgroundOkBtn', $dialog_div_settings).bind 'click', ->
+    #      $('#new_page_img_bg_setting_ok', $dialog_div_settings).submit()
+    #        
+    #    console.log 'make color picker'
+    #    element = $('#pageBgColorSelectorPicture', $dds_picture)
+    #    targetChange = $('#pageCanvas')
+    #    makeColorPickerForPageCanvasPic(element, targetChange, uID)
         
     return false

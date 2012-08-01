@@ -15,6 +15,13 @@
 //= require jquerylightbox/jquery.lightbox-0.5.min.js
 //= require picture/jquery.gzoom.js
 //= require fittext/jquery.fittext.js
+//= require dynamicgrid/dynamic.grid.gallery.js
+//= require gallery_lightbox/jquery.easing.1.3.js
+//= require gallery_lightbox/jquery.jscrollpane.min.js
+//= require gallery_lightbox/jquery.mousewheel.js
+//= require gallery_lightbox/jquery.prettyPhoto.js
+//= require gallery_lightbox/jquery.thumbGallery.min.js
+//= require montage/jquery.montage.min.js
 //= require superScripts
 //= require pages
 //= require titles
@@ -28,10 +35,13 @@
 //= require strips
 //= require lines
 //= require hlines
+//= require gridgallery
 //= require bigtexts
 //= require rightclicks
 //= require pageSizeAndColor
 //= require locked
+//= require gallery_lightboxs
+//= require image_montages
 //= require colorpicker/colorpicker.js
 //= require colorpicker/eye.js
 //= require colorpicker/utils.js

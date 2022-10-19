@@ -88,7 +88,7 @@ GEM
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-ssh (2.5.2)
-    nokogiri (1.5.3)
+    nokogiri (1.5.11)
     oauth (0.4.6)
     oauth2 (0.6.1)
       faraday (~> 0.7)
